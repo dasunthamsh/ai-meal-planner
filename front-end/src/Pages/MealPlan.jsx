@@ -1,154 +1,79 @@
-"use client";
-
 import { useState } from 'react';
+import ComponentOne from '../Components/BasicInfoForm';
+import ComponentTwo from '../Components/DietPreferencesForm ';
+import ComponentThree from '../Components/MealPlan';
 
-export default function MealPlanner() {
-    const [calories, setCalories] = useState(2000);
-    const [dietaryPreference, setDietaryPreference] = useState('none');
-    const [age, setAge] = useState(30);
-    const [gender, setGender] = useState('male');
-    const [height, setHeight] = useState(170);
-    const [weight, setWeight] = useState(70);
-    const [weightGoal, setWeightGoal] = useState('maintain');
-    const [generatedPlan, setGeneratedPlan] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+const MealPlanGenerator = () => {
+    const [currentStep, setCurrentStep] = useState(1);
+    const [componentOneData, setComponentOneData] = useState(null);
+    const [componentTwoData, setComponentTwoData] = useState(null);
 
+    const handleComponentOneComplete = (data) => {
+        setComponentOneData(data);
+        setCurrentStep(2);
+    };
+
+    const handleComponentTwoComplete = (data) => {
+        setComponentTwoData(data);
+        setCurrentStep(3);
+    };
+
+    const handleBackFromComponentThree = () => {
+        setCurrentStep(2);
+    };
+
+    const handleBackFromComponentTwo = () => {
+        setCurrentStep(1);
+    };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-12 px-4">
-            <div className="max-w-4xl mx-auto">
-                <h1 className="text-3xl font-bold text-green-700 mb-8 text-center">AI Meal Planner</h1>
+        <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-3xl mx-auto">
+                <div className="text-center mb-8">
+                    <h1 className="text-3xl font-extrabold text-gray-900">Personalized Meal Plan Generator</h1>
+                    <p className="mt-2 text-lg text-gray-600">Get a customized meal plan based on your goals and preferences</p>
+                </div>
 
-                <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
-                    <div className="p-6 md:p-8">
-                        <h2 className="text-2xl font-semibold text-green-700 mb-6">Your Preferences</h2>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {/* Calories */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Daily Calorie Target
-                                </label>
-                                <input
-                                    type="number"
-                                    min="1000"
-                                    max="5000"
-                                    value={calories}
-                                    onChange={(e) => setCalories(Number(e.target.value))}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                                />
+                <div className="mb-8">
+                    <div className="flex items-center justify-between">
+                        <div className={`flex-1 text-center ${currentStep >= 1 ? 'text-green-500' : 'text-gray-500'}`}>
+                            <div className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center ${currentStep >= 1 ? 'bg-green-500 text-white' : 'bg-gray-200'}`}>
+                                1
                             </div>
-
-                            {/* Dietary Preference */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Dietary Preference
-                                </label>
-                                <select
-                                    value={dietaryPreference}
-                                    onChange={(e) => setDietaryPreference(e.target.value)}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                                >
-                                    <option value="none">No restrictions</option>
-                                    <option value="vegetarian">Vegetarian</option>
-                                    <option value="vegan">Vegan</option>
-                                    <option value="pescatarian">Pescatarian</option>
-                                    <option value="gluten-free">Gluten-free</option>
-                                    <option value="dairy-free">Dairy-free</option>
-                                </select>
-                            </div>
-
-                            {/* Age */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Age
-                                </label>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    max="120"
-                                    value={age}
-                                    onChange={(e) => setAge(Number(e.target.value))}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                                />
-                            </div>
-
-                            {/* Gender */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Gender
-                                </label>
-                                <select
-                                    value={gender}
-                                    onChange={(e) => setGender(e.target.value)}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                                >
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-
-                            {/* Height */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Height (cm)
-                                </label>
-                                <input
-                                    type="number"
-                                    min="100"
-                                    max="250"
-                                    value={height}
-                                    onChange={(e) => setHeight(Number(e.target.value))}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                                />
-                            </div>
-
-                            {/* Weight */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Weight (kg)
-                                </label>
-                                <input
-                                    type="number"
-                                    min="30"
-                                    max="300"
-                                    value={weight}
-                                    onChange={(e) => setWeight(Number(e.target.value))}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                                />
-                            </div>
-
-                            {/* Weight Goal */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Weight Goal
-                                </label>
-                                <select
-                                    value={weightGoal}
-                                    onChange={(e) => setWeightGoal(e.target.value)}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                                >
-                                    <option value="lose">Lose Weight</option>
-                                    <option value="maintain">Maintain Weight</option>
-                                    <option value="gain">Gain Weight</option>
-                                </select>
-                            </div>
+                            <p className="mt-2 text-sm font-medium">Basic Info</p>
                         </div>
-
-                        <div className="mt-6">
-                            <button
-
-                                disabled={isLoading}
-                                className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 disabled:opacity-70"
-                            >
-                                {isLoading ? 'Generating...' : 'Generate Meal Plan'}
-                            </button>
+                        <div className={`flex-1 text-center ${currentStep >= 2 ? 'text-green-500' : 'text-gray-500'}`}>
+                            <div className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center ${currentStep >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}>
+                                2
+                            </div>
+                            <p className="mt-2 text-sm font-medium">Preferences</p>
+                        </div>
+                        <div className={`flex-1 text-center ${currentStep >= 3 ? 'text-green-500' : 'text-gray-500'}`}>
+                            <div className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center ${currentStep >= 3 ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}>
+                                3
+                            </div>
+                            <p className="mt-2 text-sm font-medium">Meal Plan</p>
                         </div>
                     </div>
                 </div>
 
+                {currentStep === 1 && <ComponentOne onNext={handleComponentOneComplete} />}
+                {currentStep === 2 && (
+                    <ComponentTwo
+                        onNext={handleComponentTwoComplete}
+                        componentOneData={componentOneData}
+                        onBack={handleBackFromComponentTwo}
+                    />
+                )}
+                {currentStep === 3 && (
+                    <ComponentThree
+                        formData={componentTwoData}
+                        onBack={handleBackFromComponentThree}
+                    />
+                )}
             </div>
         </div>
     );
-}
+};
+
+export default MealPlanGenerator;
