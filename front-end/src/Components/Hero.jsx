@@ -11,7 +11,7 @@ const Hero = ({coverImage, title, subtitle}) => {
                 <img
                     src={coverImage}
                     alt="Shoes Collection"
-                    className="absolute inset-0 w-full h-full object-cover opacity-30"
+                    className="absolute inset-0 w-full h-full object-cover "
                 />
                 <div className="relative p-10 md:p-20 lg:p-32 text-center">
                     <h1 className="text-4xl md:text-6xl font-bold">{title}</h1>

@@ -1,55 +1,76 @@
 from models.meal_rl_agent import MealPlanRLAgent
 from models.data_preprocessor import DataPreprocessor
-import matplotlib.pyplot as plt
 import numpy as np
+from config import COMMON_ALLERGENS
 
-def plot_training_progress(episode_rewards):
-    """Plot the reward progression during training"""
-    plt.figure(figsize=(10, 5))
+def calculate_model_accuracy(agent, test_cases=10):
+    total_score = 0
+    successful_cases = 0
 
-    # Simple moving average
-    window_size = 50
-    moving_avg = np.convolve(episode_rewards, np.ones(window_size)/window_size, mode='valid')
+    for _ in range(test_cases):
+        # Create random test case
+        diet_type = np.random.choice(['vegetarian', 'vegan', 'keto', 'paleo', 'gluten_free', 'mediterranean', 'none'])
+        allergies = np.random.choice(list(COMMON_ALLERGENS.keys()), np.random.randint(0, 3), replace=False)
 
-    plt.plot(episode_rewards, alpha=0.3, label='Episode Reward')
-    plt.plot(moving_avg, label=f'{window_size}-episode Moving Avg')
-    plt.xlabel('Episode')
-    plt.ylabel('Average Reward')
-    plt.title('Training Progress')
-    plt.legend()
-    plt.grid()
-    plt.savefig('training_progress.png')
-    plt.close()
+        dietary_restrictions = {
+            'vegetarian': diet_type == 'vegetarian',
+            'vegan': diet_type == 'vegan',
+            'keto': diet_type == 'keto',
+            'paleo': diet_type == 'paleo',
+            'gluten_free': diet_type == 'gluten_free',
+            'mediterranean': diet_type == 'mediterranean',
+            'allergies': list(allergies)
+        }
 
-def main():
-    # Load data and model
+        calories = np.random.randint(1500, 3000)
+        target = {
+            'calories': calories,
+            'protein': calories * 0.3 / 4,
+            'fat': calories * 0.3 / 9,
+            'carbs': calories * 0.4 / 4
+        }
+
+        # Test one day (3 meals)
+        daily_score = 0
+        valid_meals = 0
+
+        for _ in range(3):  # breakfast, lunch, dinner
+            action = agent.choose_action(
+                agent.get_state_key(
+                    {'calories': 0, 'protein': 0, 'fat': 0, 'carbs': 0},
+                    1  # days remaining
+                ),
+                dietary_restrictions
+            )
+
+            if action is not None:
+                meal = agent.meals.iloc[action]
+                # Calculate how close meal is to 1/3 of daily target
+                calorie_diff = abs(target['calories']/3 - meal['calories']*100)
+                protein_diff = abs(target['protein']/3 - meal['protein']*100)
+
+                # Simple score (0-100)
+                meal_score = 100 - (calorie_diff/50 + protein_diff/10)
+                daily_score += max(0, min(100, meal_score))
+                valid_meals += 1
+
+        if valid_meals > 0:
+            total_score += daily_score / valid_meals
+            successful_cases += 1
+
+    if successful_cases > 0:
+        accuracy = total_score / successful_cases
+        print(f"Model Accuracy: {accuracy:.1f}%")
+    else:
+        print("Could not calculate accuracy - no valid test cases")
+
+if __name__ == '__main__':
     preprocessor = DataPreprocessor()
     df = preprocessor.load_data()
     df, _, _, _ = preprocessor.preprocess_data()
 
     agent = MealPlanRLAgent(df)
-
-    if not agent.load_model():
-        print("No trained model found. Please train the model first.")
-        return
-
-    # Evaluate the model
-    results = agent.evaluate_performance(test_cases=100)
-
-    print("\nModel Evaluation Results:")
-    print(f"Average Reward: {results['average_reward']:.2f}")
-    print(f"Goal Achievement Rate: {results['goal_achievement_rate']:.1f}%")
-
-    # Sample meal plan generation for inspection
-    print("\nSample Generated Meal Plan:")
-    sample_plan = agent.generate_sample_plan()
-    for day in sample_plan:
-        print(f"\nDay {day['day']}:")
-        for meal in day['meals']:
-            for meal_type, details in meal.items():
-                print(f"  {meal_type.capitalize()}: {details['meal_name']}")
-                print(f"    Calories: {details['calories']:.0f}, Protein: {details['protein']:.1f}g")
-        print(f"  Daily Total: {day['totalNutrition']['calories']:.0f} calories")
-
-if __name__ == '__main__':
-    main()
+    if agent.load_model():
+        calculate_model_accuracy(agent)
+    else:
+        print("Error: No trained model found")
