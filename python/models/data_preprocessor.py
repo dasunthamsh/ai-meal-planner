@@ -1,7 +1,8 @@
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 import pickle
-from config import DATA_PATH, SCALER_SAVE_PATH
+import re
+from config import DATA_PATH, SCALER_SAVE_PATH, COMMON_ALLERGENS
 
 class DataPreprocessor:
     def __init__(self):
@@ -20,6 +21,9 @@ class DataPreprocessor:
         for col in self.diet_cols:
             self.df[col] = self.df[col].astype(int)
 
+        # Process ingredients - convert to lowercase and split
+        self.df['ingredients'] = self.df['ingredients'].str.lower()
+
         # One-hot encode vitamins
         vitamins = set()
         for item in self.df['vitamins']:
@@ -30,7 +34,14 @@ class DataPreprocessor:
         for vitamin in self.vitamins:
             self.df[vitamin] = self.df['vitamins'].apply(lambda x: 1 if vitamin in x else 0)
 
-        # Normalize numerical features
+        # Create allergen columns based on ingredients
+        for allergen, keywords in COMMON_ALLERGENS.items():
+            pattern = '|'.join(keywords)
+            self.df[allergen] = self.df['ingredients'].apply(
+                lambda x: 1 if re.search(pattern, x) else 0
+            )
+
+        # Normalize numerical features (already per 100g)
         num_cols = ['calories', 'protein', 'fat', 'carbs']
         self.df[num_cols] = self.scaler.fit_transform(self.df[num_cols])
 

@@ -2,7 +2,7 @@ import random
 import numpy as np
 from collections import defaultdict
 import pickle
-from config import MODEL_SAVE_PATH, RL_ALPHA, RL_GAMMA, RL_EPSILON
+from config import MODEL_SAVE_PATH, RL_ALPHA, RL_GAMMA, RL_EPSILON, COMMON_ALLERGENS
 
 class MealPlanRLAgent:
     def __init__(self, meals_df, alpha=RL_ALPHA, gamma=RL_GAMMA, epsilon=RL_EPSILON):
@@ -26,7 +26,7 @@ class MealPlanRLAgent:
         valid_meal_indices = self._get_valid_meals(dietary_restrictions)
 
         if not valid_meal_indices:
-            return None  # No valid meals found
+            return None
 
         if random.uniform(0, 1) < self.epsilon:
             return random.choice(valid_meal_indices)
@@ -40,23 +40,20 @@ class MealPlanRLAgent:
     def _get_valid_meals(self, dietary_restrictions):
         valid_mask = np.ones(len(self.meals), dtype=bool)
 
-        # Apply dietary restrictions
         for restriction, value in dietary_restrictions.items():
             if restriction in self.meals.columns and value:
                 valid_mask &= (self.meals[restriction] == 1)
 
-        # Apply allergy restrictions
         allergies = dietary_restrictions.get('allergies', [])
         for allergy in allergies:
-            if allergy.lower() in ['dairy', 'lactose']:
-                valid_mask &= (self.meals['dairy'] == 0)
-            elif allergy.lower() == 'eggs':
-                valid_mask &= (self.meals['eggs'] == 0)
+            allergy = allergy.lower()
+            if allergy in COMMON_ALLERGENS:
+                valid_mask &= (self.meals[allergy] == 0)
 
         return [i for i, valid in enumerate(valid_mask) if valid]
 
     def update_q_table(self, state, action, reward, next_state):
-        if action is None:  # Skip if no valid action was found
+        if action is None:
             return
 
         best_next_action = np.argmax(self.q_table[next_state])
@@ -66,26 +63,22 @@ class MealPlanRLAgent:
 
     def calculate_reward(self, action, current_nutrition, target_nutrition, day):
         if action is None:
-            return -1  # Penalty for no valid meal found
+            return -1
 
         meal = self.meals.iloc[action]
 
-        # Calculate how much this meal helps reach targets
         calorie_diff = target_nutrition['calories'] - current_nutrition['calories']
         protein_diff = target_nutrition['protein'] - current_nutrition['protein']
         fat_diff = target_nutrition['fat'] - current_nutrition['fat']
         carb_diff = target_nutrition['carbs'] - current_nutrition['carbs']
 
-        # Reward for moving toward targets
         calorie_reward = 1 - abs(calorie_diff - meal['calories']) / target_nutrition['calories']
         protein_reward = 1 - abs(protein_diff - meal['protein']) / target_nutrition['protein']
         fat_reward = 1 - abs(fat_diff - meal['fat']) / target_nutrition['fat']
         carb_reward = 1 - abs(carb_diff - meal['carbs']) / target_nutrition['carbs']
 
-        # Variety reward
         variety_reward = 0.5 if meal['meal_name'] not in self.recent_meals[-3:] else -0.2
 
-        # Combine rewards
         total_reward = (
                 0.4 * calorie_reward +
                 0.3 * protein_reward +
@@ -94,7 +87,6 @@ class MealPlanRLAgent:
                 0.1 * variety_reward
         )
 
-        # Track recent meals
         self.recent_meals.append(meal['meal_name'])
         if len(self.recent_meals) > 5:
             self.recent_meals.pop(0)
@@ -102,13 +94,28 @@ class MealPlanRLAgent:
         return total_reward
 
     def save_model(self):
+        # Convert defaultdict to regular dict for pickle
+        q_table_dict = dict(self.q_table)
         with open(MODEL_SAVE_PATH, 'wb') as f:
-            pickle.dump(self.q_table, f)
+            pickle.dump({
+                'q_table': q_table_dict,
+                'alpha': self.alpha,
+                'gamma': self.gamma,
+                'epsilon': self.epsilon
+            }, f)
 
     def load_model(self):
         try:
             with open(MODEL_SAVE_PATH, 'rb') as f:
-                self.q_table = pickle.load(f)
+                data = pickle.load(f)
+                self.q_table = defaultdict(lambda: np.zeros(len(self.meals)), data['q_table'])
+                self.alpha = data['alpha']
+                self.gamma = data['gamma']
+                self.epsilon = data['epsilon']
             return True
-        except FileNotFoundError:
+        except (FileNotFoundError, KeyError):
             return False
+
+
+
+

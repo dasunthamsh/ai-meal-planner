@@ -12,7 +12,7 @@ const ComponentThree = ({ formData, onBack }) => {
 
         try {
             // Replace with your actual API endpoint
-            const response = await axios.post('https://your-api-endpoint.com/generate-meal-plan', formData);
+            const response = await axios.post('http://127.0.0.1:5000/generate-meal-plan', formData);
             setMealPlan(response.data);
         } catch (err) {
             setError('Failed to generate meal plan. Please try again.');

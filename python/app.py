@@ -3,10 +3,11 @@ from models.meal_rl_agent import MealPlanRLAgent
 from models.data_preprocessor import DataPreprocessor
 import pickle
 from config import SCALER_SAVE_PATH
+from flask_cors import CORS
 import numpy as np
 
 app = Flask(__name__)
-
+CORS(app, origins=["http://localhost:3000"])
 # Initialize data preprocessor and load data
 preprocessor = DataPreprocessor()
 df = preprocessor.load_data()
@@ -43,20 +44,17 @@ def calculate_target_nutrition(user_data):
         fat_ratio = 0.30
         carb_ratio = 0.40
 
-    # Calculate grams
+    # Calculate grams (4 cal/g for protein and carbs, 9 cal/g for fat)
     protein_g = (calories * protein_ratio) / 4
     fat_g = (calories * fat_ratio) / 9
     carbs_g = (calories * carb_ratio) / 4
 
-    # Normalize for our scaled data
-    target = {
+    return {
         'calories': calories,
         'protein': protein_g,
         'fat': fat_g,
         'carbs': carbs_g
     }
-
-    return target
 
 @app.route('/generate-meal-plan', methods=['POST'])
 def generate_meal_plan():
@@ -70,7 +68,7 @@ def generate_meal_plan():
         'paleo': user_data.get('dietType') == 'Paleo',
         'gluten_free': user_data.get('dietType') == 'Gluten Free',
         'mediterranean': user_data.get('dietType') == 'Mediterranean',
-        'allergies': user_data.get('allergies', [])
+        'allergies': [a.lower() for a in user_data.get('allergies', [])]
     }
 
     # Calculate targets
@@ -90,7 +88,13 @@ def generate_meal_plan():
         daily_meals = {'day': day + 1, 'meals': [], 'totalNutrition': {}}
 
         for meal_type in ['breakfast', 'lunch', 'dinner']:
-            state = agent.get_state_key(current_nutrition, days - day)
+            state = agent.get_state_key({
+                'calories': current_nutrition['calories'] / scaler.data_max_[0],
+                'protein': current_nutrition['protein'] / scaler.data_max_[1],
+                'fat': current_nutrition['fat'] / scaler.data_max_[2],
+                'carbs': current_nutrition['carbs'] / scaler.data_max_[3]
+            }, days - day)
+
             action = agent.choose_action(state, dietary_restrictions)
 
             if action is None:
@@ -102,18 +106,20 @@ def generate_meal_plan():
                         'fat': 0,
                         'carbs': 0,
                         'image_url': '',
-                        'vitamins': ''
+                        'vitamins': '',
+                        'ingredients': []
                     }
                 })
                 continue
 
             selected_meal = df.iloc[action]
 
-            # Update nutrition
-            current_nutrition['calories'] += selected_meal['calories'] * scaler.data_max_[0]
-            current_nutrition['protein'] += selected_meal['protein'] * scaler.data_max_[1]
-            current_nutrition['fat'] += selected_meal['fat'] * scaler.data_max_[2]
-            current_nutrition['carbs'] += selected_meal['carbs'] * scaler.data_max_[3]
+            # Update nutrition (values are per 100g)
+            serving_size = 100  # Standard serving size
+            current_nutrition['calories'] += selected_meal['calories'] * scaler.data_max_[0] * (serving_size / 100)
+            current_nutrition['protein'] += selected_meal['protein'] * scaler.data_max_[1] * (serving_size / 100)
+            current_nutrition['fat'] += selected_meal['fat'] * scaler.data_max_[2] * (serving_size / 100)
+            current_nutrition['carbs'] += selected_meal['carbs'] * scaler.data_max_[3] * (serving_size / 100)
 
             # Calculate reward and update Q-table
             next_state = agent.get_state_key({
@@ -123,29 +129,35 @@ def generate_meal_plan():
                 'carbs': current_nutrition['carbs'] / scaler.data_max_[3]
             }, days - day - 1)
 
-            reward = agent.calculate_reward(action, {
-                'calories': current_nutrition['calories'] / scaler.data_max_[0],
-                'protein': current_nutrition['protein'] / scaler.data_max_[1],
-                'fat': current_nutrition['fat'] / scaler.data_max_[2],
-                'carbs': current_nutrition['carbs'] / scaler.data_max_[3]
-            }, {
-                                                'calories': target_nutrition['calories'] / scaler.data_max_[0],
-                                                'protein': target_nutrition['protein'] / scaler.data_max_[1],
-                                                'fat': target_nutrition['fat'] / scaler.data_max_[2],
-                                                'carbs': target_nutrition['carbs'] / scaler.data_max_[3]
-                                            }, day)
+            reward = agent.calculate_reward(
+                action,
+                {
+                    'calories': current_nutrition['calories'] / scaler.data_max_[0],
+                    'protein': current_nutrition['protein'] / scaler.data_max_[1],
+                    'fat': current_nutrition['fat'] / scaler.data_max_[2],
+                    'carbs': current_nutrition['carbs'] / scaler.data_max_[3]
+                },
+                {
+                    'calories': target_nutrition['calories'] / scaler.data_max_[0],
+                    'protein': target_nutrition['protein'] / scaler.data_max_[1],
+                    'fat': target_nutrition['fat'] / scaler.data_max_[2],
+                    'carbs': target_nutrition['carbs'] / scaler.data_max_[3]
+                },
+                day
+            )
 
             agent.update_q_table(state, action, reward, next_state)
 
             # Add meal to plan
             meal_data = {
                 'meal_name': selected_meal['meal_name'],
-                'calories': float(selected_meal['calories'] * scaler.data_max_[0]),
-                'protein': float(selected_meal['protein'] * scaler.data_max_[1]),
-                'fat': float(selected_meal['fat'] * scaler.data_max_[2]),
-                'carbs': float(selected_meal['carbs'] * scaler.data_max_[3]),
+                'calories': float(selected_meal['calories'] * scaler.data_max_[0] * (serving_size / 100)),
+                'protein': float(selected_meal['protein'] * scaler.data_max_[1] * (serving_size / 100)),
+                'fat': float(selected_meal['fat'] * scaler.data_max_[2] * (serving_size / 100)),
+                'carbs': float(selected_meal['carbs'] * scaler.data_max_[3] * (serving_size / 100)),
                 'image_url': selected_meal['image_url'],
-                'vitamins': selected_meal['vitamins']
+                'vitamins': selected_meal['vitamins'],
+                'ingredients': selected_meal['ingredients'].split(', ')
             }
             daily_meals['meals'].append({meal_type: meal_data})
 

@@ -1,7 +1,7 @@
 from models.meal_rl_agent import MealPlanRLAgent
 from models.data_preprocessor import DataPreprocessor
 import random
-from config import MODEL_SAVE_PATH
+from config import MODEL_SAVE_PATH, COMMON_ALLERGENS
 
 def train_agent(agent, episodes=1000):
     print(f"Training RL agent for {episodes} episodes...")
@@ -10,10 +10,9 @@ def train_agent(agent, episodes=1000):
         if (episode + 1) % 100 == 0:
             print(f"Episode {episode + 1}/{episodes}")
 
-        # Random user parameters
         goal = random.choice(['Lose Weight', 'Build Muscle', 'Gain Weight', 'Maintain Weight'])
         diet_type = random.choice(['vegetarian', 'vegan', 'keto', 'paleo', 'gluten_free', 'mediterranean', 'none'])
-        allergies = random.sample(['Dairy', 'Eggs', 'Gluten', 'Nuts'], random.randint(0, 2))
+        allergies = random.sample(list(COMMON_ALLERGENS.keys()), random.randint(0, 2))
 
         dietary_restrictions = {
             'vegetarian': diet_type == 'vegetarian',
@@ -25,55 +24,78 @@ def train_agent(agent, episodes=1000):
             'allergies': allergies
         }
 
-        # Random calorie target
         calories = random.randint(1500, 3000)
         target_nutrition = {
             'calories': calories,
-            'protein': calories * 0.3 / 4,  # 30% of calories from protein
-            'fat': calories * 0.3 / 9,      # 30% of calories from fat
-            'carbs': calories * 0.4 / 4     # 40% of calories from carbs
+            'protein': calories * 0.3 / 4,
+            'fat': calories * 0.3 / 9,
+            'carbs': calories * 0.4 / 4
         }
 
-        # Run simulation
         current_nutrition = {'calories': 0, 'protein': 0, 'fat': 0, 'carbs': 0}
         days = 7
 
         for day in range(days):
-            for _ in range(3):  # 3 meals per day
-                state = agent.get_state_key(current_nutrition, days - day)
+            for _ in range(3):
+                state = agent.get_state_key({
+                    'calories': current_nutrition['calories'] / agent.meals['calories'].max(),
+                    'protein': current_nutrition['protein'] / agent.meals['protein'].max(),
+                    'fat': current_nutrition['fat'] / agent.meals['fat'].max(),
+                    'carbs': current_nutrition['carbs'] / agent.meals['carbs'].max()
+                }, days - day)
+
                 action = agent.choose_action(state, dietary_restrictions)
 
                 if action is None:
-                    continue  # Skip if no valid meal found
+                    continue
 
                 selected_meal = agent.meals.iloc[action]
 
-                # Update nutrition
-                current_nutrition['calories'] += selected_meal['calories']
-                current_nutrition['protein'] += selected_meal['protein']
-                current_nutrition['fat'] += selected_meal['fat']
-                current_nutrition['carbs'] += selected_meal['carbs']
+                current_nutrition['calories'] += selected_meal['calories'] * 100
+                current_nutrition['protein'] += selected_meal['protein'] * 100
+                current_nutrition['fat'] += selected_meal['fat'] * 100
+                current_nutrition['carbs'] += selected_meal['carbs'] * 100
 
-                # Update Q-table
-                next_state = agent.get_state_key(current_nutrition, days - day - 1)
-                reward = agent.calculate_reward(action, current_nutrition, target_nutrition, day)
+                next_state = agent.get_state_key({
+                    'calories': current_nutrition['calories'] / agent.meals['calories'].max(),
+                    'protein': current_nutrition['protein'] / agent.meals['protein'].max(),
+                    'fat': current_nutrition['fat'] / agent.meals['fat'].max(),
+                    'carbs': current_nutrition['carbs'] / agent.meals['carbs'].max()
+                }, days - day - 1)
+
+                reward = agent.calculate_reward(
+                    action,
+                    {
+                        'calories': current_nutrition['calories'] / agent.meals['calories'].max(),
+                        'protein': current_nutrition['protein'] / agent.meals['protein'].max(),
+                        'fat': current_nutrition['fat'] / agent.meals['fat'].max(),
+                        'carbs': current_nutrition['carbs'] / agent.meals['carbs'].max()
+                    },
+                    {
+                        'calories': target_nutrition['calories'] / agent.meals['calories'].max(),
+                        'protein': target_nutrition['protein'] / agent.meals['protein'].max(),
+                        'fat': target_nutrition['fat'] / agent.meals['fat'].max(),
+                        'carbs': target_nutrition['carbs'] / agent.meals['carbs'].max()
+                    },
+                    day
+                )
+
                 agent.update_q_table(state, action, reward, next_state)
 
-            # Reset for next day (carry over some nutrition)
             current_nutrition = {k: v * 0.3 for k, v in current_nutrition.items()}
 
-    # Save trained model
-    agent.save_model()
-    print("Training completed. Model saved to", MODEL_SAVE_PATH)
+    try:
+        agent.save_model()
+        print("Training completed. Model saved to", MODEL_SAVE_PATH)
+    except Exception as e:
+        print(f"Error saving model: {e}")
+        print("Training completed but model could not be saved.")
 
 if __name__ == '__main__':
-    # Initialize and preprocess data
     preprocessor = DataPreprocessor()
     df = preprocessor.load_data()
     df, scaler, vitamins, diet_cols = preprocessor.preprocess_data()
 
-    # Initialize RL agent
     agent = MealPlanRLAgent(df)
 
-    # Train the agent
     train_agent(agent, episodes=5000)
