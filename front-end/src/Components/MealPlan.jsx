@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { Store } from 'react-notifications-component';
 
-const ComponentThree = ({ formData, onBack }) => {
+const ComponentThree = ({ formData, onBack, loggedInUser }) => {
     const [isGenerating, setIsGenerating] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
     const [mealPlan, setMealPlan] = useState(null);
     const [error, setError] = useState(null);
 
@@ -11,7 +13,6 @@ const ComponentThree = ({ formData, onBack }) => {
         setError(null);
 
         try {
-            // Replace with your actual API endpoint
             const response = await axios.post('http://127.0.0.1:5000/generate-meal-plan', formData);
             setMealPlan(response.data);
         } catch (err) {
@@ -20,6 +21,78 @@ const ComponentThree = ({ formData, onBack }) => {
         } finally {
             setIsGenerating(false);
         }
+    };
+
+    const saveMealPlan = async () => {
+        if (!loggedInUser) {
+            Store.addNotification({
+                title: "Error!",
+                message: "You must be logged in to save meal plans",
+                type: "danger",
+                insert: "top",
+                container: "top-right",
+                dismiss: {
+                    duration: 3000,
+                    onScreen: true
+                }
+            });
+            return;
+        }
+
+        setIsSaving(true);
+        try {
+            const response = await axios.post('http://localhost:3001/save-meal-plan', {
+                email: loggedInUser,
+                mealPlan: mealPlan.mealPlan,
+                nutritionSummary: mealPlan.nutritionSummary,
+                userData: formData
+            });
+
+            Store.addNotification({
+                title: "Success!",
+                message: "Meal plan saved successfully!",
+                type: "success",
+                insert: "top",
+                container: "top-right",
+                dismiss: {
+                    duration: 3000,
+                    onScreen: true
+                }
+            });
+        } catch (err) {
+            Store.addNotification({
+                title: "Error!",
+                message: "Failed to save meal plan. Please try again.",
+                type: "danger",
+                insert: "top",
+                container: "top-right",
+                dismiss: {
+                    duration: 3000,
+                    onScreen: true
+                }
+            });
+            console.error(err);
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const downloadAsPDF = () => {
+        // Create a printable version of the meal plan
+        const content = document.getElementById('meal-plan-content');
+        const originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = content.innerHTML;
+        window.print();
+        document.body.innerHTML = originalContents;
+
+        // Reload the page to restore functionality
+        window.location.reload();
+    };
+
+    // Function to format numbers to 2 decimal places
+    const formatNumber = (num) => {
+        return typeof num === 'number' ? num.toFixed(2) : num;
     };
 
     return (
@@ -80,55 +153,142 @@ const ComponentThree = ({ formData, onBack }) => {
             )}
 
             {mealPlan && (
-                <div className="border-t pt-6">
-                    <h3 className="text-xl font-semibold text-gray-700 mb-4">Your Personalized Meal Plan</h3>
+                <div id="meal-plan-content">
+                    <div className="border-t pt-6">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-xl font-semibold text-gray-700">Your Personalized Meal Plan</h3>
+                            <div className="flex space-x-2">
+                                <button
+                                    onClick={saveMealPlan}
+                                    disabled={isSaving}
+                                    className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {isSaving ? 'Saving...' : 'Save Meals'}
+                                </button>
+                                <button
+                                    onClick={downloadAsPDF}
+                                    className="px-4 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
+                                >
+                                    Download as PDF
+                                </button>
+                            </div>
+                        </div>
 
-                    <div className="space-y-6">
-                        {mealPlan.days && mealPlan.days.map((day, index) => (
-                            <div key={index} className="border rounded-lg overflow-hidden">
-                                <div className="bg-gray-100 px-4 py-2 font-medium">
-                                    Day {index + 1} - {day.totalCalories} kcal
-                                </div>
-                                <div className="p-4">
-                                    <div className="mb-4">
-                                        <h4 className="font-medium text-gray-700 mb-2">Breakfast</h4>
-                                        <p>{day.breakfast.name} - {day.breakfast.calories} kcal</p>
-                                        <p className="text-sm text-gray-600">Ingredients: {day.breakfast.ingredients.join(', ')}</p>
+                        <div className="space-y-6">
+                            {mealPlan.mealPlan && mealPlan.mealPlan.map((day) => (
+                                <div key={day.day} className="border rounded-lg overflow-hidden">
+                                    <div className="bg-blue-100 px-4 py-2 font-medium">
+                                        Day {day.day} - {formatNumber(day.totalNutrition.calories)} kcal
                                     </div>
-                                    <div className="mb-4">
-                                        <h4 className="font-medium text-gray-700 mb-2">Lunch</h4>
-                                        <p>{day.lunch.name} - {day.lunch.calories} kcal</p>
-                                        <p className="text-sm text-gray-600">Ingredients: {day.lunch.ingredients.join(', ')}</p>
+                                    <div className="p-4">
+                                        {day.meals && day.meals.map((mealObj, index) => {
+                                            const mealType = Object.keys(mealObj)[0];
+                                            const meal = mealObj[mealType];
+                                            return (
+                                                <div key={index} className="mb-4">
+                                                    <h4 className="font-medium text-gray-700 mb-2 capitalize">
+                                                        {mealType}
+                                                    </h4>
+                                                    <div className="flex flex-col md:flex-row md:items-start md:justify-between">
+                                                        <div className="flex-1">
+                                                            <p className="font-medium">{meal.meal_name}</p>
+                                                            <p className="text-sm text-gray-600">{formatNumber(meal.calories)} kcal</p>
+                                                            <p className="text-sm text-gray-600">
+                                                                Protein: {formatNumber(meal.protein)}g |
+                                                                Carbs: {formatNumber(meal.carbs)}g |
+                                                                Fat: {formatNumber(meal.fat)}g
+                                                            </p>
+                                                            <p className="text-sm text-gray-600">
+                                                                Fiber: {formatNumber(meal.fiber)}g |
+                                                                Sugar: {formatNumber(meal.sugar)}g |
+                                                                Sodium: {formatNumber(meal.sodium)}mg
+                                                            </p>
+                                                            <p className="text-sm text-gray-600">
+                                                                Ingredients: {meal.ingredients.join(', ')}
+                                                            </p>
+                                                            <p className="text-sm text-gray-600">Vitamins: {meal.vitamins}</p>
+                                                        </div>
+                                                        {meal.image_url && (
+                                                            <div className="mt-2 md:mt-0 md:ml-4">
+                                                                <img
+                                                                    src={meal.image_url}
+                                                                    alt={meal.meal_name}
+                                                                    className="w-20 h-20 object-cover rounded-md"
+                                                                />
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+
+                                        {/* Daily Nutrition Summary */}
+                                        <div className="mt-4 p-3 bg-gray-50 rounded-md">
+                                            <h5 className="font-medium text-gray-700 mb-2">Daily Nutrition Summary</h5>
+                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                                                <div>
+                                                    <span className="text-gray-600">Calories: </span>
+                                                    <span className="font-medium">{formatNumber(day.totalNutrition.calories)}</span>
+                                                </div>
+                                                <div>
+                                                    <span className="text-gray-600">Protein: </span>
+                                                    <span className="font-medium">{formatNumber(day.totalNutrition.protein)}g</span>
+                                                </div>
+                                                <div>
+                                                    <span className="text-gray-600">Carbs: </span>
+                                                    <span className="font-medium">{formatNumber(day.totalNutrition.carbs)}g</span>
+                                                </div>
+                                                <div>
+                                                    <span className="text-gray-600">Fat: </span>
+                                                    <span className="font-medium">{formatNumber(day.totalNutrition.fat)}g</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Overall Nutrition Summary */}
+                        {mealPlan.nutritionSummary && (
+                            <div className="mt-6 p-4 bg-green-50 rounded-md">
+                                <h4 className="font-medium text-green-800 mb-2">Overall Nutrition Summary (7-Day Average)</h4>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <div>
+                                        <p className="text-sm text-green-700">Avg. Calories</p>
+                                        <p className="font-medium">{formatNumber(mealPlan.nutritionSummary.avgCalories)} kcal</p>
                                     </div>
                                     <div>
-                                        <h4 className="font-medium text-gray-700 mb-2">Dinner</h4>
-                                        <p>{day.dinner.name} - {day.dinner.calories} kcal</p>
-                                        <p className="text-sm text-gray-600">Ingredients: {day.dinner.ingredients.join(', ')}</p>
+                                        <p className="text-sm text-green-700">Avg. Protein</p>
+                                        <p className="font-medium">{formatNumber(mealPlan.nutritionSummary.avgProtein)}g</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-green-700">Avg. Carbs</p>
+                                        <p className="font-medium">{formatNumber(mealPlan.nutritionSummary.avgCarbs)}g</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-green-700">Avg. Fat</p>
+                                        <p className="font-medium">{formatNumber(mealPlan.nutritionSummary.avgFat)}g</p>
                                     </div>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                        )}
 
-                    <div className="mt-6 p-4 bg-green-50 rounded-md">
-                        <h4 className="font-medium text-green-800 mb-2">Nutrition Summary</h4>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div>
-                                <p className="text-sm text-green-700">Avg. Protein</p>
-                                <p className="font-medium">{mealPlan.nutritionSummary.protein}g</p>
-                            </div>
-                            <div>
-                                <p className="text-sm text-green-700">Avg. Carbs</p>
-                                <p className="font-medium">{mealPlan.nutritionSummary.carbs}g</p>
-                            </div>
-                            <div>
-                                <p className="text-sm text-green-700">Avg. Fat</p>
-                                <p className="font-medium">{mealPlan.nutritionSummary.fat}g</p>
-                            </div>
-                            <div>
-                                <p className="text-sm text-green-700">Avg. Fiber</p>
-                                <p className="font-medium">{mealPlan.nutritionSummary.fiber}g</p>
-                            </div>
+                        {/* Save and Download Buttons */}
+                        <div className="mt-6 flex justify-center space-x-4">
+                            <button
+                                onClick={saveMealPlan}
+                                disabled={isSaving}
+                                className="px-6 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {isSaving ? 'Saving...' : 'Save Meals'}
+                            </button>
+                            <button
+                                onClick={downloadAsPDF}
+                                className="px-6 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
+                            >
+                                Download as PDF
+                            </button>
                         </div>
                     </div>
                 </div>

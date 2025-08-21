@@ -3,7 +3,7 @@ import ComponentOne from '../Components/BasicInfoForm';
 import ComponentTwo from '../Components/DietPreferencesForm ';
 import ComponentThree from '../Components/MealPlan';
 
-const MealPlanGenerator = () => {
+const MealPlanGenerator = ({ loggedInUser }) => {
     const [currentStep, setCurrentStep] = useState(1);
     const [componentOneData, setComponentOneData] = useState(null);
     const [componentTwoData, setComponentTwoData] = useState(null);
@@ -43,18 +43,19 @@ const MealPlanGenerator = () => {
                             <p className="mt-2 text-sm font-medium">Basic Info</p>
                         </div>
                         <div className={`flex-1 text-center ${currentStep >= 2 ? 'text-green-500' : 'text-gray-500'}`}>
-                            <div className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center ${currentStep >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}>
+                            <div className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center ${currentStep >= 2 ? 'bg-green-500 text-white' : 'bg-gray-200'}`}>
                                 2
                             </div>
                             <p className="mt-2 text-sm font-medium">Preferences</p>
                         </div>
                         <div className={`flex-1 text-center ${currentStep >= 3 ? 'text-green-500' : 'text-gray-500'}`}>
-                            <div className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center ${currentStep >= 3 ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}>
+                            <div className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center ${currentStep >= 3 ? 'bg-green-500 text-white' : 'bg-gray-200'}`}>
                                 3
                             </div>
                             <p className="mt-2 text-sm font-medium">Meal Plan</p>
                         </div>
                     </div>
+
                 </div>
 
                 {currentStep === 1 && <ComponentOne onNext={handleComponentOneComplete} />}
@@ -69,6 +70,7 @@ const MealPlanGenerator = () => {
                     <ComponentThree
                         formData={componentTwoData}
                         onBack={handleBackFromComponentThree}
+                        loggedInUser={loggedInUser}
                     />
                 )}
             </div>

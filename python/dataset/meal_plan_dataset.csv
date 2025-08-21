@@ -1,54 +1,198 @@
-meal_name,calories,protein,fat,carbs,vegan,vegetarian,keto,paleo,gluten_free,mediterranean,vitamins,image_url,ingredients
-"Lemon pepper chicken breast",165,31,3.6,0,0,0,1,1,1,0,"B6, B12, Niacin","https://images.unsplash.com/photo-1532550907401-a500c9a57435","Chicken breast, lemon zest, black pepper, olive oil, salt"
-"Classic steak",271,26,18,0,0,0,1,1,1,0,"B12, Iron, Zinc","https://images.unsplash.com/photo-1546833999-b9f581a1996d","Beef steak, salt, black pepper, butter, garlic"
-"Marinaded chicken breast",172,32,4.2,1.5,0,0,1,1,1,1,"B6, B12, Niacin","https://images.unsplash.com/photo-1598103442097-8b74394b95c6","Chicken breast, olive oil, lemon juice, garlic, herbs"
-"Pulled pork lettuce wrap",142,24,5.8,2.1,0,0,1,1,1,0,"B1, B6, Zinc","https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b","Pork shoulder, lettuce leaves, sugar-free BBQ sauce, spices"
-"Sugar-free bbq chicken wings",203,30,8.1,1.2,0,0,1,1,1,0,"B6, B12, Niacin","https://images.unsplash.com/photo-1527477396607-highly-pco6ip4","Chicken wings, sugar-free BBQ sauce, garlic powder, paprika"
-"Creamy chipotle pork chops",185,28,7.4,2.8,0,0,1,1,1,0,"B1, B6, Zinc","https://images.unsplash.com/photo-1544025162-d76694265947","Pork chops, heavy cream, chipotle peppers, garlic, butter"
-"Avocado",160,2,14.7,8.5,1,1,1,1,1,1,"K, Folate, E","https://images.unsplash.com/photo-1523049673857-eb18f1d7b578","Avocado, salt, lime juice (optional)"
-"Walnuts",654,15.2,65.2,13.7,1,1,1,1,1,1,"E, B6, Folate","https://images.unsplash.com/photo-1553909489-cd47e0ef937f","Walnuts"
-"Almond protein balls",420,18.5,28.2,24.8,1,1,0,1,1,1,"E, Magnesium, B2","https://images.unsplash.com/photo-1558961363-fa8fdf82db35","Almonds, dates, protein powder, coconut oil"
-"Almond butter keto fat bomb",598,21.2,55.8,9.3,1,1,1,1,1,1,"E, Magnesium, B2","https://images.unsplash.com/photo-1571115764595-644a1f56a55c","Almond butter, coconut oil, cocoa powder, stevia"
-"Ham chips with salsa",158,22.4,6.8,3.2,0,0,1,1,1,0,"B1, B6, Zinc","https://images.unsplash.com/photo-1565299507177-b0ac66763828","Ham slices, tomatoes, onions, cilantro, lime juice"
-"Pork rinds",544,61,31,0,0,0,1,1,1,0,"B12, Selenium","https://images.unsplash.com/photo-1583394838336-acd977736f90","Pork skin, salt"
-"Grilled salmon",208,25,11,0,0,0,1,1,1,1,"B12, D, Omega-3","https://images.unsplash.com/photo-1467003909585-2f8a72700288","Salmon fillet, olive oil, lemon, dill, salt, pepper"
-"Quinoa salad",120,4.4,1.9,21.3,1,1,0,0,1,1,"Folate, Iron, Magnesium","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Quinoa, cucumber, tomatoes, red onion, olive oil, lemon juice"
-"Greek yogurt with berries",59,10,0.4,3.6,0,1,0,0,1,1,"B12, Calcium, Probiotics","https://images.unsplash.com/photo-1488477181946-6428a0291777","Greek yogurt, mixed berries, honey (optional)"
-"Sweet potato fries",103,2.3,0.1,23.6,1,1,0,1,1,0,"A, C, B6","https://images.unsplash.com/photo-1573080496219-bb080dd4f877","Sweet potatoes, olive oil, salt, paprika"
-"Cauliflower rice",25,1.9,0.3,5,1,1,1,1,1,1,"C, K, Folate","https://images.unsplash.com/photo-1610348725531-843dff563e2c","Cauliflower, olive oil, garlic, salt"
-"Turkey meatballs",172,24,7.8,2.1,0,0,1,1,1,1,"B6, B12, Selenium","https://images.unsplash.com/photo-1529563021893-cc83c992d75d","Ground turkey, egg, almond flour, herbs, garlic"
-"Zucchini noodles",20,2.2,0.3,3.9,1,1,1,1,1,1,"C, A, Folate","https://images.unsplash.com/photo-1581833971358-2c8b550f87b3","Zucchini, olive oil, garlic, salt, pepper"
-"Baked cod with herbs",105,23,0.9,0,0,0,1,1,1,1,"B12, Selenium, Phosphorus","https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2","Cod fillet, lemon, dill, parsley, olive oil"
-"Spinach and feta omelet",154,11.2,11.8,2.8,0,1,1,0,1,1,"A, Folate, B12","https://images.unsplash.com/photo-1482049016688-2d3e1b311543","Eggs, spinach, feta cheese, olive oil, salt, pepper"
-"Chia seed pudding",486,17,31,42,1,1,0,0,1,0,"Omega-3, Fiber, Calcium","https://images.unsplash.com/photo-1571197899394-0ce8e1b4ac58","Chia seeds, almond milk, berries, honey"
-"Beef and broccoli stir-fry",132,18,4.8,6.2,0,0,1,1,1,0,"C, Iron, B6","https://images.unsplash.com/photo-1512058564366-18510be2db19","Beef strips, broccoli, coconut aminos, garlic, ginger"
-"Coconut curry chicken",145,22,5.8,3.2,0,0,1,1,1,0,"C, B6, Magnesium","https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd","Chicken breast, coconut milk, curry powder, garlic, ginger"
-"Kale chips",354,4.3,0.9,87,1,1,1,1,1,1,"A, C, K","https://images.unsplash.com/photo-1594282832226-f4dfb4a5e74d","Kale leaves, olive oil, sea salt"
-"Stuffed bell peppers",89,4.8,2.1,14.2,0,0,0,1,1,1,"C, A, B6","https://images.unsplash.com/photo-1574484284002-952d92456975","Bell peppers, ground beef, tomatoes, onions, herbs"
-"Mediterranean chickpea salad",164,8.9,6,20,1,1,0,0,1,1,"Folate, Iron, Fiber","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Chickpeas, cucumber, tomatoes, olives, feta, olive oil"
-"Baked chicken thighs",209,26,10.9,0,0,0,1,1,1,0,"B6, B12, Niacin","https://images.unsplash.com/photo-1598103442097-8b74394b95c6","Chicken thighs, olive oil, garlic, rosemary, salt"
-"Eggplant parmesan",135,6.8,8.2,10.5,0,1,0,0,1,1,"Fiber, K, Folate","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Eggplant, tomato sauce, mozzarella, parmesan, basil"
-"Tuna salad lettuce wraps",132,25,2.5,2.8,0,0,1,1,1,1,"B12, Selenium, D","https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b","Tuna, mayonnaise, celery, lettuce leaves, lemon juice"
-"Roasted Brussels sprouts",43,3.4,0.3,8.8,1,1,1,1,1,1,"C, K, Folate","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Brussels sprouts, olive oil, salt, pepper"
-"Lentil soup",116,9,0.4,20,1,1,0,0,1,1,"Folate, Iron, Fiber","https://images.unsplash.com/photo-1547592166-23ac45744acd","Lentils, carrots, celery, onions, vegetable broth"
-"Grilled portobello mushrooms",35,2.5,0.4,5.8,1,1,1,1,1,1,"B vitamins, Selenium","https://images.unsplash.com/photo-1518779578993-ec3579fee39f","Portobello mushrooms, olive oil, balsamic vinegar, garlic"
-"Baked sweet potato",103,2.3,0.1,23.6,1,1,0,1,1,0,"A, C, B6","https://images.unsplash.com/photo-1576045057995-568f588f82fb","Sweet potato, olive oil, salt"
-"Cucumber tomato salad",16,0.7,0.1,3.6,1,1,1,1,1,1,"C, K, Lycopene","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Cucumber, tomatoes, red onion, olive oil, vinegar"
-"Grilled asparagus",27,2.4,0.2,5.2,1,1,1,1,1,1,"K, Folate, A","https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b","Asparagus, olive oil, lemon juice, salt"
-"Beef jerky",410,33,25,11,0,0,1,1,1,0,"B12, Iron, Zinc","https://images.unsplash.com/photo-1542838686-3ecd4ddf9cb9","Beef, salt, spices, vinegar"
-"Cottage cheese with cucumber",98,11,4.3,3.4,0,1,1,0,1,0,"B12, Calcium, Phosphorus","https://images.unsplash.com/photo-1586190848861-99aa4a171e90","Cottage cheese, cucumber, salt, pepper"
-"Roasted almonds",579,21.2,49.9,21.6,1,1,1,1,1,1,"E, Magnesium, B2","https://images.unsplash.com/photo-1553909489-cd47e0ef937f","Almonds, sea salt"
-"Grilled zucchini",20,2.2,0.3,3.9,1,1,1,1,1,1,"C, A, Folate","https://images.unsplash.com/photo-1581833971358-2c8b550f87b3","Zucchini, olive oil, salt, pepper"
-"Turkey lettuce wraps",135,24,3.8,1.2,0,0,1,1,1,0,"B6, B12, Selenium","https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b","Ground turkey, lettuce leaves, garlic, ginger, coconut aminos"
-"Baked eggplant",35,1,0.2,8.7,1,1,1,1,1,1,"Fiber, K, Folate","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Eggplant, olive oil, salt, herbs"
-"Sardines in olive oil",208,25,11.5,0,0,0,1,1,1,1,"B12, D, Omega-3","https://images.unsplash.com/photo-1544025162-d76694265947","Sardines, olive oil, lemon"
-"Green smoothie bowl",65,2.8,0.8,13.2,1,1,0,0,1,0,"A, C, Iron","https://images.unsplash.com/photo-1571197899394-0ce8e1b4ac58","Spinach, banana, almond milk, chia seeds, berries"
-"Stuffed zucchini boats",78,8.2,2.4,6.8,0,0,1,1,1,1,"C, A, B6","https://images.unsplash.com/photo-1581833971358-2c8b550f87b3","Zucchini, ground beef, tomatoes, cheese, herbs"
-"Roasted chicken breast",195,29,8.2,0,0,0,1,1,1,0,"B6, B12, Niacin","https://images.unsplash.com/photo-1598103442097-8b74394b95c6","Chicken breast, olive oil, salt, pepper, herbs"
-"Caprese salad",125,8.1,9.8,3.2,0,1,1,0,1,1,"C, Calcium, Lycopene","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Tomatoes, mozzarella, basil, olive oil, balsamic"
-"Baked cauliflower",25,1.9,0.3,5,1,1,1,1,1,1,"C, K, Folate","https://images.unsplash.com/photo-1610348725531-843dff563e2c","Cauliflower, olive oil, salt, pepper"
-"Pesto chicken",185,28,7.2,1.8,0,0,1,0,1,1,"B6, B12, A","https://images.unsplash.com/photo-1598103442097-8b74394b95c6","Chicken breast, pesto sauce, olive oil, parmesan"
-"Roasted red peppers",31,1,0.3,7.3,1,1,1,1,1,1,"C, A, B6","https://images.unsplash.com/photo-1574484284002-952d92456975","Red bell peppers, olive oil, salt"
-"Tuna steak",144,23,5,0,0,0,1,1,1,1,"B12, Selenium, D","https://images.unsplash.com/photo-1544025162-d76694265947","Tuna steak, olive oil, lemon, herbs"
-"Grilled lamb chops",294,25,20.8,0,0,0,1,1,1,1,"B12, Iron, Zinc","https://images.unsplash.com/photo-1546833999-b9f581a1996d","Lamb chops, rosemary, garlic, olive oil, salt"
-"Roasted beets",44,1.6,0.2,10,1,1,1,1,1,0,"Folate, Fiber, C","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Beets, olive oil, salt, balsamic vinegar"
+meal_name,calories,protein,fat,carbs,vegan,vegetarian,keto,paleo,gluten_free,mediterranean,vitamins,image_url,ingredients,sugar_g,added_sugar_g,sodium_mg,saturated_fat_g,fiber_g,cholesterol_mg,potassium_mg,omega3_g
+"Lemon pepper chicken breast",165,31,3.6,0,0,0,1,1,1,0,"B6, B12, Niacin","https://images.unsplash.com/photo-1532550907401-a500c9a57435","Chicken breast, lemon zest, black pepper, olive oil, salt",0,0,350,1,0,85,350,0.1
+"Classic steak",271,26,18,0,0,0,1,1,1,0,"B12, Iron, Zinc","https://images.unsplash.com/photo-1546833999-b9f581a1996d","Beef steak, salt, black pepper, butter, garlic",0,0,400,8,0,90,380,0.2
+"Marinaded chicken breast",172,32,4.2,1.5,0,0,1,1,1,1,"B6, B12, Niacin","https://images.unsplash.com/photo-1598103442097-8b74394b95c6","Chicken breast, olive oil, lemon juice, garlic, herbs",0.5,0,300,1,0.2,85,360,0.1
+"Pulled pork lettuce wrap",142,24,5.8,2.1,0,0,1,1,1,0,"B1, B6, Zinc","https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b","Pork shoulder, lettuce leaves, sugar-free BBQ sauce, spices",1.2,0,380,2,0.8,70,320,0.1
+"Sugar-free bbq chicken wings",203,30,8.1,1.2,0,0,1,1,1,0,"B6, B12, Niacin","https://images.unsplash.com/photo-1527477396607-highly-pco6ip4","Chicken wings, sugar-free BBQ sauce, garlic powder, paprika",0.8,0,420,2.5,0.4,95,280,0.1
+"Creamy chipotle pork chops",185,28,7.4,2.8,0,0,1,1,1,0,"B1, B6, Zinc","https://images.unsplash.com/photo-1544025162-d76694265947","Pork chops, heavy cream, chipotle peppers, garlic, butter",1.2,0,450,3.5,0.5,90,380,0.1
+"Avocado",160,2,14.7,8.5,1,1,1,1,1,1,"K, Folate, E","https://images.unsplash.com/photo-1523049673857-eb18f1d7b578","Avocado, salt, lime juice (optional)",0.7,0,7,2.1,6.7,0,485,0.1
+"Walnuts",654,15.2,65.2,13.7,1,1,1,1,1,1,"E, B6, Folate","https://images.unsplash.com/photo-1553909489-cd47e0ef937f","Walnuts",2.6,0,2,6.1,6.7,0,441,9.1
+"Almond protein balls",420,18.5,28.2,24.8,1,1,0,1,1,1,"E, Magnesium, B2","https://images.unsplash.com/photo-1558961363-fa8fdf82db35","Almonds, dates, protein powder, coconut oil",16.5,0,85,4.8,5.2,0,480,0.1
+"Almond butter keto fat bomb",598,21.2,55.8,9.3,1,1,1,1,1,1,"E, Magnesium, B2","https://images.unsplash.com/photo-1571115764595-644a1f56a55c","Almond butter, coconut oil, cocoa powder, stevia",2.8,0,12,12.5,4.2,0,680,0.1
+"Ham chips with salsa",158,22.4,6.8,3.2,0,0,1,1,1,0,"B1, B6, Zinc","https://images.unsplash.com/photo-1565299507177-b0ac66763828","Ham slices, tomatoes, onions, cilantro, lime juice",1.8,0,950,2.2,0.8,45,380,0.1
+"Pork rinds",544,61,31,0,0,0,1,1,1,0,"B12, Selenium","https://images.unsplash.com/photo-1583394838336-acd977736f90","Pork skin, salt",0,0,1050,11,0,95,65,0.1
+"Grilled salmon",208,25,11,0,0,0,1,1,1,1,"B12, D, Omega-3","https://images.unsplash.com/photo-1467003909585-2f8a72700288","Salmon fillet, olive oil, lemon, dill, salt, pepper",0,0,350,2.5,0,65,460,2.3
+"Quinoa salad",120,4.4,1.9,21.3,1,1,0,0,1,1,"Folate, Iron, Magnesium","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Quinoa, cucumber, tomatoes, red onion, olive oil, lemon juice",2.8,0,180,0.3,2.8,0,172,0.1
+"Greek yogurt with berries",59,10,0.4,3.6,0,1,0,0,1,1,"B12, Calcium, Probiotics","https://images.unsplash.com/photo-1488477181946-6428a0291777","Greek yogurt, mixed berries, honey (optional)",3.2,0,36,0.2,0.6,5,141,0
+"Sweet potato fries",103,2.3,0.1,23.6,1,1,0,1,1,0,"A, C, B6","https://images.unsplash.com/photo-1573080496219-bb080dd4f877","Sweet potatoes, olive oil, salt, paprika",5.6,0,220,0,3.3,0,475,0
+"Cauliflower rice",25,1.9,0.3,5,1,1,1,1,1,1,"C, K, Folate","https://images.unsplash.com/photo-1610348725531-843dff563e2c","Cauliflower, olive oil, garlic, salt",2.4,0,180,0.1,2.5,0,300,0
+"Turkey meatballs",172,24,7.8,2.1,0,0,1,1,1,1,"B6, B12, Selenium","https://images.unsplash.com/photo-1529563021893-cc83c992d75d","Ground turkey, egg, almond flour, herbs, garlic",0.8,0,380,2.2,0.5,95,280,0.1
+"Zucchini noodles",20,2.2,0.3,3.9,1,1,1,1,1,1,"C, A, Folate","https://images.unsplash.com/photo-1581833971358-2c8b550f87b3","Zucchini, olive oil, garlic, salt, pepper",3.1,0,150,0.1,1.2,0,280,0
+"Baked cod with herbs",105,23,0.9,0,0,0,1,1,1,1,"B12, Selenium, Phosphorus","https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2","Cod fillet, lemon, dill, parsley, olive oil",0,0,320,0.2,0,50,410,0.3
+"Spinach and feta omelet",154,11.2,11.8,2.8,0,1,1,0,1,1,"A, Folate, B12","https://images.unsplash.com/photo-1482049016688-2d3e1b311543","Eggs, spinach, feta cheese, olive oil, salt, pepper",1.2,0,380,4.5,0.8,280,220,0.1
+"Chia seed pudding",486,17,31,42,1,1,0,0,1,0,"Omega-3, Fiber, Calcium","https://images.unsplash.com/photo-1571197899394-0ce8e1b4ac58","Chia seeds, almond milk, berries, honey",22.5,8,85,3.2,15.8,0,420,5.8
+"Beef and broccoli stir-fry",132,18,4.8,6.2,0,0,1,1,1,0,"C, Iron, B6","https://images.unsplash.com/photo-1512058564366-18510be2db19","Beef strips, broccoli, coconut aminos, garlic, ginger",2.2,0,380,1.8,2.5,45,480,0.1
+"Coconut curry chicken",145,22,5.8,3.2,0,0,1,1,1,0,"C, B6, Magnesium","https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd","Chicken breast, coconut milk, curry powder, garlic, ginger",1.8,0,320,3.2,1.2,65,420,0.1
+"Kale chips",354,4.3,0.9,87,1,1,1,1,1,1,"A, C, K","https://images.unsplash.com/photo-1594282832226-f4dfb4a5e74d","Kale leaves, olive oil, sea salt",2.3,0,280,0.1,3.8,0,348,0.1
+"Stuffed bell peppers",89,4.8,2.1,14.2,0,0,0,1,1,1,"C, A, B6","https://images.unsplash.com/photo-1574484284002-952d92456975","Bell peppers, ground beef, tomatoes, onions, herbs",5.2,0,220,0.9,2.8,20,320,0
+"Mediterranean chickpea salad",164,8.9,6,20,1,1,0,0,1,1,"Folate, Iron, Fiber","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Chickpeas, cucumber, tomatoes, olives, feta, olive oil",4.2,0,380,1.8,5.2,8,280,0.1
+"Baked chicken thighs",209,26,10.9,0,0,0,1,1,1,0,"B6, B12, Niacin","https://images.unsplash.com/photo-1598103442097-8b74394b95c6","Chicken thighs, olive oil, garlic, rosemary, salt",0,0,380,3.2,0,110,280,0.1
+"Eggplant parmesan",135,6.8,8.2,10.5,0,1,0,0,1,1,"Fiber, K, Folate","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Eggplant, tomato sauce, mozzarella, parmesan, basil",6.2,0,420,3.8,3.2,15,320,0
+"Tuna salad lettuce wraps",132,25,2.5,2.8,0,0,1,1,1,1,"B12, Selenium, D","https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b","Tuna, mayonnaise, celery, lettuce leaves, lemon juice",1.8,0,380,0.5,0.8,45,320,0.8
+"Roasted Brussels sprouts",43,3.4,0.3,8.8,1,1,1,1,1,1,"C, K, Folate","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Brussels sprouts, olive oil, salt, pepper",2.2,0,180,0.1,3.8,0,389,0.1
+"Lentil soup",116,9,0.4,20,1,1,0,0,1,1,"Folate, Iron, Fiber","https://images.unsplash.com/photo-1547592166-23ac45744acd","Lentils, carrots, celery, onions, vegetable broth",2.8,0,320,0.1,7.9,0,369,0
+"Grilled portobello mushrooms",35,2.5,0.4,5.8,1,1,1,1,1,1,"B vitamins, Selenium","https://images.unsplash.com/photo-1518779578993-ec3579fee39f","Portobello mushrooms, olive oil, balsamic vinegar, garlic",3.2,0,8,0.1,2.2,0,396,0
+"Baked sweet potato",103,2.3,0.1,23.6,1,1,0,1,1,0,"A, C, B6","https://images.unsplash.com/photo-1576045057995-568f588f82fb","Sweet potato, olive oil, salt",5.6,0,41,0,3.3,0,475,0
+"Cucumber tomato salad",16,0.7,0.1,3.6,1,1,1,1,1,1,"C, K, Lycopene","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Cucumber, tomatoes, red onion, olive oil, vinegar",2.8,0,5,0,1.1,0,182,0
+"Grilled asparagus",27,2.4,0.2,5.2,1,1,1,1,1,1,"K, Folate, A","https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b","Asparagus, olive oil, lemon juice, salt",2.5,0,3,0,2.8,0,273,0
+"Beef jerky",410,33,25,11,0,0,1,1,1,0,"B12, Iron, Zinc","https://images.unsplash.com/photo-1660652377929-22d0e3a03569?q","Beef, salt, spices, vinegar",9.2,0,2080,10.2,0.5,85,520,0.2
+"Cottage cheese with cucumber",98,11,4.3,3.4,0,1,1,0,1,0,"B12, Calcium, Phosphorus","https://images.unsplash.com/photo-1586190848861-99aa4a171e90","Cottage cheese, cucumber, salt, pepper",2.8,0,380,2.8,0.3,15,140,0
+"Roasted almonds",579,21.2,49.9,21.6,1,1,1,1,1,1,"E, Magnesium, B2","https://images.unsplash.com/photo-1553909489-cd47e0ef937f","Almonds, sea salt",4.4,0,250,3.8,12.5,0,733,0.1
+"Grilled zucchini",20,2.2,0.3,3.9,1,1,1,1,1,1,"C, A, Folate","https://images.unsplash.com/photo-1581833971358-2c8b550f87b3","Zucchini, olive oil, salt, pepper",3.1,0,10,0.1,1.2,0,280,0
+"Turkey lettuce wraps",135,24,3.8,1.2,0,0,1,1,1,0,"B6, B12, Selenium","https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b","Ground turkey, lettuce leaves, garlic, ginger, coconut aminos",0.8,0,320,1.2,0.5,75,320,0.1
+"Baked eggplant",35,1,0.2,8.7,1,1,1,1,1,1,"Fiber, K, Folate","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Eggplant, olive oil, salt, herbs",3.2,0,2,0,2.5,0,230,0
+"Sardines in olive oil",208,25,11.5,0,0,0,1,1,1,1,"B12, D, Omega-3","https://images.unsplash.com/photo-1544025162-d76694265947","Sardines, olive oil, lemon",0,0,420,1.8,0,140,400,1.8
+"Green smoothie bowl",65,2.8,0.8,13.2,1,1,0,0,1,0,"A, C, Iron","https://images.unsplash.com/photo-1571197899394-0ce8e1b4ac58","Spinach, banana, almond milk, chia seeds, berries",8.5,0,35,0.1,3.2,0,320,0.5
+"Stuffed zucchini boats",78,8.2,2.4,6.8,0,0,1,1,1,1,"C, A, B6","https://images.unsplash.com/photo-1581833971358-2c8b550f87b3","Zucchini, ground beef, tomatoes, cheese, herbs",3.2,0,180,1.2,1.8,35,380,0.1
+"Roasted chicken breast",195,29,8.2,0,0,0,1,1,1,0,"B6, B12, Niacin","https://images.unsplash.com/photo-1598103442097-8b74394b95c6","Chicken breast, olive oil, salt, pepper, herbs",0,0,380,2.3,0,85,350,0.1
+"Caprese salad",125,8.1,9.8,3.2,0,1,1,0,1,1,"C, Calcium, Lycopene","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Tomatoes, mozzarella, basil, olive oil, balsamic",2.8,0,180,5.2,1.1,25,280,0.1
+"Baked cauliflower",25,1.9,0.3,5,1,1,1,1,1,1,"C, K, Folate","https://images.unsplash.com/photo-1610348725531-843dff563e2c","Cauliflower, olive oil, salt, pepper",2.4,0,30,0.1,2.5,0,300,0
+"Pesto chicken",185,28,7.2,1.8,0,0,1,0,1,1,"B6, B12, A","https://images.unsplash.com/photo-1598103442097-8b74394b95c6","Chicken breast, pesto sauce, olive oil, parmesan",0.8,0,320,2.2,0.5,75,380,0.1
+"Roasted red peppers",31,1,0.3,7.3,1,1,1,1,1,1,"C, A, B6","https://images.unsplash.com/photo-1574484284002-952d92456975","Red bell peppers, olive oil, salt",4.2,0,4,0,2.5,0,210,0
+"Tuna steak",144,23,5,0,0,0,1,1,1,1,"B12, Selenium, D","https://images.unsplash.com/photo-1544025162-d76694265947","Tuna steak, olive oil, lemon, herbs",0,0,45,1.2,0,45,420,1.2
+"Grilled lamb chops",294,25,20.8,0,0,0,1,1,1,1,"B12, Iron, Zinc","https://images.unsplash.com/photo-1546833999-b9f581a1996d","Lamb chops, rosemary, garlic, olive oil, salt",0,0,380,9.2,0,95,320,0.5
+"Roasted beets",44,1.6,0.2,10,1,1,1,1,1,0,"Folate, Fiber, C","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Beets, olive oil, salt, balsamic vinegar",7,0,78,0,2.8,0,325,0
+"Shrimp scampi zoodles",98,12,4.2,3.8,0,0,1,1,1,1,"B12, Selenium, Iodine","https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?q","Shrimp, zucchini noodles, garlic, olive oil, lemon juice, parsley",2.2,0,420,0.8,1.2,120,220,0.4
+"Chicken avocado salad",190,18,12.5,4.2,0,0,1,1,1,1,"B6, E, Potassium","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Grilled chicken, avocado, mixed greens, olive oil, lemon juice",1.2,0,180,2.5,3.2,50,580,0.2
+"Egg muffins with spinach",143,11,10.2,2.4,0,1,1,1,1,1,"A, B12, Choline","https://images.unsplash.com/photo-1482049016688-2d3e1b311543","Eggs, spinach, bell peppers, onions, coconut oil",1.2,0,220,3.8,0.8,190,180,0.1
+"Beef bone broth",35,8,0.5,0.8,0,0,1,1,1,0,"Collagen, Glycine, Proline","https://images.unsplash.com/photo-1547592166-23ac45744acd","Beef bones, vegetables, herbs, apple cider vinegar",0.2,0,280,0.2,0.1,5,120,0
+"Cabbage stir-fry",42,1.8,2.1,5.2,1,1,1,1,1,1,"K, C, Folate","https://images.unsplash.com/photo-1565299585323-38174c739b4a","Cabbage, carrots, sesame oil, ginger, garlic",3.2,0,28,0.3,2.5,0,196,0.1
+"Salmon avocado rolls",168,12,11.5,5.2,0,0,1,1,1,1,"Omega-3, E, B12","https://images.unsplash.com/photo-1467003909585-2f8a72700288","Smoked salmon, avocado, cucumber, nori sheets",1.2,0,420,2.2,3.8,35,480,1.8
+"Chicken liver pate",185,14,13.8,1.2,0,0,1,1,1,0,"A, B12, Iron","https://images.unsplash.com/photo-1571115764595-644a1f56a55c","Chicken livers, butter, onions, herbs, spices",0.8,0,380,7.8,0.3,420,220,0.2
+"Zucchini fritters",85,5.2,5.8,4.8,0,1,1,1,1,1,"C, B6, Manganese","https://images.unsplash.com/photo-1581833971358-2c8b550f87b3","Zucchini, eggs, almond flour, herbs, olive oil",2.2,0,180,1.2,1.5,95,280,0.1
+"Turkey chili",112,14,4.2,6.8,0,0,1,1,1,0,"B6, Zinc, Iron","https://images.unsplash.com/photo-1547592166-23ac45744acd","Ground turkey, tomatoes, peppers, onions, spices",3.8,0,320,1.2,2.2,45,420,0.1
+"Coconut flour pancakes",210,8.5,15.8,9.2,0,1,1,1,1,0,"Manganese, Selenium, Fiber","https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445","Coconut flour, eggs, coconut milk, baking powder, vanilla",2.8,0,220,12.8,5.2,125,280,0.1
+"Mackerel salad",195,19,12.8,2.4,0,0,1,1,1,1,"Omega-3, D, B12","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Mackerel, celery, red onion, mayonnaise, lemon juice",1.8,0,380,2.8,1.2,75,420,2.2
+"Pumpkin seeds",574,29.8,49,14.7,1,1,1,1,1,1,"Magnesium, Zinc, Iron","https://images.unsplash.com/photo-1553909489-cd47e0ef937f","Pumpkin seeds, sea salt",1.4,0,18,8.7,6.5,0,809,0.1
+"Beef heart skewers",165,26,6.2,0.8,0,0,1,1,1,0,"B12, CoQ10, Iron","https://images.unsplash.com/photo-1546833999-b9f581a1996d","Beef heart, olive oil, vinegar, garlic, herbs",0.2,0,85,2.2,0.1,220,280,0.2
+"Collard greens",32,2.5,0.4,5.4,1,1,1,1,1,1,"K, A, C","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Collard greens, olive oil, garlic, vegetable broth",0.5,0,20,0.1,4,0,213,0.1
+"Chicken bone broth",38,8.5,0.6,0.9,0,0,1,1,1,0,"Collagen, Glycine, Gelatin","https://images.unsplash.com/photo-1547592166-23ac45744acd","Chicken bones, vegetables, herbs, apple cider vinegar",0.3,0,250,0.2,0.2,5,110,0
+"Coconut curry shrimp",132,15,6.8,4.2,0,0,1,1,1,0,"B12, Selenium, Zinc","https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd","Shrimp, coconut milk, curry paste, lime juice, cilantro",2.2,0,420,4.8,1.2,150,280,0.4
+"Radish salad",22,0.8,0.1,4.8,1,1,1,1,1,1,"C, Folate, Potassium","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Radishes, lemon juice, olive oil, herbs, salt",2.8,0,45,0,1.8,0,233,0
+"Pork belly slices",518,9.5,53,0,0,0,1,1,1,0,"B1, Selenium, Zinc","https://images.unsplash.com/photo-1544025162-d76694265947","Pork belly, salt, pepper",0,0,850,19.8,0,85,220,0.2
+"Seaweed salad",45,2.8,0.6,8.2,1,1,1,1,1,1,"Iodine, Calcium, Iron","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Seaweed, sesame oil, rice vinegar, ginger, sesame seeds",0.8,0,280,0.1,1.2,0,120,0.3
+"Bison burgers",187,28,8.2,0,0,0,1,1,1,0,"B12, Iron, Zinc","https://images.unsplash.com/photo-1568901346375-23c9450c58cd","Ground bison, egg, onions, spices, lettuce wrap",0.8,0,380,3.2,0.5,95,350,0.2
+"Chia seed crackers",486,16.5,30.8,42.1,1,1,0,1,1,1,"Omega-3, Fiber, Calcium","https://images.unsplash.com/photo-1571197899394-0ce8e1b4ac58","Chia seeds, flax seeds, water, herbs, sea salt",0.8,0,320,3.2,22.8,0,420,5.2
+"Duck breast",202,23,11.2,0,0,0,1,1,1,0,"Iron, Selenium, Zinc","https://images.unsplash.com/photo-1546833999-b9f581a1996d","Duck breast, salt, pepper, herbs",0,0,65,4.2,0,85,280,0.3
+"Kohlrabi fries",27,1.7,0.1,6.2,1,1,1,1,1,1,"C, B6, Potassium","https://images.unsplash.com/photo-1573080496219-bb080dd4f877","Kohlrabi, olive oil, salt, paprika",2.8,0,25,0,3.6,0,350,0
+"Lamb kebabs",242,26,14.8,1.2,0,0,1,1,1,1,"B12, Zinc, Iron","https://images.unsplash.com/photo-1546833999-b9f581a1996d","Lamb, onions, bell peppers, olive oil, spices",0.8,0,380,6.2,0.5,85,320,0.3
+"Mushroom omelet",148,10.8,11.2,2.8,0,1,1,1,1,1,"D, B12, Selenium","https://images.unsplash.com/photo-1482049016688-2d3e1b311543","Eggs, mushrooms, onions, butter, herbs",1.8,0,220,5.8,0.8,280,240,0.1
+"Octopus salad",164,25,6.2,2.8,0,0,1,1,1,1,"B12, Iron, Selenium","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Octopus, olive oil, lemon juice, parsley, red onion",1.2,0,420,1.2,0.5,95,520,0.5
+"Pecan crusted chicken",245,28,13.8,4.2,0,0,1,1,1,0,"B6, Manganese, Zinc","https://images.unsplash.com/photo-1598103442097-8b74394b95c6","Chicken breast, pecans, egg, herbs, olive oil",1.2,0,280,2.2,2.8,95,380,0.2
+"Rabbit stew",173,33,3.8,1.2,0,0,1,1,1,0,"B12, Iron, Phosphorus","https://images.unsplash.com/photo-1547592166-23ac45744acd","Rabbit, vegetables, herbs, bone broth, olive oil",0.8,0,320,1.2,0.8,85,380,0.2
+"Sauerkraut",19,0.9,0.1,4.3,1,1,1,1,1,1,"C, K, Probiotics","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Cabbage, salt, caraway seeds",1.8,0,661,0,2.9,0,170,0.1
+"Scallops with garlic",111,20.5,1.4,5.2,0,0,1,1,1,1,"B12, Magnesium, Potassium","https://images.unsplash.com/photo-1467003909585-2f8a72700288","Scallops, garlic, butter, parsley, lemon juice",0.2,0,380,0.8,0.1,40,380,0.3
+"Sunflower seeds",584,20.8,51.5,20,1,1,1,1,1,1,"E, Selenium, Magnesium","https://images.unsplash.com/photo-1598112155206-e9bec09497b3?q","Sunflower seeds, sea salt",2.6,0,9,4.5,8.6,0,645,0.1
+"Turkey bacon",382,29,28,2.8,0,0,1,1,1,0,"B3, B6, Selenium","https://images.unsplash.com/photo-1544025162-d76694265947","Turkey, salt, spices, natural smoke flavor",0.8,0,1280,8.2,0.2,95,380,0.2
+"Venison steak",158,30,3.2,0,0,0,1,1,1,0,"B12, Iron, Zinc","https://images.unsplash.com/photo-1546833999-b9f581a1996d","Venison, olive oil, rosemary, garlic, pepper",0,0,65,1.2,0,95,320,0.2
+"Watercress salad",11,2.3,0.1,1.3,1,1,1,1,1,1,"K, A, C","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Watercress, lemon juice, olive oil, salt",0.2,0,10,0,0.5,0,330,0.1
+"Yogurt cheese",59,10,1.5,3.6,0,1,1,0,1,1,"Calcium, B12, Probiotics","https://images.unsplash.com/photo-1488477181946-6428a0291777","Greek yogurt, salt, herbs",3.2,0,45,1,0,6,141,0
+"Zucchini pizza bites",78,6.8,4.2,4.8,0,1,1,1,1,1,"C, Calcium, Lycopene","https://images.unsplash.com/photo-1681567604770-0dc826c870ae?q","Zucchini slices, tomato sauce, cheese, herbs",2.8,0,220,2.2,1.2,15,280,0.1
+"Artichoke hearts",47,3.3,0.2,10.5,1,1,1,1,1,1,"Folate, C, K","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Artichoke hearts, olive oil, lemon juice, garlic",0.9,0,60,0,5.4,0,370,0
+"Beef tongue",224,19,16,0,0,0,1,1,1,0,"B12, Zinc, Choline","https://images.unsplash.com/photo-1546833999-b9f581a1996d","Beef tongue, salt, spices, bay leaves",0,0,75,6.8,0,135,240,0.2
+"Celeriac mash",42,1.5,0.3,9.2,1,1,1,1,1,1,"K, Phosphorus, Vitamin C","https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc","Celeriac, butter, garlic, nutmeg, salt",1.8,0,120,0.2,1.8,1,300,0
+"Dill pickles",11,0.6,0.2,2.3,1,1,1,1,1,1,"K, Probiotics, Sodium","https://images.unsplash.com/photo-1583252103379-0382857025c9","Cucumbers, vinegar, dill, garlic, salt",1.1,0,1200,0,1.2,0,120,0
+"Eggplant dip",82,1.8,6.2,6.5,1,1,1,1,1,1,"Fiber, Folate, Potassium","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Eggplant, tahini, lemon juice, garlic, olive oil",3.2,0,8,0.9,3.2,0,230,0.1
+"Flaxseed crackers",534,18.3,42.2,28.9,1,1,0,1,1,1,"Omega-3, Fiber, Magnesium","https://images.unsplash.com/photo-1571197899394-0ce8e1b4ac58","Flax seeds, water, herbs, sea salt",0.8,0,320,3.7,27.3,0,813,22.8
+"Goat cheese salad",185,8.5,15.8,4.2,0,1,1,0,1,1,"Calcium, Phosphorus, A","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Mixed greens, goat cheese, walnuts, olive oil, balsamic",2.2,0,180,6.2,2.2,20,320,0.8
+"Herring fillets",158,18,9,0,0,0,1,1,1,1,"Omega-3, D, B12","https://images.unsplash.com/photo-1467003909585-2f8a72700288","Herring, olive oil, onions, vinegar, spices",0,0,90,2,0,60,320,1.7
+"Insalata caprese",125,8.1,9.8,3.2,0,1,1,0,1,1,"Calcium, Lycopene, C","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Tomatoes, mozzarella, basil, olive oil, balsamic",2.8,0,180,5.2,1.1,25,280,0.1
+"Jicama sticks",38,0.7,0.1,8.8,1,1,1,1,1,1,"C, Fiber, Potassium","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Jicama, lime juice, chili powder, salt",1.8,0,5,0,4.9,0,150,0
+"Kale smoothie",48,2.8,0.6,9.2,1,1,0,1,1,1,"A, C, K","https://images.unsplash.com/photo-1650660149368-95e712f12ef0?q","Kale, cucumber, green apple, lemon juice, water",6.2,0,25,0.1,2.2,0,280,0.1
+"Lamb liver",202,29,8.2,1.8,0,0,1,1,1,0,"A, B12, Copper","https://images.unsplash.com/photo-1546833999-b9f581a1996d","Lamb liver, onions, herbs, butter",0.8,0,85,3.2,0.2,480,320,0.3
+"Mussels in broth",86,12,2.2,4.2,0,0,1,1,1,1,"B12, Iron, Selenium","https://images.unsplash.com/photo-1467003909585-2f8a72700288","Mussels, white wine, garlic, herbs, butter",0.5,0,320,0.8,0.2,35,320,0.5
+"Spicy tofu stir-fry",145,12,8.2,7.8,1,1,0,0,1,0,"Iron, Calcium, Magnesium","https://images.unsplash.com/photo-1563245372-f21724e3856d","Firm tofu, bell peppers, broccoli, soy sauce, chili flakes, sesame oil",3.2,0,480,1.2,2.8,0,320,0.5
+"Butternut squash soup",45,0.9,0.1,12,1,1,0,1,1,1,"A, C, E","https://images.unsplash.com/photo-1547592166-23ac45744acd","Butternut squash, vegetable broth, onion, garlic, nutmeg",3.2,0,280,0,2,0,280,0
+"Beef pho",78,8.5,2.1,6.2,0,0,0,0,1,0,"Iron, Zinc, B12","https://images.unsplash.com/photo-1555949963-aa79dcee981c","Beef broth, rice noodles, beef slices, bean sprouts, basil, lime",1.2,0,680,0.8,1.2,25,220,0.1
+"Chicken satay",180,24,8.5,3.2,0,0,1,1,1,0,"B6, Niacin, Selenium","https://images.unsplash.com/photo-1553909489-cd47e0ef937f","Chicken breast, coconut milk, peanut butter, soy sauce, ginger",1.8,0,420,2.8,1.2,65,380,0.2
+"Mushroom risotto",125,4.2,3.8,19.5,0,1,0,0,1,0,"D, B vitamins, Selenium","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Arborio rice, mushrooms, parmesan, white wine, vegetable broth",1.8,0,380,2.2,1.2,8,180,0.1
+"Black bean burgers",185,9.2,6.8,24.5,1,1,0,0,1,0,"Fiber, Iron, Folate","https://images.unsplash.com/photo-1568901346375-23c9450c58cd","Black beans, oats, onions, spices, egg replacement",1.2,0,380,1,7.8,0,420,0.2
+"Salmon teriyaki",195,22,9.5,5.8,0,0,1,1,1,0,"Omega-3, B12, D","https://images.unsplash.com/photo-1467003909585-2f8a72700288","Salmon fillet, tamari, honey, ginger, garlic, sesame oil",3.8,2.5,480,1.8,0.5,55,420,1.8
+"Ratatouille",58,1.8,3.2,6.8,1,1,1,1,1,1,"C, A, B6","https://images.unsplash.com/photo-1574484284002-952d92456975","Eggplant, zucchini, tomatoes, bell peppers, onions, herbs",4.2,0,8,0.5,2.5,0,320,0.1
+"Chicken tikka masala",165,18,8.5,6.8,0,0,1,1,1,0,"B6, B12, Niacin","https://images.unsplash.com/photo-1565557623262-b51c2513a641","Chicken, yogurt, tomato sauce, spices, cream, garlic",3.8,0,380,4.2,1.2,75,380,0.2
+"Vegetable paella",125,4.5,3.2,20.8,1,1,0,0,1,1,"C, A, Iron","https://images.unsplash.com/photo-1569058242252-623d6f6e9ab9","Rice, saffron, bell peppers, peas, artichokes, tomatoes",3.2,0,380,0.5,2.8,0,220,0.1
+"Beef bulgogi",185,22,8.8,5.2,0,0,1,1,1,0,"Iron, Zinc, B12","https://images.unsplash.com/photo-1546833999-b9f581a1996d","Beef, soy sauce, sesame oil, garlic, ginger, pear",3.8,2.2,850,3.2,0.8,65,380,0.2
+"Falafel",333,13.3,17.8,31.8,1,1,0,0,1,1,"Iron, Magnesium, Folate","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Chickpeas, parsley, cilantro, garlic, cumin, baking soda",4.8,0,420,2.2,7.8,0,480,0.3
+"Shakshuka",142,8.5,9.8,6.8,0,1,1,1,1,1,"C, A, Lycopene","https://images.unsplash.com/photo-1590412200986-50d8a2b4c433","Eggs, tomatoes, bell peppers, onions, spices, olive oil",4.2,0,380,2.8,2.2,190,380,0.2
+"Pad Thai",198,8.5,7.8,25.8,0,0,0,0,1,0,"B vitamins, Iron, Selenium","https://images.unsplash.com/photo-1559314809-0f31657403cb","Rice noodles, shrimp, tofu, eggs, tamarind, fish sauce",8.2,4.8,980,1.8,2.2,120,280,0.4
+"Chicken fajitas",165,22,6.8,5.8,0,0,1,1,1,0,"B6, C, Iron","https://images.unsplash.com/photo-1565299585323-38174c739b4a","Chicken, bell peppers, onions, lime, spices, olive oil",3.2,0,380,1.5,1.8,65,420,0.1
+"Vegetable tempura",185,3.8,9.5,22.8,1,1,0,0,0,0,"C, A, K","https://images.unsplash.com/photo-1585036156171-384164a8c675","Assorted vegetables, flour, egg, ice water, oil",4.2,0,280,1.5,3.2,45,280,0.2
+"Beef stroganoff",198,18.5,12.8,5.8,0,0,1,1,1,0,"B12, Zinc, Iron","https://images.unsplash.com/photo-1546833999-b9f581a1996d","Beef, mushrooms, sour cream, onions, beef broth",3.2,0,420,6.2,1.2,75,420,0.2
+"Miso soup",35,2.8,1.2,3.8,1,1,1,0,1,0,"B vitamins, Zinc, Manganese","https://images.unsplash.com/photo-1547592166-23ac45744acd","Miso paste, tofu, seaweed, green onions, dashi",1.8,0,850,0.2,1.2,0,120,0.3
+"Chicken curry",175,19.5,9.2,5.8,0,0,1,1,1,0,"B6, C, Iron","https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd","Chicken, coconut milk, curry paste, vegetables, spices",3.2,0,380,5.8,2.2,65,420,0.2
+"Vegetable lasagna",135,8.5,5.8,14.8,0,1,0,0,0,1,"Calcium, A, C","https://images.unsplash.com/photo-1574894709920-11b28e7367e3","Lasagna noodles, ricotta, mozzarella, vegetables, tomato sauce",4.8,0,420,3.2,2.8,25,280,0.1
+"Pork dumplings",125,8.5,4.8,14.2,0,0,0,0,0,0,"B1, Selenium, Zinc","https://images.unsplash.com/photo-1585036156171-384164a8c675","Ground pork, cabbage, ginger, garlic, dumpling wrappers",1.8,0,480,1.8,1.5,35,220,0.1
+"Chicken quesadilla",298,18.5,15.8,22.8,0,0,0,0,0,0,"Calcium, B12, Selenium","https://images.unsplash.com/photo-1565299585323-38174c739b4a","Chicken, tortilla, cheese, peppers, spices",2.8,0,580,8.2,1.8,65,280,0.1
+"Beef tacos",225,15.8,12.8,14.2,0,0,0,0,0,0,"Iron, Zinc, B12","https://images.unsplash.com/photo-1619221882161-95135fca04e4?q","Ground beef, taco shells, lettuce, tomato, cheese",2.2,0,480,6.2,2.5,55,320,0.1
+"Vegetable stir-fry",85,3.8,4.2,9.8,1,1,1,1,1,1,"C, A, K","https://images.unsplash.com/photo-1563245372-f21724e3856d","Mixed vegetables, soy sauce, garlic, ginger, sesame oil",4.2,0,480,0.6,3.2,0,320,0.3
+"Chicken noodle soup",75,6.8,2.8,6.8,0,0,0,0,0,0,"B vitamins, Zinc, Selenium","https://images.unsplash.com/photo-1547592166-23ac45744acd","Chicken, noodles, carrots, celery, onions, herbs",2.8,0,480,0.8,1.2,20,220,0.1
+"Beef chili",185,16.8,9.8,10.2,0,0,0,0,1,0,"Iron, Zinc, B12","https://images.unsplash.com/photo-1547592166-23ac45744acd","Ground beef, beans, tomatoes, chili powder, onions",4.2,0,480,4.2,4.8,45,480,0.2
+"Vegetable curry",95,3.2,5.8,9.8,1,1,0,1,1,0,"C, A, K","https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd","Mixed vegetables, coconut milk, curry paste, spices",4.8,0,380,3.8,3.2,0,320,0.2
+"Chicken pot pie",225,12.8,12.8,16.8,0,0,0,0,0,0,"B vitamins, Selenium, Iron","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Chicken, vegetables, pastry crust, cream, herbs",2.8,0,420,6.8,2.2,45,280,0.1
+"Beef stew",145,16.8,6.8,6.8,0,0,1,1,1,0,"Iron, Zinc, B12","https://images.unsplash.com/photo-1547592166-23ac45744acd","Beef, carrots, potatoes, onions, beef broth, herbs",3.2,0,380,2.8,2.2,45,420,0.2
+"Vegetable soup",45,2.2,1.2,7.8,1,1,0,1,1,1,"C, A, K","https://images.unsplash.com/photo-1547592166-23ac45744acd","Mixed vegetables, vegetable broth, herbs, spices",3.8,0,280,0.2,2.8,0,280,0.1
+"Chicken salad",185,18.8,11.8,3.8,0,0,1,1,1,1,"B vitamins, Selenium, Zinc","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Chicken, mayonnaise, celery, onions, herbs",2.2,0,380,2.2,1.2,55,280,0.1
+"Beef salad",165,19.8,8.8,4.2,0,0,1,1,1,1,"Iron, Zinc, B12","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Beef, mixed greens, vegetables, olive oil, vinegar",2.8,0,180,2.8,2.2,55,480,0.2
+"Tuna salad",145,18.8,6.8,3.2,0,0,1,1,1,1,"Omega-3, B12, Selenium","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Tuna, mayonnaise, celery, onions, herbs",1.8,0,380,1.2,1.2,35,280,0.8
+"Egg salad",198,12.8,15.8,3.8,0,1,1,1,1,1,"B12, Choline, Selenium","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Eggs, mayonnaise, mustard, celery, herbs",1.8,0,320,3.2,0.8,280,150,0.2
+"Potato salad",145,3.2,8.8,15.8,1,1,0,0,1,0,"C, B6, Potassium","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Potatoes, mayonnaise, celery, onions, herbs",2.8,0,380,1.5,2.2,10,420,0.1
+"Pasta salad",185,5.8,8.8,22.8,1,1,0,0,0,1,"B vitamins, Iron, Selenium","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Pasta, vegetables, olive oil, vinegar, herbs",3.2,0,280,1.5,2.8,0,220,0.1
+"Greek salad",125,5.8,9.8,6.8,0,1,1,0,1,1,"C, A, Calcium","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Cucumber, tomatoes, olives, feta, olive oil, oregano",4.2,0,480,3.8,2.2,20,280,0.2
+"Caesar salad",185,8.8,15.8,5.8,0,1,1,0,0,0,"Calcium, Vitamin K, Vitamin A","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Romaine, parmesan, croutons, Caesar dressing",2.2,0,580,4.8,2.2,25,320,0.2
+"Cobb salad",225,18.8,15.8,6.8,0,0,1,1,1,0,"B vitamins, Iron, Zinc","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Lettuce, chicken, bacon, egg, avocado, blue cheese",2.8,0,680,5.8,3.8,220,580,0.3
+"Waldorf salad",185,3.8,12.8,18.8,1,1,0,0,1,0,"C, Fiber, Potassium","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Apples, walnuts, celery, mayonnaise, lemon juice",12.8,0,180,1.8,3.2,5,220,0.8
+"Fruit salad",65,1.2,0.3,16.8,1,1,0,1,1,1,"C, A, Potassium","https://images.unsplash.com/photo-1564093497595-593ca316e253","Mixed fruits, honey, lime juice, mint",14.2,5.8,2,0,2.8,0,250,0.1
+"Quinoa bowl",125,5.8,4.8,18.8,1,1,0,0,1,1,"Fiber, Iron, Magnesium","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Quinoa, vegetables, beans, avocado, dressing",3.2,0,280,0.8,4.8,0,380,0.3
+"Buddha bowl",145,6.8,5.8,19.8,1,1,0,0,1,1,"C, A, Iron","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Grains, vegetables, legumes, seeds, dressing",4.2,0,320,0.8,5.8,0,420,0.5
+"Breakfast bowl",225,12.8,12.8,18.8,0,1,0,0,1,0,"B vitamins, Calcium, Iron","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Eggs, potatoes, vegetables, cheese, avocado",2.8,0,380,4.8,3.8,220,480,0.2
+"Smoothie bowl",185,6.8,8.8,22.8,1,1,0,0,1,0,"C, A, Potassium","https://images.unsplash.com/photo-1571197899394-0ce8e1b4ac58","Fruits, yogurt, granola, seeds, honey",15.8,8.2,45,2.8,3.8,8,380,0.3
+"Acai bowl",225,4.8,12.8,28.8,1,1,0,0,1,0,"Antioxidants, Fiber, Vitamin C","https://images.unsplash.com/photo-1571197899394-0ce8e1b4ac58","Acai, fruits, granola, honey, coconut",18.8,10.2,25,5.8,5.8,0,320,0.2
+"Oatmeal bowl",145,5.8,4.8,22.8,1,1,0,0,1,0,"Fiber, Iron, B vitamins","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Oats, milk, fruits, nuts, honey",9.8,5.2,35,1.2,3.8,5,220,0.1
+"Yogurt bowl",125,8.8,5.8,12.8,0,1,0,0,1,1,"Calcium, Probiotics, B12","https://images.unsplash.com/photo-1488477181946-6428a0291777","Yogurt, fruits, granola, honey, nuts",9.2,5.8,65,2.8,1.8,15,280,0.1
+"Chia pudding",145,5.8,8.8,12.8,1,1,0,0,1,0,"Omega-3, Fiber, Calcium","https://images.unsplash.com/photo-1571197899394-0ce8e1b4ac58","Chia seeds, milk, fruits, honey, nuts",8.2,4.8,45,1.8,7.8,5,220,2.8
+"Rice pudding",125,3.8,3.8,20.8,1,1,0,0,1,0,"Calcium, B vitamins, Iron","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Rice, milk, sugar, cinnamon, raisins",12.8,8.8,65,2.2,0.8,8,150,0.1
+"Bread pudding",225,6.8,10.8,28.8,0,1,0,0,0,0,"B vitamins, Calcium, Iron","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Bread, milk, eggs, sugar, cinnamon",15.8,12.8,220,4.8,1.8,85,180,0.1
+"Custard",125,5.8,5.8,12.8,0,1,0,0,1,0,"Calcium, B12, Vitamin A","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Milk, eggs, sugar, vanilla, nutmeg",10.8,10.8,65,3.2,0,120,180,0.1
+"Flan",185,5.8,6.8,28.8,0,1,0,0,1,0,"Calcium, B12, Vitamin A","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Milk, eggs, sugar, caramel, vanilla",22.8,22.8,85,3.8,0,120,200,0.1
+"Creme brulee",225,5.8,15.8,18.8,0,1,0,0,1,0,"Calcium, B12, Vitamin A","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Cream, eggs, sugar, vanilla, caramelized sugar",16.8,16.8,45,9.8,0,180,150,0.2
+"Panna cotta",185,4.8,12.8,15.8,0,1,0,0,1,0,"Calcium, B12, Vitamin A","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Cream, sugar, gelatin, vanilla, berries",12.8,12.8,35,7.8,0.5,45,120,0.1
+"Tiramisu",285,6.8,15.8,32.8,0,1,0,0,0,0,"Calcium, B vitamins, Iron","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Ladyfingers, mascarpone, coffee, cocoa, eggs",20.8,20.8,85,8.8,1.2,150,180,0.1
+"Cheesecake",325,6.8,22.8,25.8,0,1,0,0,0,0,"Calcium, Vitamin A, B12","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Cream cheese, sugar, eggs, graham cracker crust",20.8,20.8,280,12.8,0.8,120,150,0.2
+"Chocolate mousse",225,4.8,15.8,20.8,0,1,0,0,1,0,"Iron, Magnesium, Antioxidants","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Chocolate, cream, eggs, sugar, vanilla",18.8,18.8,45,9.8,2.2,120,220,0.1
+"Fruit tart",185,3.8,8.8,25.8,0,1,0,0,0,0,"C, A, Fiber","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Pastry crust, custard, fruits, glaze",15.8,12.8,120,4.8,1.8,45,150,0.1
+"Apple pie",265,2.8,12.8,38.8,1,1,0,0,0,0,"C, Fiber, Potassium","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Apples, pastry crust, sugar, cinnamon, butter",22.8,15.8,180,6.8,3.8,15,120,0.1
+"Pumpkin pie",185,4.8,8.8,25.8,0,1,0,0,0,0,"A, C, Iron","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Pumpkin, pastry crust, eggs, sugar, spices",15.8,12.8,220,3.8,2.2,45,180,0.1
+"Key lime pie",325,5.8,18.8,38.8,0,1,0,0,0,0,"C, Calcium, Vitamin A","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Lime juice, condensed milk, graham cracker crust, whipped cream",28.8,28.8,180,10.8,0.8,65,180,0.1
+"Lemon bars",285,4.8,12.8,40.8,0,1,0,0,0,0,"C, Calcium, Vitamin A","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Lemon juice, shortbread crust, eggs, sugar, flour",25.8,25.8,120,6.8,1.2,85,80,0.1
+"Brownies",365,5.8,20.8,45.8,1,1,0,0,0,0,"Iron, Magnesium, Antioxidants","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Chocolate, flour, sugar, eggs, butter",32.8,32.8,180,11.8,3.2,65,220,0.1
+"Blondies",325,4.8,15.8,45.8,1,1,0,0,0,0,"Iron, B vitamins, Calcium","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Flour, brown sugar, butter, eggs, vanilla",28.8,28.8,220,9.8,1.8,85,120,0.1
+"Cookies",485,5.8,24.8,62.8,1,1,0,0,0,0,"Iron, Calcium, B vitamins","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Flour, sugar, butter, eggs, chocolate chips",35.8,35.8,280,14.8,2.8,75,180,0.1
+"Macarons",365,6.8,18.8,45.8,0,1,0,0,0,0,"Iron, Calcium, B vitamins","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Almond flour, sugar, egg whites, filling",32.8,32.8,85,4.8,2.2,0,120,0.1
+"Cupcakes",285,3.8,12.8,42.8,1,1,0,0,0,0,"Iron, Calcium, B vitamins","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Flour, sugar, butter, eggs, frosting",25.8,25.8,180,7.8,0.8,45,80,0.1
+"Muffins",225,4.8,8.8,35.8,1,1,0,0,0,0,"Iron, Calcium, B vitamins","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Flour, sugar, butter, eggs, fruits",18.8,15.8,220,5.2,1.8,35,120,0.1
+"Scones",365,6.8,18.8,45.8,1,1,0,0,0,0,"Iron, Calcium, B vitamins","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Flour, butter, sugar, milk, fruits",15.8,15.8,380,11.8,2.2,45,150,0.1
+"Croissants",406,8.2,21,45.8,0,1,0,0,0,0,"Iron, Calcium, B vitamins","https://images.unsplash.com/photo-1581873372793-2f6df5e9c99d","Flour, butter, yeast, milk, sugar",11.8,11.8,420,12.8,2.5,65,120,0.1
+"Bagels",265,10.5,1.7,53,1,1,0,0,0,0,"Iron, B vitamins, Fiber","https://images.unsplash.com/photo-1586448900407-7397af48d116","Flour, yeast, water, malt syrup, salt",6.8,3.8,450,0.3,2.8,0,120,0.1
+"English muffins",235,7.7,1.8,46,1,1,0,0,0,0,"Iron, Calcium, B vitamins","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Flour, yeast, milk, butter, sugar",4.8,4.8,380,0.9,2.2,5,100,0.1
+"Pancakes",227,6.4,9.7,28,1,1,0,0,0,0,"Iron, Calcium, B vitamins","https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445","Flour, milk, eggs, butter, baking powder",8.8,6.8,480,5.2,1.2,55,150,0.1
+"Waffles",291,7.9,14.1,33,1,1,0,0,0,0,"Iron, Calcium, B vitamins","https://images.unsplash.com/photo-1562376552-0d160a2f238d","Flour, milk, eggs, butter, baking powder",9.8,7.8,420,7.8,1.5,65,160,0.1
+"French toast",229,10.6,10.8,22,0,1,0,0,0,0,"Iron, Calcium, B vitamins","https://images.unsplash.com/photo-1484723091739-30a097e8f929","Bread, eggs, milk, cinnamon, butter",8.8,6.8,280,5.8,1.8,120,150,0.1
+"Omelet",154,10.6,11.8,2.2,0,1,1,1,1,1,"B12, Vitamin A, Selenium","https://images.unsplash.com/photo-1482049016688-2d3e1b311543","Eggs, butter, cheese, vegetables, herbs",1.8,0,280,5.8,0.8,250,180,0.2
+"Scrambled eggs",149,9.9,11.2,1.6,0,1,1,1,1,1,"B12, Vitamin A, Selenium","https://images.unsplash.com/photo-1551183053-bf91a1d81141","Eggs, butter, milk, salt, pepper",1.2,0,220,5.2,0,280,150,0.2
+"Poached eggs",143,12.6,9.5,0.7,0,1,1,1,1,1,"B12, Vitamin A, Selenium","https://images.unsplash.com/photo-1592134213940-1f0a0a1423a9","Eggs, water, vinegar, salt",0.2,0,150,3.2,0,370,140,0.2
+"Fried eggs",196,13.6,15.3,0.8,0,1,1,1,1,1,"B12, Vitamin A, Selenium","https://images.unsplash.com/photo-1551183053-bf91a1d81141","Eggs, oil, salt, pepper",0.3,0,180,4.2,0,380,140,0.2
+"Boiled eggs",155,12.6,10.6,1.1,0,1,1,1,1,1,"B12, Vitamin A, Selenium","https://images.unsplash.com/photo-1592198084033-aade902d1aae","Eggs, water, salt",0.6,0,125,3.2,0,370,130,0.2
+"Deviled eggs",198,11.6,15.8,2.8,0,1,1,1,1,1,"B12, Vitamin A, Selenium","https://images.unsplash.com/photo-1592198084033-aade902d1aae","Eggs, mayonnaise, mustard, paprika, herbs",1.8,0,280,3.8,0.3,280,120,0.2
+"Egg sandwich",285,14.8,12.8,28.8,0,1,0,0,0,0,"B12, Iron, Calcium","https://images.unsplash.com/photo-1565299585323-38174c739b4a","Eggs, bread, mayonnaise, lettuce, tomato",3.8,0,420,3.8,2.2,220,220,0.2
+"Breakfast burrito",325,18.8,15.8,28.8,0,1,0,0,0,0,"B12, Iron, Calcium","https://images.unsplash.com/photo-1551504734-b464e32a163a","Eggs, tortilla, cheese, beans, salsa",2.8,0,580,6.8,4.8,220,380,0.3
+"Breakfast sandwich",365,20.8,18.8,28.8,0,1,0,0,0,0,"B12, Iron, Calcium","https://images.unsplash.com/photo-1565299585323-38174c739b4a","Eggs, bread, cheese, meat, vegetables",3.2,0,680,8.8,2.8,250,280,0.2
+"Breakfast casserole",225,15.8,12.8,12.8,0,1,0,0,0,0,"B12, Iron, Calcium","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Eggs, cheese, potatoes, meat, vegetables",2.2,0,480,6.8,1.8,180,320,0.2
+"Breakfast skillet",285,18.8,18.8,10.8,0,0,1,1,1,0,"B12, Iron, Zinc","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Eggs, potatoes, meat, vegetables, cheese",2.8,0,480,8.8,2.2,280,480,0.3
+"Breakfast hash",225,12.8,12.8,15.8,0,0,0,0,1,0,"B12, Iron, Vitamin C","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Potatoes, meat, vegetables, eggs, herbs",2.2,0,380,4.8,2.8,180,480,0.2
+"Breakfast pizza",285,15.8,12.8,28.8,0,1,0,0,0,0,"B12, Calcium, Iron","https://images.unsplash.com/photo-1571068316344-75bc76f77890","Pizza crust, eggs, cheese, meat, vegetables",3.2,0,580,6.8,2.2,180,280,0.2
+"Breakfast tacos",225,12.8,10.8,20.8,0,1,0,0,0,0,"B12, Calcium, Iron","https://images.unsplash.com/photo-1551504734-b464e32a163a","Tortillas, eggs, cheese, beans, salsa",2.2,0,480,4.8,3.8,180,320,0.2
+"Breakfast quesadilla",325,18.8,15.8,28.8,0,1,0,0,0,0,"B12, Calcium, Iron","https://images.unsplash.com/photo-1565299585323-38174c739b4a","Tortillas, eggs, cheese, vegetables, salsa",3.2,0,580,8.8,2.8,220,320,0.2
+"Breakfast wrap",285,15.8,12.8,28.8,0,1,0,0,0,0,"B12, Calcium, Iron","https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b","Tortilla, eggs, cheese, vegetables, sauce",3.8,0,480,6.8,2.8,200,280,0.2
+"Breakfast bowl with quinoa",325,15.8,12.8,38.8,1,1,0,0,1,1,"Fiber, Iron, Magnesium","https://images.unsplash.com/photo-1512621776951-a57141f2eefd","Quinoa, vegetables, eggs, avocado, sauce",4.2,0,280,2.8,5.8,180,480,0.5
+"Breakfast bowl with oats",285,12.8,10.8,38.8,1,1,0,0,1,0,"Fiber, Iron, B vitamins","https://images.unsplash.com/photo-1570197788417-0e82375c9371","Oats, fruits, nuts, milk, honey",12.8,6.8,45,2.2,4.8,5,280,0.3
+"Breakfast parfait",225,12.8,8.8,28.8,0,1,0,0,1,1,"Calcium, Probiotics, Vitamin C","https://images.unsplash.com/photo-1488477181946-6428a0291777","Yogurt, granola, fruits, honey, nuts",15.8,8.8,85,3.8,2.8,20,320,0.3

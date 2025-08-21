@@ -1,5 +1,3 @@
-
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -24,24 +22,14 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-
-
-
-
-
-
-
-// sign up user (add user)
-
+// Sign up user (add user)
 app.post('/signup', upload.none(), (req, res) => {
     const { firstName, lastName, email, password  } = req.body;
-
 
     UserModel.create({ firstName, lastName, email, password  })
         .then(user => res.json(user))
         .catch(err => res.status(400).json(err));
 });
-
 
 // Login user
 app.post('/login', upload.none(), async (req, res) => {
@@ -59,14 +47,46 @@ app.post('/login', upload.none(), async (req, res) => {
     }
 });
 
+// Save meal plan
+app.post('/save-meal-plan', upload.none(), async (req, res) => {
+    const { email, mealPlan, nutritionSummary, userData } = req.body;
 
+    try {
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
+        // Add the new meal plan to the user's mealPlans array
+        user.mealPlans.push({
+            planData: mealPlan,
+            nutritionSummary: nutritionSummary,
+            userData: userData
+        });
 
+        await user.save();
 
+        res.json({ message: 'Meal plan saved successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'Error saving meal plan', error: err.message });
+    }
+});
 
+// Get user's meal plans
+app.get('/meal-plans/:email', async (req, res) => {
+    const { email } = req.params;
 
+    try {
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
-
+        res.json(user.mealPlans);
+    } catch (err) {
+        res.status(500).json({ message: 'Error fetching meal plans', error: err.message });
+    }
+});
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');

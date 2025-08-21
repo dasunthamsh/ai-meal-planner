@@ -13,6 +13,13 @@ def train_agent(agent, episodes=1000):
         goal = random.choice(['Lose Weight', 'Build Muscle', 'Gain Weight', 'Maintain Weight'])
         diet_type = random.choice(['vegetarian', 'vegan', 'keto', 'paleo', 'gluten_free', 'mediterranean', 'none'])
         allergies = random.sample(list(COMMON_ALLERGENS.keys()), random.randint(0, 2))
+        health_risks = random.sample([
+            'High blood pressure', 'High cholesterol', 'Diabetes',
+            'Heart disease or stroke', 'Testosterone deficiency', 'Depression', 'None'
+        ], random.randint(0, 2))
+
+        if 'None' in health_risks:
+            health_risks = []
 
         dietary_restrictions = {
             'vegetarian': diet_type == 'vegetarian',
@@ -21,7 +28,8 @@ def train_agent(agent, episodes=1000):
             'paleo': diet_type == 'paleo',
             'gluten_free': diet_type == 'gluten_free',
             'mediterranean': diet_type == 'mediterranean',
-            'allergies': allergies
+            'allergies': allergies,
+            'health_risks': health_risks
         }
 
         calories = random.randint(1500, 3000)

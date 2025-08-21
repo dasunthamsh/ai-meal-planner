@@ -17,3 +17,13 @@ COMMON_ALLERGENS = {
     'fish': ['fish', 'salmon', 'tuna', 'cod'],
     'shellfish': ['shrimp', 'prawn', 'lobster', 'crab', 'clam']
 }
+
+# Health risk thresholds
+HEALTH_RISK_THRESHOLDS = {
+    'High blood pressure': {'sodium_mg': 500},
+    'High cholesterol': {'cholesterol_mg': 100, 'saturated_fat_g': 5},
+    'Diabetes': {'sugar_g': 10, 'added_sugar_g': 5},
+    'Heart disease or stroke': {'saturated_fat_g': 5, 'cholesterol_mg': 100, 'sodium_mg': 500},
+    'Testosterone deficiency': {'omega3_g': 0.5},
+    'Depression': {'omega3_g': 0.5}
+}

@@ -37,18 +37,58 @@ class MealPlanRLAgent:
             best_actions = [i for i in valid_meal_indices if q_values[i] == max_q]
             return random.choice(best_actions)
 
+    def find_alternative_meal(self, state, dietary_restrictions, excluded_action):
+        """Find an alternative meal that meets all restrictions"""
+        valid_meal_indices = self._get_valid_meals(dietary_restrictions)
+
+        # Remove the excluded action
+        valid_meal_indices = [i for i in valid_meal_indices if i != excluded_action]
+
+        if not valid_meal_indices:
+            return None
+
+        # Get Q-values for valid meals
+        q_values = self.q_table[state]
+        valid_q_values = [q_values[i] for i in valid_meal_indices]
+
+        if not valid_q_values:
+            return None
+
+        max_q = max(valid_q_values)
+        best_actions = [i for i in valid_meal_indices if q_values[i] == max_q]
+
+        return random.choice(best_actions) if best_actions else None
+
     def _get_valid_meals(self, dietary_restrictions):
         valid_mask = np.ones(len(self.meals), dtype=bool)
 
+        # Apply dietary restrictions
         for restriction, value in dietary_restrictions.items():
-            if restriction in self.meals.columns and value:
+            if restriction in ['vegetarian', 'vegan', 'keto', 'paleo', 'gluten_free', 'mediterranean'] and value:
                 valid_mask &= (self.meals[restriction] == 1)
 
+        # Apply allergy restrictions
         allergies = dietary_restrictions.get('allergies', [])
         for allergy in allergies:
             allergy = allergy.lower()
             if allergy in COMMON_ALLERGENS:
                 valid_mask &= (self.meals[allergy] == 0)
+
+        # Apply health risk restrictions
+        health_risks = dietary_restrictions.get('health_risks', [])
+        for risk in health_risks:
+            if risk == 'High blood pressure':
+                valid_mask &= (self.meals['sodium_mg'] < 500)
+            elif risk == 'High cholesterol':
+                valid_mask &= (self.meals['cholesterol_mg'] < 100) & (self.meals['saturated_fat_g'] < 5)
+            elif risk == 'Diabetes':
+                valid_mask &= (self.meals['sugar_g'] < 10) & (self.meals['added_sugar_g'] < 5)
+            elif risk == 'Heart disease or stroke':
+                valid_mask &= (self.meals['saturated_fat_g'] < 5) & (self.meals['cholesterol_mg'] < 100) & (self.meals['sodium_mg'] < 500)
+            elif risk == 'Testosterone deficiency':
+                valid_mask &= (self.meals['omega3_g'] > 0.5)
+            elif risk == 'Depression':
+                valid_mask &= (self.meals['omega3_g'] > 0.5)
 
         return [i for i, valid in enumerate(valid_mask) if valid]
 
@@ -115,7 +155,3 @@ class MealPlanRLAgent:
             return True
         except (FileNotFoundError, KeyError):
             return False
-
-
-
-

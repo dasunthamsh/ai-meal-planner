@@ -41,8 +41,18 @@ class DataPreprocessor:
                 lambda x: 1 if re.search(pattern, x) else 0
             )
 
+        # Ensure all required health-related columns exist with default values if missing
+        health_columns = ['sugar_g', 'added_sugar_g', 'sodium_mg', 'saturated_fat_g',
+                          'fiber_g', 'cholesterol_mg', 'potassium_mg', 'omega3_g']
+
+        for col in health_columns:
+            if col not in self.df.columns:
+                self.df[col] = 0  # Default value for missing health columns
+
         # Normalize numerical features (already per 100g)
-        num_cols = ['calories', 'protein', 'fat', 'carbs']
+        num_cols = ['calories', 'protein', 'fat', 'carbs'] + health_columns
+        num_cols = [col for col in num_cols if col in self.df.columns]
+
         self.df[num_cols] = self.scaler.fit_transform(self.df[num_cols])
 
         # Save scaler for later use

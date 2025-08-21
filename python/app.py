@@ -8,6 +8,7 @@ import numpy as np
 
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:3000"])
+
 # Initialize data preprocessor and load data
 preprocessor = DataPreprocessor()
 df = preprocessor.load_data()
@@ -56,6 +57,23 @@ def calculate_target_nutrition(user_data):
         'carbs': carbs_g
     }
 
+def apply_health_restrictions(meal, health_risks):
+    """Apply restrictions based on health risks"""
+    restrictions = {
+        'High blood pressure': lambda m: m['sodium_mg'] < 500,
+        'High cholesterol': lambda m: m['cholesterol_mg'] < 100 and m['saturated_fat_g'] < 5,
+        'Diabetes': lambda m: m['sugar_g'] < 10 and m['added_sugar_g'] < 5,
+        'Heart disease or stroke': lambda m: m['saturated_fat_g'] < 5 and m['cholesterol_mg'] < 100 and m['sodium_mg'] < 500,
+        'Testosterone deficiency': lambda m: m['omega3_g'] > 0.5,
+        'Depression': lambda m: m['omega3_g'] > 0.5
+    }
+
+    for risk in health_risks:
+        if risk in restrictions and not restrictions[risk](meal):
+            return False
+
+    return True
+
 @app.route('/generate-meal-plan', methods=['POST'])
 def generate_meal_plan():
     user_data = request.json
@@ -68,7 +86,8 @@ def generate_meal_plan():
         'paleo': user_data.get('dietType') == 'Paleo',
         'gluten_free': user_data.get('dietType') == 'Gluten Free',
         'mediterranean': user_data.get('dietType') == 'Mediterranean',
-        'allergies': [a.lower() for a in user_data.get('allergies', [])]
+        'allergies': [a.lower() for a in user_data.get('allergies', [])],
+        'health_risks': user_data.get('healthRisks', [])
     }
 
     # Calculate targets
@@ -114,6 +133,28 @@ def generate_meal_plan():
 
             selected_meal = df.iloc[action]
 
+            # Check health restrictions
+            if not apply_health_restrictions(selected_meal, dietary_restrictions['health_risks']):
+                # Try to find an alternative meal
+                alternative_action = agent.find_alternative_meal(state, dietary_restrictions, action)
+                if alternative_action is not None:
+                    action = alternative_action
+                    selected_meal = df.iloc[action]
+                else:
+                    daily_meals['meals'].append({
+                        meal_type: {
+                            'meal_name': 'No suitable meal found',
+                            'calories': 0,
+                            'protein': 0,
+                            'fat': 0,
+                            'carbs': 0,
+                            'image_url': '',
+                            'vitamins': '',
+                            'ingredients': []
+                        }
+                    })
+                    continue
+
             # Update nutrition (values are per 100g)
             serving_size = 100  # Standard serving size
             current_nutrition['calories'] += selected_meal['calories'] * scaler.data_max_[0] * (serving_size / 100)
@@ -157,7 +198,11 @@ def generate_meal_plan():
                 'carbs': float(selected_meal['carbs'] * scaler.data_max_[3] * (serving_size / 100)),
                 'image_url': selected_meal['image_url'],
                 'vitamins': selected_meal['vitamins'],
-                'ingredients': selected_meal['ingredients'].split(', ')
+                'ingredients': selected_meal['ingredients'].split(', '),
+                'sodium': float(selected_meal['sodium_mg']),
+                'sugar': float(selected_meal['sugar_g']),
+                'fiber': float(selected_meal['fiber_g']),
+                'cholesterol': float(selected_meal['cholesterol_mg'])
             }
             daily_meals['meals'].append({meal_type: meal_data})
 
