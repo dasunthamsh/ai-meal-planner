@@ -4,6 +4,7 @@ import bodyImageTwo from '../Assets/body 1.png'
 import bodyImageThree from '../Assets/body2.png'
 import bodyImageSix from '../Assets/body6.jpg'
 import { FaMale, FaFemale } from 'react-icons/fa';
+
 const ComponentOne = ({ onNext }) => {
     const [formData, setFormData] = useState({
         gender: '',
@@ -11,7 +12,7 @@ const ComponentOne = ({ onNext }) => {
         currentWeight: '',
         idealWeight: '',
         age: '',
-        height: '' // Added height field
+        height: ''
     });
 
     const [calories, setCalories] = useState(null);
@@ -30,23 +31,28 @@ const ComponentOne = ({ onNext }) => {
     };
 
     const calculateCalories = () => {
-        // Basic Harris-Benedict equation for calorie estimation
+        // Convert height to centimeters if needed
+        let heightCm;
+        if (heightUnit === 'cm') {
+            heightCm = parseFloat(formData.height);
+        } else {
+            // Convert feet to centimeters (1 foot = 30.48 cm)
+            heightCm = parseFloat(formData.height) * 30.48;
+        }
+
         const weightKg = parseFloat(formData.currentWeight);
         const age = parseInt(formData.age);
 
+        // Harris-Benedict equation with actual height
         let bmr;
         if (formData.gender === 'male') {
-            bmr = 88.362 + (13.397 * weightKg) + (4.799 * 175) - (5.677 * age); // average height of 175cm
+            bmr = 88.362 + (13.397 * weightKg) + (4.799 * heightCm) - (5.677 * age);
         } else {
-            bmr = 447.593 + (9.247 * weightKg) + (3.098 * 162) - (4.330 * age); // average height of 162cm
+            bmr = 447.593 + (9.247 * weightKg) + (3.098 * heightCm) - (4.330 * age);
         }
 
-        // Adjust for goal
-        let calorieAdjustment = 0;
-        if (formData.goal === 'Lose Weight') calorieAdjustment = -500;
-        else if (formData.goal === 'Gain Weight' || formData.goal === 'Build Muscle') calorieAdjustment = 500;
-
-        const estimatedCalories = Math.round(bmr + calorieAdjustment);
+        // No goal adjustment as requested
+        const estimatedCalories = Math.round(bmr);
         setCalories(estimatedCalories);
         return estimatedCalories;
     };
@@ -55,15 +61,20 @@ const ComponentOne = ({ onNext }) => {
         e.preventDefault();
         const calculatedCalories = calculateCalories();
 
-        // Send all data except height to backend
-        const { height, ...dataForBackend } = formData;
-        onNext({ ...dataForBackend, calories: calculatedCalories });
+        // Send only the required data to backend
+        const { gender, goal, currentWeight, idealWeight, age } = formData;
+        onNext({
+            gender,
+            goal,
+            currentWeight,
+            idealWeight,
+            age,
+            calories: calculatedCalories
+        });
     };
 
-
-
     // Convert height based on selected unit for display
-    const heightPlaceholder = heightUnit === 'cm' ? 'in centimeters' : 'in feet and inches';
+    const heightPlaceholder = heightUnit === 'cm' ? 'in centimeters' : 'in feet';
 
     return (
         <div className="mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -192,87 +203,9 @@ const ComponentOne = ({ onNext }) => {
                     </div>
                 </div>
 
-                {/*<div className="mb-6">*/}
-                {/*    <label className="block text-gray-700 font-medium mb-2">*/}
-                {/*        3. Let's estimate your current body fat*/}
-                {/*    </label>*/}
-                {/*    <p className="text-gray-600 mb-3">Select the physique that most resembles your body type</p>*/}
-                {/*    <div className="space-y-3">*/}
-                {/*        {bodyFatOptions.map((option) => (*/}
-                {/*            <div*/}
-                {/*                key={option.value}*/}
-                {/*                className="p-3 border border-gray-200 rounded-md hover:border-blue-400 flex items-start justify-between"*/}
-                {/*            >*/}
-                {/*                /!* Left side: Radio + Label + Description *!/*/}
-                {/*                <div>*/}
-                {/*                    <label className="inline-flex items-center">*/}
-                {/*                        <input*/}
-                {/*                            type="radio"*/}
-                {/*                            name="currentBodyFat"*/}
-                {/*                            value={option.value}*/}
-                {/*                            checked={formData.currentBodyFat === option.value}*/}
-                {/*                            onChange={handleChange}*/}
-                {/*                            className="form-radio h-5 w-5 text-blue-600"*/}
-                {/*                            required*/}
-                {/*                        />*/}
-                {/*                        <span className="ml-2 font-medium">{option.label}</span>*/}
-                {/*                    </label>*/}
-                {/*                    <p className="ml-7 text-gray-600 text-sm">{option.description}</p>*/}
-                {/*                </div>*/}
-
-                {/*                /!* Right side: Image *!/*/}
-                {/*                <img*/}
-                {/*                    src={option.image}*/}
-                {/*                    alt={option.label}*/}
-                {/*                    className="h-12 w-12 object-cover rounded-md"*/}
-                {/*                />*/}
-                {/*            </div>*/}
-
-                {/*        ))}*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-
-                {/*<div className="mb-6">*/}
-                {/*    <label className="block text-gray-700 font-medium mb-2">*/}
-                {/*        4. Select your goal body fat/physique*/}
-                {/*    </label>*/}
-                {/*    <div className="space-y-3">*/}
-                {/*        {goalBodyFatOptions.map((option) => (*/}
-                {/*            <div*/}
-                {/*                key={option.value}*/}
-                {/*                className="p-3 border border-gray-200 rounded-md hover:border-blue-400 flex items-start justify-between"*/}
-                {/*            >*/}
-                {/*                /!* Left side: Radio + Label + Description *!/*/}
-                {/*                <div>*/}
-                {/*                    <label className="inline-flex items-center">*/}
-                {/*                        <input*/}
-                {/*                            type="radio"*/}
-                {/*                            name="goalBodyFat"*/}
-                {/*                            value={option.value}*/}
-                {/*                            checked={formData.goalBodyFat === option.value}*/}
-                {/*                            onChange={handleChange}*/}
-                {/*                            className="form-radio h-5 w-5 text-blue-600"*/}
-                {/*                            required*/}
-                {/*                        />*/}
-                {/*                        <span className="ml-2 font-medium">{option.label}</span>*/}
-                {/*                    </label>*/}
-                {/*                    <p className="ml-7 text-gray-600 text-sm">{option.description}</p>*/}
-                {/*                </div>*/}
-
-                {/*                /!* Right side: Image *!/*/}
-                {/*                <img*/}
-                {/*                    src={option.image}*/}
-                {/*                    alt={option.label}*/}
-                {/*                    className="h-12 w-12 object-cover rounded-md"*/}
-                {/*                />*/}
-                {/*            </div>*/}
-                {/*        ))}*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <label className="block text-gray-700 font-medium mb-2">5. What's your current weight?</label>
+                        <label className="block text-gray-700 font-medium mb-2">3. What's your current weight?</label>
                         <div className="relative">
                             <input
                                 type="number"
@@ -289,7 +222,7 @@ const ComponentOne = ({ onNext }) => {
                         </div>
                     </div>
                     <div>
-                        <label className="block text-gray-700 font-medium mb-2">6. What's your ideal weight?</label>
+                        <label className="block text-gray-700 font-medium mb-2">4. What's your ideal weight?</label>
                         <div className="relative">
                             <input
                                 type="number"
@@ -309,7 +242,7 @@ const ComponentOne = ({ onNext }) => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <label className="block text-gray-700 font-medium mb-2">7. How tall are you?</label>
+                        <label className="block text-gray-700 font-medium mb-2">5. How tall are you?</label>
                         <div className="flex items-center space-x-2">
                             <input
                                 type="number"
@@ -320,6 +253,7 @@ const ComponentOne = ({ onNext }) => {
                                 placeholder={heightPlaceholder}
                                 min="0"
                                 step={heightUnit === 'cm' ? '1' : '0.1'}
+                                required
                             />
                             <select
                                 value={heightUnit}
@@ -337,7 +271,7 @@ const ComponentOne = ({ onNext }) => {
                         </p>
                     </div>
                     <div>
-                        <label className="block text-gray-700 font-medium mb-2">8. How old are you?</label>
+                        <label className="block text-gray-700 font-medium mb-2">6. How old are you?</label>
                         <input
                             type="number"
                             name="age"

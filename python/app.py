@@ -76,71 +76,51 @@ def apply_health_restrictions(meal, health_risks):
 
 @app.route('/generate-meal-plan', methods=['POST'])
 def generate_meal_plan():
-    user_data = request.json
+    try:
+        user_data = request.json
 
-    # Prepare dietary restrictions
-    dietary_restrictions = {
-        'vegetarian': user_data.get('dietType') == 'Vegetarian',
-        'vegan': user_data.get('dietType') == 'Vegan',
-        'keto': user_data.get('dietType') == 'Keto',
-        'paleo': user_data.get('dietType') == 'Paleo',
-        'gluten_free': user_data.get('dietType') == 'Gluten Free',
-        'mediterranean': user_data.get('dietType') == 'Mediterranean',
-        'allergies': [a.lower() for a in user_data.get('allergies', [])],
-        'health_risks': user_data.get('healthRisks', [])
-    }
+        # Prepare dietary restrictions
+        dietary_restrictions = {
+            'vegetarian': user_data.get('dietType') == 'Vegetarian',
+            'vegan': user_data.get('dietType') == 'Vegan',
+            'keto': user_data.get('dietType') == 'Keto',
+            'paleo': user_data.get('dietType') == 'Paleo',
+            'gluten_free': user_data.get('dietType') == 'Gluten Free',
+            'mediterranean': user_data.get('dietType') == 'Mediterranean',
+            'allergies': [a.lower() for a in user_data.get('allergies', [])],
+            'health_risks': user_data.get('healthRisks', [])
+        }
 
-    # Calculate targets
-    target_nutrition = calculate_target_nutrition(user_data)
-    days = user_data.get('days', 7)
+        # Calculate targets
+        target_nutrition = calculate_target_nutrition(user_data)
+        days = user_data.get('days', 7)
 
-    # Generate meal plan
-    meal_plan = []
-    current_nutrition = {
-        'calories': 0,
-        'protein': 0,
-        'fat': 0,
-        'carbs': 0
-    }
+        # Generate meal plan
+        meal_plan = []
+        current_nutrition = {
+            'calories': 0,
+            'protein': 0,
+            'fat': 0,
+            'carbs': 0
+        }
 
-    for day in range(days):
-        daily_meals = {'day': day + 1, 'meals': [], 'totalNutrition': {}}
+        for day in range(days):
+            daily_meals = {'day': day + 1, 'meals': [], 'totalNutrition': {}}
 
-        for meal_type in ['breakfast', 'lunch', 'dinner']:
-            state = agent.get_state_key({
-                'calories': current_nutrition['calories'] / scaler.data_max_[0],
-                'protein': current_nutrition['protein'] / scaler.data_max_[1],
-                'fat': current_nutrition['fat'] / scaler.data_max_[2],
-                'carbs': current_nutrition['carbs'] / scaler.data_max_[3]
-            }, days - day)
+            for meal_type in ['breakfast', 'lunch', 'dinner']:
+                # Get normalized current nutrition
+                normalized_current = {
+                    'calories': current_nutrition['calories'] / scaler.data_max_[0],
+                    'protein': current_nutrition['protein'] / scaler.data_max_[1],
+                    'fat': current_nutrition['fat'] / scaler.data_max_[2],
+                    'carbs': current_nutrition['carbs'] / scaler.data_max_[3]
+                }
 
-            action = agent.choose_action(state, dietary_restrictions)
+                state = agent.get_state_key(normalized_current, days - day)
 
-            if action is None:
-                daily_meals['meals'].append({
-                    meal_type: {
-                        'meal_name': 'No suitable meal found',
-                        'calories': 0,
-                        'protein': 0,
-                        'fat': 0,
-                        'carbs': 0,
-                        'image_url': '',
-                        'vitamins': '',
-                        'ingredients': []
-                    }
-                })
-                continue
+                action = agent.choose_action(state, dietary_restrictions)
 
-            selected_meal = df.iloc[action]
-
-            # Check health restrictions
-            if not apply_health_restrictions(selected_meal, dietary_restrictions['health_risks']):
-                # Try to find an alternative meal
-                alternative_action = agent.find_alternative_meal(state, dietary_restrictions, action)
-                if alternative_action is not None:
-                    action = alternative_action
-                    selected_meal = df.iloc[action]
-                else:
+                if action is None:
                     daily_meals['meals'].append({
                         meal_type: {
                             'meal_name': 'No suitable meal found',
@@ -155,85 +135,116 @@ def generate_meal_plan():
                     })
                     continue
 
-            # Update nutrition (values are per 100g)
-            serving_size = 100  # Standard serving size
-            current_nutrition['calories'] += selected_meal['calories'] * scaler.data_max_[0] * (serving_size / 100)
-            current_nutrition['protein'] += selected_meal['protein'] * scaler.data_max_[1] * (serving_size / 100)
-            current_nutrition['fat'] += selected_meal['fat'] * scaler.data_max_[2] * (serving_size / 100)
-            current_nutrition['carbs'] += selected_meal['carbs'] * scaler.data_max_[3] * (serving_size / 100)
+                selected_meal = df.iloc[action]
 
-            # Calculate reward and update Q-table
-            next_state = agent.get_state_key({
-                'calories': current_nutrition['calories'] / scaler.data_max_[0],
-                'protein': current_nutrition['protein'] / scaler.data_max_[1],
-                'fat': current_nutrition['fat'] / scaler.data_max_[2],
-                'carbs': current_nutrition['carbs'] / scaler.data_max_[3]
-            }, days - day - 1)
+                # Convert meal data to dictionary for health restrictions check
+                meal_dict = selected_meal.to_dict()
 
-            reward = agent.calculate_reward(
-                action,
-                {
+                # Check health restrictions
+                if not apply_health_restrictions(meal_dict, dietary_restrictions['health_risks']):
+                    # Try to find an alternative meal
+                    alternative_action = agent.find_alternative_meal(state, dietary_restrictions, action)
+                    if alternative_action is not None:
+                        action = alternative_action
+                        selected_meal = df.iloc[action]
+                        meal_dict = selected_meal.to_dict()
+                    else:
+                        daily_meals['meals'].append({
+                            meal_type: {
+                                'meal_name': 'No suitable meal found',
+                                'calories': 0,
+                                'protein': 0,
+                                'fat': 0,
+                                'carbs': 0,
+                                'image_url': '',
+                                'vitamins': '',
+                                'ingredients': []
+                            }
+                        })
+                        continue
+
+                # Update nutrition (values are per 100g)
+                serving_size = 100  # Standard serving size
+                current_nutrition['calories'] += selected_meal['calories'] * scaler.data_max_[0] * (serving_size / 100)
+                current_nutrition['protein'] += selected_meal['protein'] * scaler.data_max_[1] * (serving_size / 100)
+                current_nutrition['fat'] += selected_meal['fat'] * scaler.data_max_[2] * (serving_size / 100)
+                current_nutrition['carbs'] += selected_meal['carbs'] * scaler.data_max_[3] * (serving_size / 100)
+
+                # Calculate reward and update Q-table
+                normalized_next = {
                     'calories': current_nutrition['calories'] / scaler.data_max_[0],
                     'protein': current_nutrition['protein'] / scaler.data_max_[1],
                     'fat': current_nutrition['fat'] / scaler.data_max_[2],
                     'carbs': current_nutrition['carbs'] / scaler.data_max_[3]
-                },
-                {
+                }
+
+                next_state = agent.get_state_key(normalized_next, days - day - 1)
+
+                normalized_target = {
                     'calories': target_nutrition['calories'] / scaler.data_max_[0],
                     'protein': target_nutrition['protein'] / scaler.data_max_[1],
                     'fat': target_nutrition['fat'] / scaler.data_max_[2],
                     'carbs': target_nutrition['carbs'] / scaler.data_max_[3]
-                },
-                day
-            )
+                }
 
-            agent.update_q_table(state, action, reward, next_state)
+                reward = agent.calculate_reward(
+                    action,
+                    normalized_current,
+                    normalized_target,
+                    day
+                )
 
-            # Add meal to plan
-            meal_data = {
-                'meal_name': selected_meal['meal_name'],
-                'calories': float(selected_meal['calories'] * scaler.data_max_[0] * (serving_size / 100)),
-                'protein': float(selected_meal['protein'] * scaler.data_max_[1] * (serving_size / 100)),
-                'fat': float(selected_meal['fat'] * scaler.data_max_[2] * (serving_size / 100)),
-                'carbs': float(selected_meal['carbs'] * scaler.data_max_[3] * (serving_size / 100)),
-                'image_url': selected_meal['image_url'],
-                'vitamins': selected_meal['vitamins'],
-                'ingredients': selected_meal['ingredients'].split(', '),
-                'sodium': float(selected_meal['sodium_mg']),
-                'sugar': float(selected_meal['sugar_g']),
-                'fiber': float(selected_meal['fiber_g']),
-                'cholesterol': float(selected_meal['cholesterol_mg'])
+                agent.update_q_table(state, action, reward, next_state)
+
+                # Add meal to plan
+                meal_data = {
+                    'meal_name': selected_meal['meal_name'],
+                    'calories': float(selected_meal['calories'] * scaler.data_max_[0] * (serving_size / 100)),
+                    'protein': float(selected_meal['protein'] * scaler.data_max_[1] * (serving_size / 100)),
+                    'fat': float(selected_meal['fat'] * scaler.data_max_[2] * (serving_size / 100)),
+                    'carbs': float(selected_meal['carbs'] * scaler.data_max_[3] * (serving_size / 100)),
+                    'image_url': selected_meal['image_url'],
+                    'vitamins': selected_meal['vitamins'],
+                    'ingredients': selected_meal['ingredients'].split(', ') if isinstance(selected_meal['ingredients'], str) else [],
+                    'sodium': float(selected_meal['sodium_mg']),
+                    'sugar': float(selected_meal['sugar_g']),
+                    'fiber': float(selected_meal['fiber_g']),
+                    'cholesterol': float(selected_meal['cholesterol_mg'])
+                }
+                daily_meals['meals'].append({meal_type: meal_data})
+
+            # Add daily totals
+            daily_meals['totalNutrition'] = {
+                'calories': float(current_nutrition['calories']),
+                'protein': float(current_nutrition['protein']),
+                'fat': float(current_nutrition['fat']),
+                'carbs': float(current_nutrition['carbs'])
             }
-            daily_meals['meals'].append({meal_type: meal_data})
 
-        # Add daily totals
-        daily_meals['totalNutrition'] = {
-            'calories': float(current_nutrition['calories']),
-            'protein': float(current_nutrition['protein']),
-            'fat': float(current_nutrition['fat']),
-            'carbs': float(current_nutrition['carbs'])
+            meal_plan.append(daily_meals)
+            # Reset for next day (carry over some nutrition)
+            current_nutrition = {k: v * 0.3 for k, v in current_nutrition.items()}
+
+        # Calculate overall nutrition summary
+        total_calories = sum(day['totalNutrition']['calories'] for day in meal_plan)
+        avg_calories = total_calories / days
+
+        response = {
+            'mealPlan': meal_plan,
+            'nutritionSummary': {
+                'avgCalories': avg_calories,
+                'avgProtein': sum(day['totalNutrition']['protein'] for day in meal_plan) / days,
+                'avgFat': sum(day['totalNutrition']['fat'] for day in meal_plan) / days,
+                'avgCarbs': sum(day['totalNutrition']['carbs'] for day in meal_plan) / days,
+                'totalDays': days
+            }
         }
+        return jsonify(response)
 
-        meal_plan.append(daily_meals)
-        # Reset for next day (carry over some nutrition)
-        current_nutrition = {k: v * 0.3 for k, v in current_nutrition.items()}
+    except Exception as e:
+        print(f"Error generating meal plan: {e}")
+        return jsonify({'error': 'Failed to generate meal plan'}), 500
 
-    # Calculate overall nutrition summary
-    total_calories = sum(day['totalNutrition']['calories'] for day in meal_plan)
-    avg_calories = total_calories / days
-
-    response = {
-        'mealPlan': meal_plan,
-        'nutritionSummary': {
-            'avgCalories': avg_calories,
-            'avgProtein': sum(day['totalNutrition']['protein'] for day in meal_plan) / days,
-            'avgFat': sum(day['totalNutrition']['fat'] for day in meal_plan) / days,
-            'avgCarbs': sum(day['totalNutrition']['carbs'] for day in meal_plan) / days,
-            'totalDays': days
-        }
-    }
-
-    return jsonify(response)
 
 if __name__ == '__main__':
     app.run(debug=True)

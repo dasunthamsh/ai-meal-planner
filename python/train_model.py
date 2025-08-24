@@ -1,7 +1,7 @@
 from models.meal_rl_agent import MealPlanRLAgent
 from models.data_preprocessor import DataPreprocessor
 import random
-from config import MODEL_SAVE_PATH, COMMON_ALLERGENS
+from config import MODEL_SAVE_PATH, COMMON_ALLERGENS, DIET_TYPE_MAPPING, DEFAULT_NUTRITION_TARGETS
 
 def train_agent(agent, episodes=1000):
     print(f"Training RL agent for {episodes} episodes...")
@@ -10,16 +10,14 @@ def train_agent(agent, episodes=1000):
         if (episode + 1) % 100 == 0:
             print(f"Episode {episode + 1}/{episodes}")
 
+        # Get random user preferences for training
         goal = random.choice(['Lose Weight', 'Build Muscle', 'Gain Weight', 'Maintain Weight'])
-        diet_type = random.choice(['vegetarian', 'vegan', 'keto', 'paleo', 'gluten_free', 'mediterranean', 'none'])
+        diet_type = random.choice(list(DIET_TYPE_MAPPING.values()))
         allergies = random.sample(list(COMMON_ALLERGENS.keys()), random.randint(0, 2))
         health_risks = random.sample([
             'High blood pressure', 'High cholesterol', 'Diabetes',
-            'Heart disease or stroke', 'Testosterone deficiency', 'Depression', 'None'
+            'Heart disease or stroke', 'Testosterone deficiency', 'Depression'
         ], random.randint(0, 2))
-
-        if 'None' in health_risks:
-            health_risks = []
 
         dietary_restrictions = {
             'vegetarian': diet_type == 'vegetarian',
@@ -32,19 +30,27 @@ def train_agent(agent, episodes=1000):
             'health_risks': health_risks
         }
 
+        # Calculate target nutrition based on goal
         calories = random.randint(1500, 3000)
+        nutrition_targets = DEFAULT_NUTRITION_TARGETS[goal]
+
+        protein_g = (calories * nutrition_targets['protein_ratio']) / 4
+        fat_g = (calories * nutrition_targets['fat_ratio']) / 9
+        carbs_g = (calories * nutrition_targets['carb_ratio']) / 4
+
         target_nutrition = {
             'calories': calories,
-            'protein': calories * 0.3 / 4,
-            'fat': calories * 0.3 / 9,
-            'carbs': calories * 0.4 / 4
+            'protein': protein_g,
+            'fat': fat_g,
+            'carbs': carbs_g
         }
 
         current_nutrition = {'calories': 0, 'protein': 0, 'fat': 0, 'carbs': 0}
         days = 7
 
         for day in range(days):
-            for _ in range(3):
+            for meal_time in range(3):  # breakfast, lunch, dinner
+                # Get normalized current nutrition state
                 state = agent.get_state_key({
                     'calories': current_nutrition['calories'] / agent.meals['calories'].max(),
                     'protein': current_nutrition['protein'] / agent.meals['protein'].max(),
@@ -59,11 +65,14 @@ def train_agent(agent, episodes=1000):
 
                 selected_meal = agent.meals.iloc[action]
 
-                current_nutrition['calories'] += selected_meal['calories'] * 100
-                current_nutrition['protein'] += selected_meal['protein'] * 100
-                current_nutrition['fat'] += selected_meal['fat'] * 100
-                current_nutrition['carbs'] += selected_meal['carbs'] * 100
+                # Update nutrition totals (values are per 100g)
+                serving_size = 100
+                current_nutrition['calories'] += selected_meal['calories'] * serving_size
+                current_nutrition['protein'] += selected_meal['protein'] * serving_size
+                current_nutrition['fat'] += selected_meal['fat'] * serving_size
+                current_nutrition['carbs'] += selected_meal['carbs'] * serving_size
 
+                # Get next state
                 next_state = agent.get_state_key({
                     'calories': current_nutrition['calories'] / agent.meals['calories'].max(),
                     'protein': current_nutrition['protein'] / agent.meals['protein'].max(),
@@ -71,6 +80,7 @@ def train_agent(agent, episodes=1000):
                     'carbs': current_nutrition['carbs'] / agent.meals['carbs'].max()
                 }, days - day - 1)
 
+                # Calculate reward
                 reward = agent.calculate_reward(
                     action,
                     {
@@ -88,8 +98,10 @@ def train_agent(agent, episodes=1000):
                     day
                 )
 
+                # Update Q-table
                 agent.update_q_table(state, action, reward, next_state)
 
+            # Carry over some nutrition to next day
             current_nutrition = {k: v * 0.3 for k, v in current_nutrition.items()}
 
     try:

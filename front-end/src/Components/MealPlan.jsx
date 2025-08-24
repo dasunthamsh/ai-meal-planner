@@ -103,24 +103,13 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
                 <h3 className="text-xl font-semibold text-gray-700 mb-4">Your Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <p className="text-gray-600"><span className="font-medium">Gender:</span> {formData.gender}</p>
                         <p className="text-gray-600"><span className="font-medium">Primary Goal:</span> {formData.goal}</p>
-                        <p className="text-gray-600"><span className="font-medium">Current Body Fat:</span> {formData.currentBodyFat}%</p>
-                        <p className="text-gray-600"><span className="font-medium">Goal Body Fat:</span> {formData.goalBodyFat}%</p>
+                        <p className="text-gray-600"><span className="font-medium">Diet Type:</span> {formData.dietType}</p>
                     </div>
                     <div>
-                        <p className="text-gray-600"><span className="font-medium">Current Weight:</span> {formData.currentWeight} lbs</p>
-                        <p className="text-gray-600"><span className="font-medium">Ideal Weight:</span> {formData.idealWeight} lbs</p>
-                        <p className="text-gray-600"><span className="font-medium">Age:</span> {formData.age}</p>
-                        <p className="text-gray-600"><span className="font-medium">Activity Level:</span> {formData.activityLevel}</p>
+                        <p className="text-gray-600"><span className="font-medium">Allergies:</span> {formData.allergies.length > 0 ? formData.allergies.join(', ') : 'None'}</p>
+                        <p className="text-gray-600"><span className="font-medium">Health Risks:</span> {formData.healthRisks.length > 0 ? formData.healthRisks.join(', ') : 'None'}</p>
                     </div>
-                </div>
-
-                <div className="mt-6">
-                    <h4 className="font-medium text-gray-700 mb-2">Dietary Preferences</h4>
-                    <p className="text-gray-600"><span className="font-medium">Diet Type:</span> {formData.dietType}</p>
-                    <p className="text-gray-600"><span className="font-medium">Allergies:</span> {formData.allergies.length > 0 ? formData.allergies.join(', ') : 'None'}</p>
-                    <p className="text-gray-600"><span className="font-medium">Health Risks:</span> {formData.healthRisks.length > 0 ? formData.healthRisks.join(', ') : 'None'}</p>
                 </div>
 
                 <div className="mt-6 p-4 bg-blue-50 rounded-md">

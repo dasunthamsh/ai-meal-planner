@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="160004e1-e0cd-45bb-9692-119eddb318bc" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/Pages/MealPlan.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Pages/MealPlan.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Components/BasicInfoForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Components/BasicInfoForm.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +44,7 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/project Zoon/esoft/research project/ai-meal-planner/front-end",
+    "last_opened_file_path": "D:/project Zoon/esoft/research project/ai-meal-planner",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -81,6 +80,7 @@
       <workItem from="1753923128070" duration="273000" />
       <workItem from="1753933492904" duration="106000" />
       <workItem from="1754333421284" duration="36000" />
+      <workItem from="1755923237688" duration="19000" />
     </task>
     <servers />
   </component>

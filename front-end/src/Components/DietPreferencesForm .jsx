@@ -72,10 +72,14 @@ const ComponentTwo = ({ onNext, componentOneData }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const calculatedCalories = calculateAdjustedCalories();
+
+        // Send only the required data to backend
         onNext({
-            ...componentOneData,
-            ...formData,
-            adjustedCalories: calculatedCalories
+            adjustedCalories: calculatedCalories,
+            allergies: formData.allergies,
+            dietType: formData.dietType,
+            goal: componentOneData.goal,
+            healthRisks: formData.healthRisks
         });
     };
 

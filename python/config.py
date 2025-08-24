@@ -27,3 +27,34 @@ HEALTH_RISK_THRESHOLDS = {
     'Testosterone deficiency': {'omega3_g': 0.5},
     'Depression': {'omega3_g': 0.5}
 }
+
+# Diet type mappings for frontend-backend compatibility
+DIET_TYPE_MAPPING = {
+    'No restrictions': 'none',
+    'Vegetarian': 'vegetarian',
+    'Vegan': 'vegan',
+    'Keto': 'keto',
+    'Paleo': 'paleo',
+    'Gluten Free': 'gluten_free',
+    'Mediterranean': 'mediterranean'
+}
+
+# Default nutrition targets (calories, protein, fat, carbs)
+DEFAULT_NUTRITION_TARGETS = {
+    'Lose Weight': {'protein_ratio': 0.35, 'fat_ratio': 0.25, 'carb_ratio': 0.40},
+    'Build Muscle': {'protein_ratio': 0.40, 'fat_ratio': 0.20, 'carb_ratio': 0.40},
+    'Gain Weight': {'protein_ratio': 0.25, 'fat_ratio': 0.25, 'carb_ratio': 0.50},
+    'Maintain Weight': {'protein_ratio': 0.30, 'fat_ratio': 0.30, 'carb_ratio': 0.40}
+}
+
+# Meal types
+MEAL_TYPES = ['breakfast', 'lunch', 'dinner']
+
+# Default number of days for meal plan
+DEFAULT_DAYS = 7
+
+# Serving size in grams
+DEFAULT_SERVING_SIZE = 100
+
+# Nutrition carryover to next day (30%)
+NUTRITION_CARRYOVER = 0.3
