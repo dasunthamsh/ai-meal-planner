@@ -123,18 +123,3 @@ class DataPreprocessor:
 
         print("Data validation passed")
         return True
-
-# Example usage and testing
-if __name__ == '__main__':
-    try:
-        preprocessor = DataPreprocessor()
-        df = preprocessor.load_data()
-        df, scaler, vitamins, diet_cols = preprocessor.preprocess_data()
-
-        print(f"Processed data shape: {df.shape}")
-        print(f"Available vitamins: {vitamins}")
-        print(f"Diet columns: {diet_cols}")
-        print(f"Scaler data range: {scaler.data_min_} to {scaler.data_max_}")
-
-    except Exception as e:
-        print(f"Error in data preprocessing: {e}")

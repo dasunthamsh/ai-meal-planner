@@ -7,8 +7,14 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
     const [isSaving, setIsSaving] = useState(false);
     const [mealPlan, setMealPlan] = useState(null);
     const [error, setError] = useState(null);
+    const [userConfirmed, setUserConfirmed] = useState(false);
 
     const generateMealPlan = async () => {
+        // Check for goal/BMI mismatch and if user hasn't confirmed yet
+        if (formData.showWarning && !userConfirmed) {
+            return; // Don't generate if there's a warning and user hasn't confirmed
+        }
+
         setIsGenerating(true);
         setError(null);
 
@@ -95,6 +101,141 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
         return typeof num === 'number' ? num.toFixed(2) : num;
     };
 
+    // BMI Chart component
+    const BmiChart = () => {
+        return (
+            <div className="mt-4 p-4 bg-gray-50 rounded-md">
+                <h4 className="font-medium text-gray-700 mb-2">Your BMI Classification</h4>
+                <div className="flex h-6 bg-gradient-to-r from-blue-400 via-green-400 via-yellow-400 to-red-500 rounded-full overflow-hidden">
+                    <div className="w-1/5 text-xs text-center text-white flex items-center justify-center" style={{background: '#3b82f6'}}>Underweight</div>
+                    <div className="w-1/5 text-xs text-center text-white flex items-center justify-center" style={{background: '#10b981'}}>Healthy</div>
+                    <div className="w-1/5 text-xs text-center text-white flex items-center justify-center" style={{background: '#f59e0b'}}>Overweight</div>
+                    <div className="w-2/5 text-xs text-center text-white flex items-center justify-center" style={{background: '#ef4444'}}>Obese</div>
+                </div>
+                <div className="flex justify-between text-xs mt-1">
+                    <span>&lt;18.5</span>
+                    <span>18.5-24.9</span>
+                    <span>25-29.9</span>
+                    <span>30+</span>
+                </div>
+
+                {formData.bmi && (
+                    <div className="mt-3">
+                        <p className="text-sm">
+                            Your BMI: <span className="font-bold">{formData.bmi}</span> -
+                            <span className={
+                                formData.bmiCategory === 'Underweight' ? 'text-blue-600 font-medium' :
+                                    formData.bmiCategory === 'Healthy' ? 'text-green-600 font-medium' :
+                                        formData.bmiCategory === 'Overweight' ? 'text-yellow-600 font-medium' :
+                                            'text-red-600 font-medium'
+                            }> {formData.bmiCategory}</span>
+                        </p>
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    // Goal Mismatch Warning component
+    const GoalMismatchWarning = () => {
+        if (!formData.showWarning) return null;
+
+        let warningMessage = "";
+        if ((formData.bmiCategory === 'Overweight' || formData.bmiCategory === 'Obese') && formData.goal === 'Gain Weight') {
+            warningMessage = "Your BMI indicates you are overweight, but you've selected 'Gain Weight' as your goal. This plan may not be appropriate for your health needs.";
+        } else if (formData.bmiCategory === 'Underweight' && formData.goal === 'Lose Weight') {
+            warningMessage = "Your BMI indicates you are underweight, but you've selected 'Lose Weight' as your goal. This plan may not be appropriate for your health needs.";
+        }
+
+        return (
+            <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
+                <div className="flex">
+                    <div className="flex-shrink-0">
+                        <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                        </svg>
+                    </div>
+                    <div className="ml-3">
+                        <h3 className="text-sm font-medium text-yellow-800">Goal Mismatch Warning</h3>
+                        <div className="mt-2 text-sm text-yellow-700">
+                            <p>{warningMessage}</p>
+                            <p className="mt-2 font-medium">Do you want to continue with this plan or adjust your goals?</p>
+                        </div>
+                        <div className="mt-4">
+                            <div className="flex space-x-3">
+                                <button
+                                    type="button"
+                                    onClick={() => setUserConfirmed(true)}
+                                    className="px-4 py-2 bg-yellow-600 text-white font-medium rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-yellow-50 transition-colors"
+                                >
+                                    Continue Anyway
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={onBack}
+                                    className="px-4 py-2 bg-gray-200 text-gray-800 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-yellow-50 transition-colors"
+                                >
+                                    Adjust Goals
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
+    // Meal Timing Recommendations component
+    const MealTimingRecommendations = () => {
+        if (!formData.mealTimings) return null;
+
+        return (
+            <div className="mt-6 p-4 bg-purple-50 rounded-md">
+                <h4 className="font-medium text-purple-800 mb-3">Optimal Meal Times for Your Activity Level</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {formData.mealTimings.breakfast && (
+                        <div className="flex items-center">
+                            <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                            <span className="font-medium">Breakfast:</span>
+                            <span className="ml-2">{formData.mealTimings.breakfast}</span>
+                        </div>
+                    )}
+                    {formData.mealTimings.lunch && (
+                        <div className="flex items-center">
+                            <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                            <span className="font-medium">Lunch:</span>
+                            <span className="ml-2">{formData.mealTimings.lunch}</span>
+                        </div>
+                    )}
+                    {formData.mealTimings.dinner && (
+                        <div className="flex items-center">
+                            <div className="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
+                            <span className="font-medium">Dinner:</span>
+                            <span className="ml-2">{formData.mealTimings.dinner}</span>
+                        </div>
+                    )}
+                    {formData.mealTimings.snack && (
+                        <div className="flex items-center">
+                            <div className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
+                            <span className="font-medium">Snack:</span>
+                            <span className="ml-2">{formData.mealTimings.snack}</span>
+                        </div>
+                    )}
+                    {formData.mealTimings.postWorkout && (
+                        <div className="flex items-center">
+                            <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                            <span className="font-medium">Post-workout:</span>
+                            <span className="ml-2">{formData.mealTimings.postWorkout}</span>
+                        </div>
+                    )}
+                </div>
+                {formData.mealTimings.recommendation && (
+                    <p className="mt-3 text-sm text-purple-700">{formData.mealTimings.recommendation}</p>
+                )}
+            </div>
+        );
+    };
+
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Summary & Meal Plan</h2>
@@ -105,6 +246,7 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
                     <div>
                         <p className="text-gray-600"><span className="font-medium">Primary Goal:</span> {formData.goal}</p>
                         <p className="text-gray-600"><span className="font-medium">Diet Type:</span> {formData.dietType}</p>
+                        <p className="text-gray-600"><span className="font-medium">Activity Level:</span> {formData.activityLevel}</p>
                     </div>
                     <div>
                         <p className="text-gray-600"><span className="font-medium">Allergies:</span> {formData.allergies.length > 0 ? formData.allergies.join(', ') : 'None'}</p>
@@ -112,12 +254,21 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
                     </div>
                 </div>
 
+                {/* BMI Chart Display */}
+                <BmiChart />
+
+                {/* Meal Timing Recommendations */}
+                <MealTimingRecommendations />
+
                 <div className="mt-6 p-4 bg-blue-50 rounded-md">
                     <p className="text-blue-800 font-medium">
                         Recommended daily calories: <span className="font-bold">{formData.adjustedCalories} kcal</span>
                     </p>
                 </div>
             </div>
+
+            {/* Goal Mismatch Warning */}
+            <GoalMismatchWarning />
 
             <div className="flex justify-between mb-8">
                 <button
@@ -128,7 +279,7 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
                 </button>
                 <button
                     onClick={generateMealPlan}
-                    disabled={isGenerating}
+                    disabled={isGenerating || (formData.showWarning && !userConfirmed)}
                     className="px-6 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isGenerating ? 'Generating...' : 'Generate Meal Plan'}

@@ -1,22 +1,29 @@
-import { useState } from 'react';
-import bodyImageOne from '../Assets/body0.png'
-import bodyImageTwo from '../Assets/body 1.png'
-import bodyImageThree from '../Assets/body2.png'
-import bodyImageSix from '../Assets/body6.jpg'
+import { useState, useEffect } from 'react';
+import bodyImageOne from '../Assets/body0.png';
+import bodyImageTwo from '../Assets/body 1.png';
+import bodyImageThree from '../Assets/body2.png';
+import bodyImageSix from '../Assets/body6.jpg';
 import { FaMale, FaFemale } from 'react-icons/fa';
 
-const ComponentOne = ({ onNext }) => {
-    const [formData, setFormData] = useState({
+const ComponentOne = ({ onNext, initialData }) => {
+    const [formData, setFormData] = useState(initialData || {
         gender: '',
         goal: '',
         currentWeight: '',
-        idealWeight: '',
         age: '',
         height: ''
     });
 
     const [calories, setCalories] = useState(null);
-    const [heightUnit, setHeightUnit] = useState('cm'); // Default to centimeters
+    const [heightUnit, setHeightUnit] = useState('cm');
+    const [bmi, setBmi] = useState(null);
+    const [bmiCategory, setBmiCategory] = useState('');
+
+    useEffect(() => {
+        if (formData.currentWeight && formData.height && formData.height !== '0') {
+            calculateBmi();
+        }
+    }, [formData.currentWeight, formData.height, heightUnit]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,6 +35,34 @@ const ComponentOne = ({ onNext }) => {
 
     const handleHeightUnitChange = (e) => {
         setHeightUnit(e.target.value);
+    };
+
+    const calculateBmi = () => {
+        let heightM;
+        if (heightUnit === 'cm') {
+            heightM = parseFloat(formData.height) / 100;
+        } else {
+            // Convert feet to meters (1 foot = 0.3048 m)
+            heightM = parseFloat(formData.height) * 0.3048;
+        }
+
+        const weightKg = parseFloat(formData.currentWeight);
+
+        if (heightM > 0 && weightKg > 0) {
+            const bmiValue = weightKg / (heightM * heightM);
+            setBmi(bmiValue.toFixed(1));
+
+            // Determine BMI category
+            if (bmiValue < 18.5) {
+                setBmiCategory('Underweight');
+            } else if (bmiValue >= 18.5 && bmiValue < 25) {
+                setBmiCategory('Healthy');
+            } else if (bmiValue >= 25 && bmiValue < 30) {
+                setBmiCategory('Overweight');
+            } else {
+                setBmiCategory('Obese');
+            }
+        }
     };
 
     const calculateCalories = () => {
@@ -51,7 +86,6 @@ const ComponentOne = ({ onNext }) => {
             bmr = 447.593 + (9.247 * weightKg) + (3.098 * heightCm) - (4.330 * age);
         }
 
-        // No goal adjustment as requested
         const estimatedCalories = Math.round(bmr);
         setCalories(estimatedCalories);
         return estimatedCalories;
@@ -61,20 +95,65 @@ const ComponentOne = ({ onNext }) => {
         e.preventDefault();
         const calculatedCalories = calculateCalories();
 
-        // Send only the required data to backend
-        const { gender, goal, currentWeight, idealWeight, age } = formData;
+        // Check for goal/BMI mismatch
+        let showWarning = false;
+        if ((bmiCategory === 'Overweight' || bmiCategory === 'Obese') && formData.goal === 'Gain Weight') {
+            showWarning = true;
+        } else if (bmiCategory === 'Underweight' && formData.goal === 'Lose Weight') {
+            showWarning = true;
+        }
+
+        // Send data to parent component
         onNext({
-            gender,
-            goal,
-            currentWeight,
-            idealWeight,
-            age,
-            calories: calculatedCalories
+            gender: formData.gender,
+            goal: formData.goal,
+            currentWeight: formData.currentWeight,
+            age: formData.age,
+            height: formData.height,
+            heightUnit: heightUnit,
+            calories: calculatedCalories,
+            bmi: bmi,
+            bmiCategory: bmiCategory,
+            showWarning: showWarning
         });
     };
 
-    // Convert height based on selected unit for display
     const heightPlaceholder = heightUnit === 'cm' ? 'in centimeters' : 'in feet';
+
+    // BMI Chart component
+    const BmiChart = () => {
+        return (
+            <div className="mt-4 p-4 bg-gray-50 rounded-md">
+                <h4 className="font-medium text-gray-700 mb-2">BMI Categories</h4>
+                <div className="flex h-6 bg-gradient-to-r from-blue-400 via-green-400 via-yellow-400 to-red-500 rounded-full overflow-hidden">
+                    <div className="w-1/5 text-xs text-center text-white flex items-center justify-center" style={{background: '#3b82f6'}}>Underweight</div>
+                    <div className="w-1/5 text-xs text-center text-white flex items-center justify-center" style={{background: '#10b981'}}>Healthy</div>
+                    <div className="w-1/5 text-xs text-center text-white flex items-center justify-center" style={{background: '#f59e0b'}}>Overweight</div>
+                    <div className="w-2/5 text-xs text-center text-white flex items-center justify-center" style={{background: '#ef4444'}}>Obese</div>
+                </div>
+                <div className="flex justify-between text-xs mt-1">
+                    <span>&lt;18.5</span>
+                    <span>18.5-24.9</span>
+                    <span>25-29.9</span>
+                    <span>30+</span>
+                </div>
+
+                {bmi && (
+                    <div className="mt-3">
+                        <p className="text-sm">
+                            Your BMI: <span className="font-bold">{bmi}</span> -
+                            <span className={
+                                bmiCategory === 'Underweight' ? 'text-blue-600 font-medium' :
+                                    bmiCategory === 'Healthy' ? 'text-green-600 font-medium' :
+                                        bmiCategory === 'Overweight' ? 'text-yellow-600 font-medium' :
+                                            'text-red-600 font-medium'
+                            }> {bmiCategory}</span>
+                        </p>
+                    </div>
+                )}
+            </div>
+        );
+    };
 
     return (
         <div className="mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -222,27 +301,7 @@ const ComponentOne = ({ onNext }) => {
                         </div>
                     </div>
                     <div>
-                        <label className="block text-gray-700 font-medium mb-2">4. What's your ideal weight?</label>
-                        <div className="relative">
-                            <input
-                                type="number"
-                                name="idealWeight"
-                                value={formData.idealWeight}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="in kilograms"
-                                min="0"
-                                step="0.1"
-                                required
-                            />
-                            <span className="absolute right-3 top-2 text-gray-500">kg</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label className="block text-gray-700 font-medium mb-2">5. How tall are you?</label>
+                        <label className="block text-gray-700 font-medium mb-2">4. How tall are you?</label>
                         <div className="flex items-center space-x-2">
                             <input
                                 type="number"
@@ -270,21 +329,25 @@ const ComponentOne = ({ onNext }) => {
                                 : 'Enter your height in feet (e.g., 5.8 for 5 feet 8 inches)'}
                         </p>
                     </div>
-                    <div>
-                        <label className="block text-gray-700 font-medium mb-2">6. How old are you?</label>
-                        <input
-                            type="number"
-                            name="age"
-                            value={formData.age}
-                            onChange={handleChange}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Age"
-                            min="12"
-                            max="120"
-                            required
-                        />
-                    </div>
                 </div>
+
+                <div className="mb-6">
+                    <label className="block text-gray-700 font-medium mb-2">5. How old are you?</label>
+                    <input
+                        type="number"
+                        name="age"
+                        value={formData.age}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Age"
+                        min="12"
+                        max="120"
+                        required
+                    />
+                </div>
+
+                {/* BMI Calculation and Chart */}
+                {bmi && <BmiChart />}
 
                 {calories && (
                     <div className="mb-6 p-4 bg-blue-50 rounded-md">

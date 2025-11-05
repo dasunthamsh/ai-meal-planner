@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const ComponentTwo = ({ onNext, componentOneData }) => {
+const ComponentTwo = ({ onNext, onBack, componentOneData }) => {
     const [formData, setFormData] = useState({
         activityLevel: '',
         dietType: 'No restrictions',
@@ -9,6 +9,7 @@ const ComponentTwo = ({ onNext, componentOneData }) => {
     });
 
     const [adjustedCalories, setAdjustedCalories] = useState(null);
+    const [mealTimings, setMealTimings] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -16,6 +17,11 @@ const ComponentTwo = ({ onNext, componentOneData }) => {
             ...prev,
             [name]: value
         }));
+
+        // If activity level changes, update meal timings
+        if (name === 'activityLevel') {
+            calculateMealTimings(value);
+        }
     };
 
     const handleAllergyChange = (e) => {
@@ -69,6 +75,63 @@ const ComponentTwo = ({ onNext, componentOneData }) => {
         return adjusted;
     };
 
+    const calculateMealTimings = (activityLevel) => {
+        let timings;
+
+        switch(activityLevel) {
+            case 'Sedentary':
+                timings = {
+                    breakfast: "7:00 - 8:00 AM",
+                    lunch: "12:00 - 1:00 PM",
+                    dinner: "6:00 - 7:00 PM",
+                    recommendation: "For sedentary lifestyles, maintain consistent meal times and avoid late-night eating."
+                };
+                break;
+            case 'Lightly active':
+                timings = {
+                    breakfast: "7:00 - 8:00 AM",
+                    snack: "10:30 AM",
+                    lunch: "12:30 - 1:30 PM",
+                    dinner: "6:30 - 7:30 PM",
+                    recommendation: "Add a light morning snack to maintain energy levels throughout the day."
+                };
+                break;
+            case 'Moderately active':
+                timings = {
+                    breakfast: "6:30 - 7:30 AM",
+                    snack: "10:00 AM",
+                    lunch: "12:00 - 1:00 PM",
+                    dinner: "6:30 - 7:30 PM",
+                    recommendation: "Include two snacks to fuel your moderate activity level and maintain steady energy."
+                };
+                break;
+            case 'Heavily active':
+                timings = {
+                    breakfast: "6:00 - 7:00 AM",
+                    snack: "9:30 AM",
+                    lunch: "12:00 - 1:00 PM",
+                    dinner: "7:00 - 8:00 PM",
+                    postWorkout: "Within 30 mins of exercise",
+                    recommendation: "Pre-fuel with a snack before workouts and recover with protein after exercise."
+                };
+                break;
+            case 'Extremely active':
+                timings = {
+                    breakfast: "5:30 - 6:30 AM",
+                    lunch: "12:00 - 1:00 PM",
+                    dinner: "7:00 - 8:00 PM",
+                    snack: "9:30 PM (if needed)",
+                    postWorkout: "Immediately after exercise",
+                    recommendation: "Frequent meals and snacks are essential to meet high energy demands. Include a post-workout recovery meal."
+                };
+                break;
+            default:
+                timings = null;
+        }
+
+        setMealTimings(timings);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const calculatedCalories = calculateAdjustedCalories();
@@ -79,7 +142,12 @@ const ComponentTwo = ({ onNext, componentOneData }) => {
             allergies: formData.allergies,
             dietType: formData.dietType,
             goal: componentOneData.goal,
-            healthRisks: formData.healthRisks
+            healthRisks: formData.healthRisks,
+            activityLevel: formData.activityLevel,
+            mealTimings: mealTimings,
+            bmi: componentOneData.bmi,
+            bmiCategory: componentOneData.bmiCategory,
+            showWarning: componentOneData.showWarning
         });
     };
 
@@ -124,15 +192,70 @@ const ComponentTwo = ({ onNext, componentOneData }) => {
         'None'
     ];
 
+    // Meal timing display component
+    const MealTimingDisplay = () => {
+        if (!mealTimings) return null;
+
+        return (
+            <div className="mt-4 p-4 bg-blue-50 rounded-md">
+                <h4 className="font-medium text-blue-800 mb-3">Recommended Meal Times</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {mealTimings.breakfast && (
+                        <div className="flex items-center">
+                            <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                            <span className="font-medium">Breakfast:</span>
+                            <span className="ml-2">{mealTimings.breakfast}</span>
+                        </div>
+                    )}
+                    {mealTimings.lunch && (
+                        <div className="flex items-center">
+                            <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                            <span className="font-medium">Lunch:</span>
+                            <span className="ml-2">{mealTimings.lunch}</span>
+                        </div>
+                    )}
+                    {mealTimings.dinner && (
+                        <div className="flex items-center">
+                            <div className="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
+                            <span className="font-medium">Dinner:</span>
+                            <span className="ml-2">{mealTimings.dinner}</span>
+                        </div>
+                    )}
+                    {mealTimings.snack && (
+                        <div className="flex items-center">
+                            <div className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
+                            <span className="font-medium">Snack:</span>
+                            <span className="ml-2">{mealTimings.snack}</span>
+                        </div>
+                    )}
+                    {mealTimings.postWorkout && (
+                        <div className="flex items-center">
+                            <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                            <span className="font-medium">Post-workout:</span>
+                            <span className="ml-2">{mealTimings.postWorkout}</span>
+                        </div>
+                    )}
+                </div>
+                {mealTimings.recommendation && (
+                    <p className="mt-3 text-sm text-blue-700">{mealTimings.recommendation}</p>
+                )}
+            </div>
+        );
+    };
+
     return (
-        <div className=" mx-auto p-6 bg-white rounded-lg shadow-md">
+        <div className="mx-auto p-6 bg-white rounded-lg shadow-md">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Activity & Preferences</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-6">
                     <label className="block text-gray-700 font-medium mb-2">1. How active are you?</label>
                     <div className="space-y-3">
                         {activityOptions.map((option) => (
-                            <div key={option.value} className="p-3 border border-gray-200 rounded-md hover:border-blue-400">
+                            <div key={option.value} className={`p-3 border rounded-md hover:border-blue-400 ${
+                                formData.activityLevel === option.value
+                                    ? 'border-blue-500 bg-blue-50'
+                                    : 'border-gray-200'
+                            }`}>
                                 <label className="inline-flex items-center">
                                     <input
                                         type="radio"
@@ -149,6 +272,9 @@ const ComponentTwo = ({ onNext, componentOneData }) => {
                             </div>
                         ))}
                     </div>
+
+                    {/* Display meal timings based on activity level */}
+                    {formData.activityLevel && <MealTimingDisplay />}
                 </div>
 
                 <div className="mb-6">
@@ -214,7 +340,7 @@ const ComponentTwo = ({ onNext, componentOneData }) => {
                 <div className="flex justify-between">
                     <button
                         type="button"
-                        onClick={() => window.scrollTo(0, 0)}
+                        onClick={onBack}
                         className="px-6 py-2 bg-gray-200 text-gray-800 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
                     >
                         Back

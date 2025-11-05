@@ -5,22 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7220fbb5-2184-4e87-9841-0b2ed3061c69" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front-end/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../front-end/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front-end/src/Components/BasicInfoForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front-end/src/Components/BasicInfoForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front-end/src/Components/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front-end/src/Components/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front-end/src/Components/MealPlan.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front-end/src/Components/MealPlan.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front-end/src/Pages/MealPlan.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front-end/src/Pages/MealPlan.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../python/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../python/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../python/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/dataset/meal_plan_dataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../python/dataset/meal_plan_dataset.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/models/data_preprocessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/models/data_preprocessor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/models/meal_rl_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/models/meal_rl_agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/models/saved_agent.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/../python/models/saved_agent.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/models/scaler.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/../python/models/scaler.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/train_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/train_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/dataset/Food_and_Nutrition__.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/dataset/meal_dataset.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/dataset/meal_plan_dataset.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/evaluate_model.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/models/data_preprocessor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/models/meal_rl_agent.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/models/saved_agent.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/models/scaler.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/train_model.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +46,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/project Zoon/esoft/research project/ai-meal-planner/back-end",
+    "last_opened_file_path": "D:/task web",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -67,6 +65,9 @@
       <updated>1753249807501</updated>
       <workItem from="1753249808502" duration="1527000" />
       <workItem from="1755814183957" duration="2835000" />
+      <workItem from="1757131167949" duration="37000" />
+      <workItem from="1760096902646" duration="669000" />
+      <workItem from="1761420967822" duration="26000" />
     </task>
     <servers />
   </component>

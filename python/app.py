@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
-from models.meal_rl_agent import MealPlanRLAgent
+from models.genetic_algorithm import MealPlanGeneticAlgorithm
 from models.data_preprocessor import DataPreprocessor
 import pickle
-from config import SCALER_SAVE_PATH
+from config import SCALER_SAVE_PATH, DIET_TYPE_MAPPING, DEFAULT_NUTRITION_TARGETS
 from flask_cors import CORS
 import numpy as np
 
@@ -14,11 +14,8 @@ preprocessor = DataPreprocessor()
 df = preprocessor.load_data()
 df, _, _, _ = preprocessor.preprocess_data()
 
-# Initialize RL agent
-agent = MealPlanRLAgent(df)
-if not agent.load_model():
-    print("No saved model found. Please train the model first.")
-    exit(1)
+# Initialize Genetic Algorithm
+ga = MealPlanGeneticAlgorithm(df)
 
 # Load scaler
 with open(SCALER_SAVE_PATH, 'rb') as f:
@@ -95,106 +92,31 @@ def generate_meal_plan():
         target_nutrition = calculate_target_nutrition(user_data)
         days = user_data.get('days', 7)
 
-        # Generate meal plan
+        # Generate meal plan using Genetic Algorithm
+        best_solution = ga.evolve(target_nutrition, dietary_restrictions, days)
+
+        # Convert GA solution to meal plan format
         meal_plan = []
-        current_nutrition = {
-            'calories': 0,
-            'protein': 0,
-            'fat': 0,
-            'carbs': 0
-        }
+        current_nutrition = {'calories': 0, 'protein': 0, 'fat': 0, 'carbs': 0}
 
-        for day in range(days):
-            daily_meals = {'day': day + 1, 'meals': [], 'totalNutrition': {}}
+        for day_idx, day_meals in enumerate(best_solution):
+            daily_meals = {'day': day_idx + 1, 'meals': [], 'totalNutrition': {}}
 
-            for meal_type in ['breakfast', 'lunch', 'dinner']:
-                # Get normalized current nutrition
-                normalized_current = {
-                    'calories': current_nutrition['calories'] / scaler.data_max_[0],
-                    'protein': current_nutrition['protein'] / scaler.data_max_[1],
-                    'fat': current_nutrition['fat'] / scaler.data_max_[2],
-                    'carbs': current_nutrition['carbs'] / scaler.data_max_[3]
-                }
-
-                state = agent.get_state_key(normalized_current, days - day)
-
-                action = agent.choose_action(state, dietary_restrictions)
-
-                if action is None:
-                    daily_meals['meals'].append({
-                        meal_type: {
-                            'meal_name': 'No suitable meal found',
-                            'calories': 0,
-                            'protein': 0,
-                            'fat': 0,
-                            'carbs': 0,
-                            'image_url': '',
-                            'vitamins': '',
-                            'ingredients': []
-                        }
-                    })
-                    continue
-
-                selected_meal = df.iloc[action]
-
-                # Convert meal data to dictionary for health restrictions check
-                meal_dict = selected_meal.to_dict()
+            for meal_type, meal_idx in day_meals.items():
+                selected_meal = df.iloc[meal_idx]
 
                 # Check health restrictions
+                meal_dict = selected_meal.to_dict()
                 if not apply_health_restrictions(meal_dict, dietary_restrictions['health_risks']):
-                    # Try to find an alternative meal
-                    alternative_action = agent.find_alternative_meal(state, dietary_restrictions, action)
-                    if alternative_action is not None:
-                        action = alternative_action
-                        selected_meal = df.iloc[action]
-                        meal_dict = selected_meal.to_dict()
-                    else:
-                        daily_meals['meals'].append({
-                            meal_type: {
-                                'meal_name': 'No suitable meal found',
-                                'calories': 0,
-                                'protein': 0,
-                                'fat': 0,
-                                'carbs': 0,
-                                'image_url': '',
-                                'vitamins': '',
-                                'ingredients': []
-                            }
-                        })
-                        continue
+                    # Skip this meal if it violates health restrictions
+                    continue
 
                 # Update nutrition (values are per 100g)
-                serving_size = 100  # Standard serving size
+                serving_size = 100
                 current_nutrition['calories'] += selected_meal['calories'] * scaler.data_max_[0] * (serving_size / 100)
                 current_nutrition['protein'] += selected_meal['protein'] * scaler.data_max_[1] * (serving_size / 100)
                 current_nutrition['fat'] += selected_meal['fat'] * scaler.data_max_[2] * (serving_size / 100)
                 current_nutrition['carbs'] += selected_meal['carbs'] * scaler.data_max_[3] * (serving_size / 100)
-
-                # Calculate reward and update Q-table
-                normalized_next = {
-                    'calories': current_nutrition['calories'] / scaler.data_max_[0],
-                    'protein': current_nutrition['protein'] / scaler.data_max_[1],
-                    'fat': current_nutrition['fat'] / scaler.data_max_[2],
-                    'carbs': current_nutrition['carbs'] / scaler.data_max_[3]
-                }
-
-                next_state = agent.get_state_key(normalized_next, days - day - 1)
-
-                normalized_target = {
-                    'calories': target_nutrition['calories'] / scaler.data_max_[0],
-                    'protein': target_nutrition['protein'] / scaler.data_max_[1],
-                    'fat': target_nutrition['fat'] / scaler.data_max_[2],
-                    'carbs': target_nutrition['carbs'] / scaler.data_max_[3]
-                }
-
-                reward = agent.calculate_reward(
-                    action,
-                    normalized_current,
-                    normalized_target,
-                    day
-                )
-
-                agent.update_q_table(state, action, reward, next_state)
 
                 # Add meal to plan
                 meal_data = {
@@ -244,7 +166,6 @@ def generate_meal_plan():
     except Exception as e:
         print(f"Error generating meal plan: {e}")
         return jsonify({'error': 'Failed to generate meal plan'}), 500
-
 
 if __name__ == '__main__':
     app.run(debug=True)

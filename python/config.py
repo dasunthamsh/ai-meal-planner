@@ -1,12 +1,26 @@
 # Configuration constants
 DATA_PATH = "dataset/meal_plan_dataset.csv"
-MODEL_SAVE_PATH = "models/saved_agent.pkl"
+MODEL_SAVE_PATH = "models/saved_genetic_algorithm.pkl"
 SCALER_SAVE_PATH = "models/scaler.pkl"
 
-# RL Hyperparameters
-RL_ALPHA = 0.1  # Learning rate
-RL_GAMMA = 0.6  # Discount factor
-RL_EPSILON = 0.1  # Exploration rate
+
+# Genetic Algorithm Hyperparameters
+GA_POPULATION_SIZE = 100
+GA_GENERATIONS = 200
+GA_MUTATION_RATE = 0.1
+GA_CROSSOVER_RATE = 0.8
+GA_ELITISM_COUNT = 5
+GA_TOURNAMENT_SIZE = 5
+
+# Fitness weights
+FITNESS_WEIGHTS = {
+    'calorie_match': 0.4,
+    'protein_match': 0.3,
+    'fat_match': 0.1,
+    'carb_match': 0.1,
+    'variety': 0.05,
+    'health_restrictions': 0.05
+}
 
 COMMON_ALLERGENS = {
     'dairy': ['milk', 'cheese', 'butter', 'cream', 'yogurt'],
@@ -28,7 +42,7 @@ HEALTH_RISK_THRESHOLDS = {
     'Depression': {'omega3_g': 0.5}
 }
 
-# Diet type mappings for frontend-backend compatibility
+# Diet type mappings
 DIET_TYPE_MAPPING = {
     'No restrictions': 'none',
     'Vegetarian': 'vegetarian',
