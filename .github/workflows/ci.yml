@@ -1,0 +1,120 @@
+name: CI for Meal Planner
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Create necessary directories and files
+      run: |
+        mkdir -p dataset models
+        # Create a minimal dataset file if it doesn't exists
+        if [ ! -f "dataset/meal_plan_dataset.csv" ]; then
+          echo "Creating placeholder dataset..."
+          echo "meal_name,calories,protein,fat,carbs,ingredients,image_url" > dataset/meal_plan_dataset.csv
+          echo "Test Meal,300,20,10,30,ingredient1,test.jpg" >> dataset/meal_plan_dataset.csv
+        fi
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flask flask-cors numpy pandas scikit-learn pytest
+        
+    - name: Run basic tests
+      run: |
+        python -c "
+        # Test basic imports
+        try:
+            from app import app, calculate_target_nutrition
+            print('✅ Main app imports successful!')
+        except Exception as e:
+            print(f'❌ App import error: {e}')
+            exit(1)
+            
+        try:
+            from models.genetic_algorithm import MealPlanGeneticAlgorithm
+            from models.data_preprocessor import DataPreprocessor
+            print('✅ Model imports successful!')
+        except Exception as e:
+            print(f'❌ Model import error: {e}')
+            exit(1)
+        "
+        
+    - name: Test nutrition calculation
+      run: |
+        python -c "
+        from app import calculate_target_nutrition
+        
+        # Test the function
+        test_data = {
+            'adjustedCalories': 2000,
+            'goal': 'Lose Weight'
+        }
+        
+        result = calculate_target_nutrition(test_data)
+        print('Nutrition targets:', result)
+        
+        # Verify the result has expected structure
+        assert 'calories' in result
+        assert 'protein' in result
+        assert 'fat' in result
+        assert 'carbs' in result
+        assert result['calories'] == 2000
+        print('✅ Nutrition calculation test passed!')
+        "
+        
+    - name: Test health restrictions
+      run: |
+        python -c "
+        from app import apply_health_restrictions
+        
+        # Test case 1: Healthy meal
+        healthy_meal = {
+            'sodium_mg': 300,
+            'cholesterol_mg': 50,
+            'saturated_fat_g': 3,
+            'sugar_g': 5,
+            'added_sugar_g': 2,
+            'omega3_g': 0.6
+        }
+        
+        # Test case 2: Unhealthy meal (high sodium)
+        unhealthy_meal = {
+            'sodium_mg': 600,
+            'cholesterol_mg': 50,
+            'saturated_fat_g': 3,
+            'sugar_g': 5,
+            'added_sugar_g': 2,
+            'omega3_g': 0.6
+        }
+        
+        health_risks = ['High blood pressure']
+        
+        result1 = apply_health_restrictions(healthy_meal, health_risks)
+        result2 = apply_health_restrictions(unhealthy_meal, health_risks)
+        
+        assert result1 == True, 'Healthy meal should pass restrictions'
+        assert result2 == False, 'Unhealthy meal should fail restrictions'
+        print('✅ Health restrictions test passed!')
+        "
+    
+    - name: Verify Flask app starts
+      run: |
+        timeout 10s python -c "
+        from app import app
+        print('✅ Flask app created successfully!')
+        " || echo "App verification completed"

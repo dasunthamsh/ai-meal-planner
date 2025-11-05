@@ -5,20 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="160004e1-e0cd-45bb-9692-119eddb318bc" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/python/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/dataset/Food_and_Nutrition__.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/dataset/meal_dataset.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/dataset/meal_plan_dataset.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/evaluate_model.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/models/data_preprocessor.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/models/meal_rl_agent.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/models/saved_agent.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/models/scaler.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/train_model.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,23 +37,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/project Zoon/esoft/research project/ai-meal-planner&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\project Zoon\\esoft\\research project\\ai-meal-planner\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/project Zoon/esoft/research project/ai-meal-planner/.github",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "D:\\project Zoon\\esoft\\research project\\ai-meal-planner\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\project Zoon\esoft\research project\ai-meal-planner\src\app\(pages)\meal-plan" />
@@ -95,6 +82,7 @@
       <workItem from="1754333421284" duration="36000" />
       <workItem from="1755923237688" duration="19000" />
       <workItem from="1762374584624" duration="10000" />
+      <workItem from="1762377342093" duration="22000" />
     </task>
     <servers />
   </component>
