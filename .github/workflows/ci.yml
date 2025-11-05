@@ -24,33 +24,34 @@ jobs:
         echo "Project structure:"
         find . -name "*.py" -type f | sort
         echo ""
-        echo "Back-end directory:"
-        ls -la back-end/ 2>/dev/null || echo "No back-end directory"
+        echo "Python directory:"
+        ls -la python/ 2>/dev/null || echo "No python directory"
     
     - name: Create necessary directories and files
       run: |
-        # Create directories in the back-end folder
-        mkdir -p back-end/dataset back-end/models
-        # Create placeholder dataset
-        if [ ! -f "back-end/dataset/meal_plan_dataset.csv" ]; then
+        # Create directories in the python folder if missing
+        mkdir -p python/dataset python/models python/tests
+        
+        # Create placeholder dataset if missing
+        if [ ! -f "python/dataset/meal_plan_dataset.csv" ]; then
           echo "Creating placeholder dataset..."
-          echo "meal_name,calories,protein,fat,carbs,ingredients,image_url,vitamins,vegan,vegetarian,keto,paleo,gluten_free,mediterranean,sugar_g,added_sugar_g,sodium_mg,saturated_fat_g,fiber_g,cholesterol_mg,potassium_mg,omega3_g" > back-end/dataset/meal_plan_dataset.csv
-          echo "Test Meal,300,20,10,30,ingredient1,test.jpg,VitaminA VitaminC,0,1,0,0,1,0,5,2,300,3,4,50,200,0.5" >> back-end/dataset/meal_plan_dataset.csv
+          echo "meal_name,calories,protein,fat,carbs,ingredients,image_url,vitamins,vegan,vegetarian,keto,paleo,gluten_free,mediterranean,sugar_g,added_sugar_g,sodium_mg,saturated_fat_g,fiber_g,cholesterol_mg,potassium_mg,omega3_g" > python/dataset/meal_plan_dataset.csv
+          echo "Test Meal,300,20,10,30,ingredient1,test.jpg,VitaminA VitaminC,0,1,0,0,1,0,5,2,300,3,4,50,200,0.5" >> python/dataset/meal_plan_dataset.csv
         fi
         
-        # Create __init__.py files
-        touch back-end/__init__.py
-        touch back-end/models/__init__.py
-        touch back-end/tests/__init__.py
+        # Create __init__.py files if missing
+        touch python/__init__.py 2>/dev/null || true
+        touch python/models/__init__.py 2>/dev/null || true
+        touch python/tests/__init__.py 2>/dev/null || true
     
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install flask flask-cors numpy pandas scikit-learn pytest
         
-    - name: Test back-end imports
+    - name: Test Python imports
       run: |
-        cd back-end
+        cd python
         python -c "
         import sys
         import os
@@ -64,9 +65,9 @@ jobs:
                 print('  ', file)
         "
         
-    - name: Run main tests from back-end directory
+    - name: Run main tests from python directory
       run: |
-        cd back-end
+        cd python
         python -c "
         try:
             from app import calculate_target_nutrition, apply_health_restrictions
@@ -86,7 +87,7 @@ jobs:
         
     - name: Test nutrition calculation
       run: |
-        cd back-end
+        cd python
         python -c "
         from app import calculate_target_nutrition
         
@@ -109,7 +110,7 @@ jobs:
         
     - name: Test health restrictions
       run: |
-        cd back-end
+        cd python
         python -c "
         from app import apply_health_restrictions
         
@@ -145,7 +146,7 @@ jobs:
     
     - name: Verify Flask app starts
       run: |
-        cd back-end
+        cd python
         timeout 10s python -c "
         from app import app
         print('✅ Flask app created successfully!')
@@ -153,7 +154,7 @@ jobs:
         
     - name: Run existing test file
       run: |
-        cd back-end
+        cd python
         if [ -f "tests/basic_test.py" ]; then
           python tests/basic_test.py
         else
