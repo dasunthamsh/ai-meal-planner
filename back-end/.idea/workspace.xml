@@ -5,20 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7220fbb5-2184-4e87-9841-0b2ed3061c69" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../python/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../python/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/dataset/Food_and_Nutrition__.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/dataset/meal_dataset.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/dataset/meal_plan_dataset.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/evaluate_model.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/models/data_preprocessor.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/models/meal_rl_agent.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/models/saved_agent.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/models/scaler.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/train_model.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/genetic_algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/genetic_algorithm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/tests/basic_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/tests/basic_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,21 +30,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/task web",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/task web&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -68,6 +58,7 @@
       <workItem from="1757131167949" duration="37000" />
       <workItem from="1760096902646" duration="669000" />
       <workItem from="1761420967822" duration="26000" />
+      <workItem from="1763325098906" duration="425000" />
     </task>
     <servers />
   </component>

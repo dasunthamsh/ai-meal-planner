@@ -18,12 +18,22 @@ const ComponentOne = ({ onNext, initialData }) => {
     const [heightUnit, setHeightUnit] = useState('cm');
     const [bmi, setBmi] = useState(null);
     const [bmiCategory, setBmiCategory] = useState('');
+    const [showGoalWarning, setShowGoalWarning] = useState(false);
+    const [userConfirmed, setUserConfirmed] = useState(false);
+    const [triedToSubmit, setTriedToSubmit] = useState(false);
 
     useEffect(() => {
         if (formData.currentWeight && formData.height && formData.height !== '0') {
             calculateBmi();
         }
     }, [formData.currentWeight, formData.height, heightUnit]);
+
+    useEffect(() => {
+        // Check for goal/BMI mismatch whenever goal, weight, height, or BMI category changes
+        if (formData.goal && bmiCategory) {
+            checkGoalBmiMismatch();
+        }
+    }, [formData.goal, bmiCategory]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -53,15 +63,36 @@ const ComponentOne = ({ onNext, initialData }) => {
             setBmi(bmiValue.toFixed(1));
 
             // Determine BMI category
+            let category;
             if (bmiValue < 18.5) {
-                setBmiCategory('Underweight');
+                category = 'Underweight';
             } else if (bmiValue >= 18.5 && bmiValue < 25) {
-                setBmiCategory('Healthy');
+                category = 'Healthy';
             } else if (bmiValue >= 25 && bmiValue < 30) {
-                setBmiCategory('Overweight');
+                category = 'Overweight';
             } else {
-                setBmiCategory('Obese');
+                category = 'Obese';
             }
+
+            setBmiCategory(category);
+        }
+    };
+
+    const checkGoalBmiMismatch = () => {
+        if (!formData.goal || !bmiCategory) return;
+
+        let mismatch = false;
+        if ((bmiCategory === 'Overweight' || bmiCategory === 'Obese') && formData.goal === 'Gain Weight') {
+            mismatch = true;
+        } else if (bmiCategory === 'Underweight' && formData.goal === 'Lose Weight') {
+            mismatch = true;
+        }
+
+        // Only show warning if user has tried to submit
+        if (mismatch && triedToSubmit) {
+            setShowGoalWarning(true);
+        } else {
+            setShowGoalWarning(false);
         }
     };
 
@@ -93,15 +124,28 @@ const ComponentOne = ({ onNext, initialData }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const calculatedCalories = calculateCalories();
 
-        // Check for goal/BMI mismatch
-        let showWarning = false;
-        if ((bmiCategory === 'Overweight' || bmiCategory === 'Obese') && formData.goal === 'Gain Weight') {
-            showWarning = true;
-        } else if (bmiCategory === 'Underweight' && formData.goal === 'Lose Weight') {
-            showWarning = true;
+        // Mark that user tried to submit
+        setTriedToSubmit(true);
+
+        // Check if there's a mismatch
+        let hasMismatch = false;
+        if (bmiCategory && formData.goal) {
+            if ((bmiCategory === 'Overweight' || bmiCategory === 'Obese') && formData.goal === 'Gain Weight') {
+                hasMismatch = true;
+            } else if (bmiCategory === 'Underweight' && formData.goal === 'Lose Weight') {
+                hasMismatch = true;
+            }
         }
+
+        // If there's a mismatch and user hasn't confirmed, show warning and stop
+        if (hasMismatch && !userConfirmed) {
+            setShowGoalWarning(true);
+            return;
+        }
+
+        // If no mismatch or user confirmed, proceed
+        const calculatedCalories = calculateCalories();
 
         // Send data to parent component
         onNext({
@@ -114,11 +158,94 @@ const ComponentOne = ({ onNext, initialData }) => {
             calories: calculatedCalories,
             bmi: bmi,
             bmiCategory: bmiCategory,
-            showWarning: showWarning
+            showWarning: hasMismatch,
+            userConfirmed: userConfirmed
         });
     };
 
+    const handleContinueAnyway = () => {
+        setUserConfirmed(true);
+        setShowGoalWarning(false);
+
+        // Now submit the form
+        const calculatedCalories = calculateCalories();
+
+        onNext({
+            gender: formData.gender,
+            goal: formData.goal,
+            currentWeight: formData.currentWeight,
+            age: formData.age,
+            height: formData.height,
+            heightUnit: heightUnit,
+            calories: calculatedCalories,
+            bmi: bmi,
+            bmiCategory: bmiCategory,
+            showWarning: true,
+            userConfirmed: true
+        });
+    };
+
+    const handleAdjustGoal = () => {
+        setShowGoalWarning(false);
+        setUserConfirmed(false);
+        setTriedToSubmit(false);
+        // Reset goal to empty
+        setFormData(prev => ({
+            ...prev,
+            goal: ''
+        }));
+    };
+
     const heightPlaceholder = heightUnit === 'cm' ? 'in centimeters' : 'in feet';
+
+    // Goal Mismatch Warning component
+    const GoalMismatchWarning = () => {
+        if (!showGoalWarning) return null;
+
+        let warningMessage = "";
+        if ((bmiCategory === 'Overweight' || bmiCategory === 'Obese') && formData.goal === 'Gain Weight') {
+            warningMessage = `Your BMI of ${bmi} indicates you are ${bmiCategory.toLowerCase()}, but you've selected 'Gain Weight' as your goal. This may not be appropriate for your health needs.`;
+        } else if (bmiCategory === 'Underweight' && formData.goal === 'Lose Weight') {
+            warningMessage = `Your BMI of ${bmi} indicates you are underweight, but you've selected 'Lose Weight' as your goal. This may not be appropriate for your health needs.`;
+        }
+
+        return (
+            <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
+                <div className="flex">
+                    <div className="flex-shrink-0">
+                        <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                        </svg>
+                    </div>
+                    <div className="ml-3">
+                        <h3 className="text-sm font-medium text-yellow-800">Goal Mismatch Warning</h3>
+                        <div className="mt-2 text-sm text-yellow-700">
+                            <p>{warningMessage}</p>
+                            <p className="mt-2 font-medium">Do you want to continue with this goal or adjust it?</p>
+                        </div>
+                        <div className="mt-4">
+                            <div className="flex space-x-3">
+                                <button
+                                    type="button"
+                                    onClick={handleContinueAnyway}
+                                    className="px-4 py-2 bg-yellow-600 text-white font-medium rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-yellow-50 transition-colors"
+                                >
+                                    Continue Anyway
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleAdjustGoal}
+                                    className="px-4 py-2 bg-gray-200 text-gray-800 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-yellow-50 transition-colors"
+                                >
+                                    Adjust Goal
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    };
 
     // BMI Chart component
     const BmiChart = () => {
@@ -356,6 +483,9 @@ const ComponentOne = ({ onNext, initialData }) => {
                         </p>
                     </div>
                 )}
+
+                {/* Goal Mismatch Warning - Now appears when Next is clicked with mismatch */}
+                <GoalMismatchWarning />
 
                 <div className="flex justify-end">
                     <button

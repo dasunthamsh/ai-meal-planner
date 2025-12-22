@@ -7,14 +7,8 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
     const [isSaving, setIsSaving] = useState(false);
     const [mealPlan, setMealPlan] = useState(null);
     const [error, setError] = useState(null);
-    const [userConfirmed, setUserConfirmed] = useState(false);
 
     const generateMealPlan = async () => {
-        // Check for goal/BMI mismatch and if user hasn't confirmed yet
-        if (formData.showWarning && !userConfirmed) {
-            return; // Don't generate if there's a warning and user hasn't confirmed
-        }
-
         setIsGenerating(true);
         setError(null);
 
@@ -136,55 +130,6 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
         );
     };
 
-    // Goal Mismatch Warning component
-    const GoalMismatchWarning = () => {
-        if (!formData.showWarning) return null;
-
-        let warningMessage = "";
-        if ((formData.bmiCategory === 'Overweight' || formData.bmiCategory === 'Obese') && formData.goal === 'Gain Weight') {
-            warningMessage = "Your BMI indicates you are overweight, but you've selected 'Gain Weight' as your goal. This plan may not be appropriate for your health needs.";
-        } else if (formData.bmiCategory === 'Underweight' && formData.goal === 'Lose Weight') {
-            warningMessage = "Your BMI indicates you are underweight, but you've selected 'Lose Weight' as your goal. This plan may not be appropriate for your health needs.";
-        }
-
-        return (
-            <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
-                <div className="flex">
-                    <div className="flex-shrink-0">
-                        <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                        </svg>
-                    </div>
-                    <div className="ml-3">
-                        <h3 className="text-sm font-medium text-yellow-800">Goal Mismatch Warning</h3>
-                        <div className="mt-2 text-sm text-yellow-700">
-                            <p>{warningMessage}</p>
-                            <p className="mt-2 font-medium">Do you want to continue with this plan or adjust your goals?</p>
-                        </div>
-                        <div className="mt-4">
-                            <div className="flex space-x-3">
-                                <button
-                                    type="button"
-                                    onClick={() => setUserConfirmed(true)}
-                                    className="px-4 py-2 bg-yellow-600 text-white font-medium rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-yellow-50 transition-colors"
-                                >
-                                    Continue Anyway
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={onBack}
-                                    className="px-4 py-2 bg-gray-200 text-gray-800 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-yellow-50 transition-colors"
-                                >
-                                    Adjust Goals
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    };
-
     // Meal Timing Recommendations component
     const MealTimingRecommendations = () => {
         if (!formData.mealTimings) return null;
@@ -267,9 +212,6 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
                 </div>
             </div>
 
-            {/* Goal Mismatch Warning */}
-            <GoalMismatchWarning />
-
             <div className="flex justify-between mb-8">
                 <button
                     onClick={onBack}
@@ -279,7 +221,7 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
                 </button>
                 <button
                     onClick={generateMealPlan}
-                    disabled={isGenerating || (formData.showWarning && !userConfirmed)}
+                    disabled={isGenerating}
                     className="px-6 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isGenerating ? 'Generating...' : 'Generate Meal Plan'}
