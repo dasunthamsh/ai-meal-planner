@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Store } from 'react-notifications-component';
 
@@ -7,12 +7,69 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
     const [isSaving, setIsSaving] = useState(false);
     const [mealPlan, setMealPlan] = useState(null);
     const [error, setError] = useState(null);
+    const [goalCalories, setGoalCalories] = useState(null);
+
+    // Calculate goal-based calories when component mounts or formData changes
+    useEffect(() => {
+        if (formData.adjustedCalories && formData.goal) {
+            calculateGoalCalories();
+        }
+    }, [formData.adjustedCalories, formData.goal]);
+
+    const calculateGoalCalories = () => {
+        const baseCalories = formData.adjustedCalories;
+        let goalMultiplier = 1.0;
+        let goalDescription = '';
+        let recommendation = '';
+
+        switch(formData.goal) {
+            case 'Lose Weight':
+                // Create a moderate calorie deficit (15-20%)
+                goalMultiplier = 0.85; // 15% deficit
+                goalDescription = 'Daily calories with weight loss goal';
+                recommendation = 'Aim for 0.5-1kg (1-2lbs) weight loss per week';
+                break;
+            case 'Gain Weight':
+                // Create a moderate calorie surplus (10-15%)
+                goalMultiplier = 1.1; // 10% surplus
+                goalDescription = 'Daily calories with weight gain goal';
+                recommendation = 'Aim for 0.25-0.5kg (0.5-1lb) weight gain per week';
+                break;
+            case 'Build Muscle':
+                // Create a smaller surplus focused on muscle gain (5-10%)
+                goalMultiplier = 1.08; // 8% surplus
+                goalDescription = 'Daily calories with muscle building goal';
+                recommendation = 'Combine with strength training for optimal results';
+                break;
+            case 'Maintain Weight':
+                // Maintain current weight
+                goalMultiplier = 1.0;
+                goalDescription = 'Daily calories with weight maintenance';
+                recommendation = 'Focus on nutrient density and balanced meals';
+                break;
+            default:
+                goalMultiplier = 1.0;
+                goalDescription = 'Daily calories';
+                recommendation = '';
+        }
+
+        const calculatedGoalCalories = Math.round(baseCalories * goalMultiplier);
+        setGoalCalories({
+            calories: calculatedGoalCalories,
+            description: goalDescription,
+            multiplier: goalMultiplier,
+            recommendation: recommendation
+        });
+
+        return calculatedGoalCalories;
+    };
 
     const generateMealPlan = async () => {
         setIsGenerating(true);
         setError(null);
 
         try {
+            // Send original formData without modifications
             const response = await axios.post('http://127.0.0.1:5000/generate-meal-plan', formData);
             setMealPlan(response.data);
         } catch (err) {
@@ -41,11 +98,12 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
 
         setIsSaving(true);
         try {
+            // Save original formData without goal calories
             const response = await axios.post('http://localhost:3001/save-meal-plan', {
                 email: loggedInUser,
                 mealPlan: mealPlan.mealPlan,
                 nutritionSummary: mealPlan.nutritionSummary,
-                userData: formData
+                userData: formData  // Original formData without modifications
             });
 
             Store.addNotification({
@@ -93,6 +151,61 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
     // Function to format numbers to 2 decimal places
     const formatNumber = (num) => {
         return typeof num === 'number' ? num.toFixed(2) : num;
+    };
+
+    // Goal Calories Display component
+    const GoalCaloriesDisplay = () => {
+        if (!goalCalories) return null;
+
+        // Calculate the difference from base calories
+        const difference = goalCalories.calories - formData.adjustedCalories;
+        const differenceType = difference > 0 ? 'increase' : 'decrease';
+        const absoluteDifference = Math.abs(difference);
+        const percentage = Math.abs((goalCalories.multiplier - 1) * 100);
+
+        return (
+            <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-md">
+                <div className="flex items-start justify-between">
+                    <div>
+                        <h4 className="font-medium text-gray-800 mb-1">{goalCalories.description}</h4>
+                        <div className="flex items-baseline">
+                            <span className="text-2xl font-bold text-blue-600">{goalCalories.calories}</span>
+                            <span className="ml-2 text-gray-600">kcal</span>
+                        </div>
+                        {goalCalories.recommendation && (
+                            <p className="text-sm text-gray-600 mt-2">{goalCalories.recommendation}</p>
+                        )}
+                    </div>
+                    <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                        formData.goal === 'Lose Weight' ? 'bg-red-100 text-red-800' :
+                            formData.goal === 'Gain Weight' ? 'bg-green-100 text-green-800' :
+                                formData.goal === 'Build Muscle' ? 'bg-purple-100 text-purple-800' :
+                                    'bg-blue-100 text-blue-800'
+                    }`}>
+                        {formData.goal}
+                    </div>
+                </div>
+
+                {difference !== 0 && (
+                    <div className="mt-3 pt-3 border-t border-gray-200">
+                        <div className="flex items-center text-sm">
+                            <span className={`font-medium ${difference > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                {difference > 0 ? 'Increase' : 'Decrease'} for your goal:
+                            </span>
+                            <span className="ml-2 font-semibold">
+                                {difference > 0 ? '+' : ''}{absoluteDifference} kcal
+                            </span>
+                            <span className="ml-2 text-gray-500">
+                                ({difference > 0 ? '+' : ''}{percentage}%)
+                            </span>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">
+                            Based on your base calorie needs of {formData.adjustedCalories} kcal
+                        </p>
+                    </div>
+                )}
+            </div>
+        );
     };
 
     // BMI Chart component
@@ -205,10 +318,19 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
                 {/* Meal Timing Recommendations */}
                 <MealTimingRecommendations />
 
-                <div className="mt-6 p-4 bg-blue-50 rounded-md">
-                    <p className="text-blue-800 font-medium">
-                        Recommended daily calories: <span className="font-bold">{formData.adjustedCalories} kcal</span>
-                    </p>
+                {/* Calories Section */}
+                <div className="mt-6 space-y-4">
+                    <div className="p-4 bg-blue-50 rounded-md">
+                        <p className="text-blue-800 font-medium">
+                            Recommended daily calories (based on activity): <span className="font-bold">{formData.adjustedCalories} kcal</span>
+                        </p>
+                        <p className="text-sm text-blue-600 mt-1">
+                            Calculated from your BMR with activity level multiplier
+                        </p>
+                    </div>
+
+                    {/* Goal-based Calories Display - Only for display purposes */}
+                    <GoalCaloriesDisplay />
                 </div>
             </div>
 

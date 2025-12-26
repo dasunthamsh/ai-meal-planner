@@ -1,18 +1,17 @@
 from models.genetic_algorithm import MealPlanGeneticAlgorithm
 from models.data_preprocessor import DataPreprocessor
 import random
-from config import COMMON_ALLERGENS, DIET_TYPE_MAPPING, DEFAULT_NUTRITION_TARGETS
+import pickle
+from config import COMMON_ALLERGENS, DIET_TYPE_MAPPING, DEFAULT_NUTRITION_TARGETS, SCALER_SAVE_PATH
 
 def train_genetic_algorithm(ga, num_training_cases=50):
     print(f"Training Genetic Algorithm with {num_training_cases} training cases...")
-
     for case in range(num_training_cases):
         if (case + 1) % 10 == 0:
             print(f"Training case {case + 1}/{num_training_cases}")
 
-        # Get random user preferences for training
         goal = random.choice(['Lose Weight', 'Build Muscle', 'Gain Weight', 'Maintain Weight'])
-        diet_type = random.choice(list(DIET_TYPE_MAPPING.values()))
+        diet_type = random.choice(list(DIET_TYPE_MAPPING.keys()))
         allergies = random.sample(list(COMMON_ALLERGENS.keys()), random.randint(0, 2))
         health_risks = random.sample([
             'High blood pressure', 'High cholesterol', 'Diabetes',
@@ -20,32 +19,25 @@ def train_genetic_algorithm(ga, num_training_cases=50):
         ], random.randint(0, 2))
 
         dietary_restrictions = {
-            'vegetarian': diet_type == 'vegetarian',
-            'vegan': diet_type == 'vegan',
-            'keto': diet_type == 'keto',
-            'paleo': diet_type == 'paleo',
-            'gluten_free': diet_type == 'gluten_free',
-            'mediterranean': diet_type == 'mediterranean',
+            'vegetarian': diet_type == 'Vegetarian',
+            'vegan': diet_type == 'Vegan',
+            'keto': diet_type == 'Keto',
+            'paleo': diet_type == 'Paleo',
+            'gluten_free': diet_type == 'Gluten Free',
+            'mediterranean': diet_type == 'Mediterranean',
             'allergies': allergies,
             'health_risks': health_risks
         }
 
-        # Calculate target nutrition based on goal
         calories = random.randint(1500, 3000)
-        nutrition_targets = DEFAULT_NUTRITION_TARGETS[goal]
-
-        protein_g = (calories * nutrition_targets['protein_ratio']) / 4
-        fat_g = (calories * nutrition_targets['fat_ratio']) / 9
-        carbs_g = (calories * nutrition_targets['carb_ratio']) / 4
-
+        ratios = DEFAULT_NUTRITION_TARGETS[goal]
         target_nutrition = {
             'calories': calories,
-            'protein': protein_g,
-            'fat': fat_g,
-            'carbs': carbs_g
+            'protein': (calories * ratios['protein_ratio']) / 4,
+            'fat': (calories * ratios['fat_ratio']) / 9,
+            'carbs': (calories * ratios['carb_ratio']) / 4
         }
 
-        # Run evolution for this training case
         days = random.randint(3, 7)
         ga.evolve(target_nutrition, dietary_restrictions, days)
 
@@ -54,7 +46,6 @@ def train_genetic_algorithm(ga, num_training_cases=50):
         print("Training completed. Model saved.")
     except Exception as e:
         print(f"Error saving model: {e}")
-        print("Training completed but model could not be saved.")
 
 if __name__ == '__main__':
     preprocessor = DataPreprocessor()
@@ -62,5 +53,7 @@ if __name__ == '__main__':
     df, scaler, vitamins, diet_cols = preprocessor.preprocess_data()
 
     ga = MealPlanGeneticAlgorithm(df)
+    ga.scaler = scaler  # inject for accurate calculations
+    ga.nutrition_cols = preprocessor.scaler.feature_names_in_ if hasattr(scaler, 'feature_names_in_') else None  # or use NUTRITION_COLS
 
     train_genetic_algorithm(ga, num_training_cases=100)

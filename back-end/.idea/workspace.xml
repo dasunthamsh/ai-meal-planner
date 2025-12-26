@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7220fbb5-2184-4e87-9841-0b2ed3061c69" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../python/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/genetic_algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/genetic_algorithm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/tests/basic_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/tests/basic_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front-end/src/Pages/MealPlan.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../front-end/src/Pages/MealPlan.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/dataset/meal_plan_dataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../python/dataset/meal_plan_dataset.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/models/data_preprocessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/models/data_preprocessor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/models/genetic_algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/models/genetic_algorithm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/train_genetic.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/train_genetic.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +63,9 @@
       <workItem from="1760096902646" duration="669000" />
       <workItem from="1761420967822" duration="26000" />
       <workItem from="1763325098906" duration="425000" />
+      <workItem from="1766772252702" duration="597000" />
+      <workItem from="1766775964420" duration="15000" />
+      <workItem from="1766776183481" duration="18000" />
     </task>
     <servers />
   </component>

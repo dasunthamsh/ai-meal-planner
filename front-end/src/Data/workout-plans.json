@@ -1,0 +1,240 @@
+{
+  "workoutPlans": [
+    {
+      "id": 1,
+      "name": "Beginner Home Workout",
+      "description": "Perfect for those new to working out at home",
+      "duration": "20-30 minutes",
+      "difficulty": "Beginner",
+      "focus": "Full Body",
+      "equipment": "None",
+      "exercises": [
+        {
+          "name": "Bodyweight Squats",
+          "sets": "3 sets x 12-15 reps",
+          "description": "Stand with feet shoulder-width apart, lower your hips back and down",
+          "rest": "60 seconds",
+          "image": "https://images.pexels.com/photos/4752866/pexels-photo-4752866.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Push-ups (Knee)",
+          "sets": "3 sets x 8-10 reps",
+          "description": "Modified push-ups on knees for upper body strength",
+          "rest": "60 seconds",
+          "image": "https://images.pexels.com/photos/4662352/pexels-photo-4662352.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Plank",
+          "sets": "3 sets x 30-45 seconds",
+          "description": "Hold your body in a straight line from head to heels",
+          "rest": "45 seconds",
+          "image": "https://images.pexels.com/photos/903171/pexels-photo-903171.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Glute Bridges",
+          "sets": "3 sets x 12-15 reps",
+          "description": "Lie on back, knees bent, lift hips towards ceiling",
+          "rest": "45 seconds",
+          "image": "https://images.pexels.com/photos/6455223/pexels-photo-6455223.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Bird Dogs",
+          "sets": "3 sets x 10 reps each side",
+          "description": "On all fours, extend opposite arm and leg",
+          "rest": "45 seconds",
+          "image": "https://images.pexels.com/photos/6455208/pexels-photo-6455208.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "March in Place",
+          "sets": "3 sets x 60 seconds",
+          "description": "Stand tall and march with high knees",
+          "rest": "30 seconds",
+          "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        }
+      ],
+      "tips": [
+        "Focus on form over speed",
+        "Breathe consistently throughout",
+        "Stay hydrated",
+        "Listen to your body"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Weight Loss Circuit",
+      "description": "High-intensity workout for burning calories",
+      "duration": "25-35 minutes",
+      "difficulty": "Intermediate",
+      "focus": "Cardio & Strength",
+      "equipment": "None",
+      "exercises": [
+        {
+          "name": "Jumping Jacks",
+          "sets": "4 sets x 45 seconds",
+          "description": "Start with feet together, jump while spreading legs and arms",
+          "rest": "30 seconds",
+          "image": "https://images.pexels.com/photos/2294403/pexels-photo-2294403.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Mountain Climbers",
+          "sets": "4 sets x 40 seconds",
+          "description": "In plank position, alternate bringing knees to chest",
+          "rest": "30 seconds",
+          "image": "https://images.pexels.com/photos/6455213/pexels-photo-6455213.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Burpees",
+          "sets": "4 sets x 8-10 reps",
+          "description": "Squat, kick back to plank, do push-up, jump up",
+          "rest": "45 seconds",
+          "image": "https://images.pexels.com/photos/4662355/pexels-photo-4662355.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Lunges",
+          "sets": "3 sets x 12 reps each leg",
+          "description": "Step forward and lower until both knees are bent at 90 degrees",
+          "rest": "45 seconds",
+          "image": "https://images.pexels.com/photos/6455234/pexels-photo-6455234.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "High Knees",
+          "sets": "4 sets x 45 seconds",
+          "description": "Run in place bringing knees up to waist level",
+          "rest": "30 seconds",
+          "image": "https://images.pexels.com/photos/6455212/pexels-photo-6455212.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Russian Twists",
+          "sets": "3 sets x 20 reps",
+          "description": "Sit with knees bent, lean back slightly, twist torso side to side",
+          "rest": "45 seconds",
+          "image": "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        }
+      ],
+      "tips": [
+        "Maintain intensity throughout",
+        "Keep rest periods short",
+        "Focus on explosive movements",
+        "Stay consistent"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Strength Building Workout",
+      "description": "Build muscle and increase strength without equipment",
+      "duration": "30-40 minutes",
+      "difficulty": "Intermediate",
+      "focus": "Strength",
+      "equipment": "None",
+      "exercises": [
+        {
+          "name": "Pike Push-ups",
+          "sets": "4 sets x 8-10 reps",
+          "description": "Form an inverted V, lower head towards floor",
+          "rest": "90 seconds",
+          "image": "https://images.unsplash.com/photo-1596357395217-80de13130e92?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          "name": "Close Grip Push-ups",
+          "sets": "4 sets x 8-10 reps",
+          "description": "Hands closer than shoulder width for triceps focus",
+          "rest": "90 seconds",
+          "image": "https://images.pexels.com/photos/8660271/pexels-photo-8660271.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Single Leg Glute Bridges",
+          "sets": "3 sets x 10 reps each leg",
+          "description": "Glute bridge with one leg extended",
+          "rest": "75 seconds",
+          "image": "https://images.pexels.com/photos/6455224/pexels-photo-6455224.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Pistol Squat Progression",
+          "sets": "3 sets x 6-8 reps each leg",
+          "description": "Assisted single leg squats using chair for support",
+          "rest": "75 seconds",
+          "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          "name": "Superman Holds",
+          "sets": "3 sets x 30-45 seconds",
+          "description": "Lie face down, lift arms and legs off ground",
+          "rest": "60 seconds",
+          "image": "https://images.pexels.com/photos/6455219/pexels-photo-6455219.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Wall Sit",
+          "sets": "3 sets x 60 seconds",
+          "description": "Back against wall, slide down until knees at 90 degrees",
+          "rest": "90 seconds",
+          "image": "https://images.pexels.com/photos/6455227/pexels-photo-6455227.jpeg?auto=compress&cs=tinysrgb&w=800"
+        }
+      ],
+      "tips": [
+        "Focus on progressive overload",
+        "Control the movement",
+        "Increase difficulty over time",
+        "Allow for proper recovery"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Flexibility & Mobility",
+      "description": "Improve flexibility and joint mobility",
+      "duration": "20-25 minutes",
+      "difficulty": "All Levels",
+      "focus": "Flexibility",
+      "equipment": "Yoga mat (optional)",
+      "exercises": [
+        {
+          "name": "Cat-Cow Stretch",
+          "sets": "2 sets x 10 reps",
+          "description": "Alternate between arching and rounding your back",
+          "rest": "15 seconds",
+          "image": "https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Downward Dog",
+          "sets": "Hold 45-60 seconds",
+          "description": "Inverted V position stretching hamstrings and back",
+          "rest": "30 seconds",
+          "image": "https://images.pexels.com/photos/4056461/pexels-photo-4056461.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Pigeon Pose",
+          "sets": "Hold 45 seconds each side",
+          "description": "Deep hip opener stretch",
+          "rest": "30 seconds",
+          "image": "https://images.pexels.com/photos/4056460/pexels-photo-4056460.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Thread the Needle",
+          "sets": "Hold 30 seconds each side",
+          "description": "Upper back and shoulder stretch",
+          "rest": "30 seconds",
+          "image": "https://images.pexels.com/photos/4056458/pexels-photo-4056458.jpeg?auto=compress&cs=tinysrgb&w=800"
+        },
+        {
+          "name": "Quad Stretch",
+          "sets": "Hold 45 seconds each leg",
+          "description": "Standing quadriceps stretch",
+          "rest": "30 seconds",
+          "image": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          "name": "Child's Pose",
+          "sets": "Hold 60 seconds",
+          "description": "Resting pose stretching back and hips",
+          "rest": "None",
+          "image": "https://images.pexels.com/photos/4056724/pexels-photo-4056724.jpeg?auto=compress&cs=tinysrgb&w=800"
+        }
+      ],
+      "tips": [
+        "Breathe deeply into stretches",
+        "Don't force positions",
+        "Hold stretches for 30+ seconds",
+        "Be consistent for best results"
+      ]
+    }
+  ]
+}

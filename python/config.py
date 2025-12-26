@@ -3,14 +3,20 @@ DATA_PATH = "dataset/meal_plan_dataset.csv"
 MODEL_SAVE_PATH = "models/saved_genetic_algorithm.pkl"
 SCALER_SAVE_PATH = "models/scaler.pkl"
 
+# Add this list - order must match the columns used in scaling
+NUTRITION_COLS = [
+    'calories', 'protein', 'fat', 'carbs',
+    'sugar_g', 'added_sugar_g', 'sodium_mg', 'saturated_fat_g',
+    'fiber_g', 'cholesterol_mg', 'potassium_mg', 'omega3_g'
+]
 
 # Genetic Algorithm Hyperparameters
-GA_POPULATION_SIZE = 100
-GA_GENERATIONS = 200
-GA_MUTATION_RATE = 0.1
+GA_POPULATION_SIZE = 30
+GA_GENERATIONS = 50
+GA_MUTATION_RATE = 0.15
 GA_CROSSOVER_RATE = 0.8
-GA_ELITISM_COUNT = 5
-GA_TOURNAMENT_SIZE = 5
+GA_ELITISM_COUNT = 3
+GA_TOURNAMENT_SIZE = 4
 
 # Fitness weights
 FITNESS_WEIGHTS = {
@@ -32,7 +38,7 @@ COMMON_ALLERGENS = {
     'shellfish': ['shrimp', 'prawn', 'lobster', 'crab', 'clam']
 }
 
-# Health risk thresholds
+# Health risk thresholds (per 100g serving)
 HEALTH_RISK_THRESHOLDS = {
     'High blood pressure': {'sodium_mg': 500},
     'High cholesterol': {'cholesterol_mg': 100, 'saturated_fat_g': 5},
@@ -53,7 +59,7 @@ DIET_TYPE_MAPPING = {
     'Mediterranean': 'mediterranean'
 }
 
-# Default nutrition targets (calories, protein, fat, carbs)
+# Default nutrition targets
 DEFAULT_NUTRITION_TARGETS = {
     'Lose Weight': {'protein_ratio': 0.35, 'fat_ratio': 0.25, 'carb_ratio': 0.40},
     'Build Muscle': {'protein_ratio': 0.40, 'fat_ratio': 0.20, 'carb_ratio': 0.40},
@@ -67,8 +73,13 @@ MEAL_TYPES = ['breakfast', 'lunch', 'dinner']
 # Default number of days for meal plan
 DEFAULT_DAYS = 7
 
-# Serving size in grams
+# Serving size in grams (default 100g as per dataset)
 DEFAULT_SERVING_SIZE = 100
 
-# Nutrition carryover to next day (30%)
+# Nutrition carryover to next day (30%) - not used yet, but kept
 NUTRITION_CARRYOVER = 0.3
+
+# Cache settings
+CACHE_DIR = "cache/"
+CACHE_TTL = 3600  # 1 hour
+MAX_CACHE_SIZE = 1000
