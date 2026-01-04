@@ -1,3 +1,5 @@
+# config.py
+
 # Configuration constants
 DATA_PATH = "dataset/meal_plan_dataset.csv"
 MODEL_SAVE_PATH = "models/saved_genetic_algorithm.pkl"
@@ -10,13 +12,20 @@ NUTRITION_COLS = [
     'fiber_g', 'cholesterol_mg', 'potassium_mg', 'omega3_g'
 ]
 
+# Portion multipliers for realistic meal sizes (assuming base is per 100g)
+PORTION_MULTIPLIERS = {
+    'breakfast': 3.7,
+    'lunch': 4.5,
+    'dinner': 3.5
+}
+
 # Genetic Algorithm Hyperparameters
-GA_POPULATION_SIZE = 30
-GA_GENERATIONS = 50
-GA_MUTATION_RATE = 0.15
+GA_POPULATION_SIZE = 50
+GA_GENERATIONS = 100
+GA_MUTATION_RATE = 0.10
 GA_CROSSOVER_RATE = 0.8
-GA_ELITISM_COUNT = 3
-GA_TOURNAMENT_SIZE = 4
+GA_ELITISM_COUNT = 5
+GA_TOURNAMENT_SIZE = 5
 
 # Fitness weights
 FITNESS_WEIGHTS = {
@@ -38,7 +47,7 @@ COMMON_ALLERGENS = {
     'shellfish': ['shrimp', 'prawn', 'lobster', 'crab', 'clam']
 }
 
-# Health risk thresholds (per 100g serving)
+# Health risk thresholds (per meal serving - adjusted for portion multipliers)
 HEALTH_RISK_THRESHOLDS = {
     'High blood pressure': {'sodium_mg': 500},
     'High cholesterol': {'cholesterol_mg': 100, 'saturated_fat_g': 5},

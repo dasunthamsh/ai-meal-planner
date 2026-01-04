@@ -1,6 +1,7 @@
 import numpy as np
 import random
 import pickle
+import copy
 from config import (
     GA_POPULATION_SIZE, GA_GENERATIONS, GA_MUTATION_RATE,
     GA_CROSSOVER_RATE, GA_ELITISM_COUNT, GA_TOURNAMENT_SIZE,
@@ -12,7 +13,7 @@ from sklearn.preprocessing import MinMaxScaler
 class MealPlanGeneticAlgorithm:
     def __init__(self, meals_df):
         self.meals = meals_df.reset_index(drop=True)
-        self.scaler = MinMaxScaler()  # placeholder, will load later if needed
+        self.scaler = MinMaxScaler()  # placeholder
         self.nutrition_cols = NUTRITION_COLS
         self.population = []
         self.fitness_scores = []
@@ -20,7 +21,6 @@ class MealPlanGeneticAlgorithm:
         self.best_fitness = -float('inf')
 
     def _denormalize_row(self, row):
-        """Denormalize nutrition values for a single row using inverse_transform"""
         vals = row[self.nutrition_cols].values.reshape(1, -1)
         denorm = self.scaler.inverse_transform(vals)
         return dict(zip(self.nutrition_cols, denorm[0]))
@@ -29,25 +29,22 @@ class MealPlanGeneticAlgorithm:
         df = self.meals
         valid_mask = np.ones(len(df), dtype=bool)
 
-        # Diet types
         for diet in ['vegetarian', 'vegan', 'keto', 'paleo', 'gluten_free', 'mediterranean']:
             if dietary_restrictions.get(diet, False) and diet in df.columns:
                 valid_mask &= (df[diet] == 1)
 
-        # Allergies
         for allergy in dietary_restrictions.get('allergies', []):
             allergy = allergy.lower()
             if allergy in COMMON_ALLERGENS and allergy in df.columns:
                 valid_mask &= (df[allergy] == 0)
 
-        # Health risks - use denormalized values
         for risk in dietary_restrictions.get('health_risks', []):
             thresholds = HEALTH_RISK_THRESHOLDS.get(risk, {})
             for col, thresh in thresholds.items():
                 if col in df.columns:
-                    if 'omega3' in col:  # greater than
+                    if 'omega3' in col:
                         valid_mask &= df.apply(lambda row: self._denormalize_row(row)[col] >= thresh, axis=1)
-                    else:  # less than
+                    else:
                         valid_mask &= df.apply(lambda row: self._denormalize_row(row)[col] <= thresh, axis=1)
 
         return np.where(valid_mask)[0].tolist()
@@ -100,23 +97,26 @@ class MealPlanGeneticAlgorithm:
 
     def crossover(self, parent1, parent2):
         if random.random() > GA_CROSSOVER_RATE:
-            return parent1[:], parent2[:]
+            return copy.deepcopy(parent1), copy.deepcopy(parent2)  # return deep copies anyway
         child1, child2 = [], []
         for d1, d2 in zip(parent1, parent2):
             if random.random() < 0.5:
-                child1.append(d1)
-                child2.append(d2)
+                child1.append(copy.deepcopy(d1))
+                child2.append(copy.deepcopy(d2))
             else:
-                child1.append(d2)
-                child2.append(d1)
+                child1.append(copy.deepcopy(d2))
+                child2.append(copy.deepcopy(d1))
         return child1, child2
 
+    # change random meals
+
     def mutate(self, individual, valid_meal_indices):
-        for day in individual:
+        mutated = copy.deepcopy(individual)
+        for day in mutated:
             for meal_type in day:
                 if random.random() < GA_MUTATION_RATE:
                     day[meal_type] = random.choice(valid_meal_indices)
-        return individual
+        return mutated
 
     def evolve(self, target_nutrition, dietary_restrictions, days=7):
         valid_meal_indices = self._get_valid_meals(dietary_restrictions)
@@ -134,12 +134,12 @@ class MealPlanGeneticAlgorithm:
             best_idx = np.argmax(self.fitness_scores)
             if self.fitness_scores[best_idx] > self.best_fitness:
                 self.best_fitness = self.fitness_scores[best_idx]
-                self.best_solution = self.population[best_idx][:]
+                self.best_solution = copy.deepcopy(self.population[best_idx])  # <-- DEEP COPY
 
-            # Elitism
+            # Elitism - deep copy elites
             elite_indices = np.argsort(self.fitness_scores)[-GA_ELITISM_COUNT:]
-            new_population = [self.population[i][:] for i in elite_indices]
-
+            new_population = [copy.deepcopy(self.population[i]) for i in elite_indices]
+            # valid meal filter population initialz, best solution return
             while len(new_population) < GA_POPULATION_SIZE:
                 parent1 = self.tournament_selection()
                 parent2 = self.tournament_selection()

@@ -42,7 +42,7 @@
           "sets": "3 sets x 10 reps each side",
           "description": "On all fours, extend opposite arm and leg",
           "rest": "45 seconds",
-          "image": "https://images.pexels.com/photos/6455208/pexels-photo-6455208.jpeg?auto=compress&cs=tinysrgb&w=800"
+          "image": "https://media.self.com/photos/621923e191957af75fd8b2ff/2:1/w_1280,c_limit/Gail-bird-dog.jpg"
         },
         {
           "name": "March in Place",
@@ -80,7 +80,7 @@
           "sets": "4 sets x 40 seconds",
           "description": "In plank position, alternate bringing knees to chest",
           "rest": "30 seconds",
-          "image": "https://images.pexels.com/photos/6455213/pexels-photo-6455213.jpeg?auto=compress&cs=tinysrgb&w=800"
+          "image": "https://images.ctfassets.net/hjcv6wdwxsdz/1WCM5ZFQUTUvuDohwMqr3B/f9b0d7e0eefafd21806937e72b2f867e/mountain-climbers.png?w=1200"
         },
         {
           "name": "Burpees",
@@ -94,14 +94,14 @@
           "sets": "3 sets x 12 reps each leg",
           "description": "Step forward and lower until both knees are bent at 90 degrees",
           "rest": "45 seconds",
-          "image": "https://images.pexels.com/photos/6455234/pexels-photo-6455234.jpeg?auto=compress&cs=tinysrgb&w=800"
+          "image": "https://hips.hearstapps.com/hmg-prod/images/walking-lunges-667e8add0acad.jpg?crop=0.599xw:0.899xh;0.324xw,0.0791xh&resize=1200:*"
         },
         {
           "name": "High Knees",
           "sets": "4 sets x 45 seconds",
           "description": "Run in place bringing knees up to waist level",
           "rest": "30 seconds",
-          "image": "https://images.pexels.com/photos/6455212/pexels-photo-6455212.jpeg?auto=compress&cs=tinysrgb&w=800"
+          "image": "https://s3assets.skimble.com/assets/2506237/skimble-workout-trainer-exercise-cross-high-knee-touches-05_iphone.jpg"
         },
         {
           "name": "Russian Twists",
@@ -139,7 +139,7 @@
           "sets": "4 sets x 8-10 reps",
           "description": "Hands closer than shoulder width for triceps focus",
           "rest": "90 seconds",
-          "image": "https://images.pexels.com/photos/8660271/pexels-photo-8660271.jpeg?auto=compress&cs=tinysrgb&w=800"
+          "image": "https://hips.hearstapps.com/hmg-prod/images/img-2209-jpg-1571243143-6668b9804c3d0.jpg"
         },
         {
           "name": "Single Leg Glute Bridges",
@@ -160,7 +160,7 @@
           "sets": "3 sets x 30-45 seconds",
           "description": "Lie face down, lift arms and legs off ground",
           "rest": "60 seconds",
-          "image": "https://images.pexels.com/photos/6455219/pexels-photo-6455219.jpeg?auto=compress&cs=tinysrgb&w=800"
+          "image": "https://images.ctfassets.net/hjcv6wdwxsdz/79sS2tpNEIFtGYuBfCNxYi/8367923f934c6f2369f50b3f42c57be8/superman-exercise-hold.png?w=1200"
         },
         {
           "name": "Wall Sit",
@@ -198,21 +198,21 @@
           "sets": "Hold 45-60 seconds",
           "description": "Inverted V position stretching hamstrings and back",
           "rest": "30 seconds",
-          "image": "https://images.pexels.com/photos/4056461/pexels-photo-4056461.jpeg?auto=compress&cs=tinysrgb&w=800"
+          "image": "https://www.yogajournal.com/wp-content/uploads/2021/11/Downward-Facing-Dog-Pose_Andrew-Clark_2400x1350.jpeg"
         },
         {
           "name": "Pigeon Pose",
           "sets": "Hold 45 seconds each side",
           "description": "Deep hip opener stretch",
           "rest": "30 seconds",
-          "image": "https://images.pexels.com/photos/4056460/pexels-photo-4056460.jpeg?auto=compress&cs=tinysrgb&w=800"
+          "image": "https://manflowyoga.com/wp-content/uploads/2023/07/pigeon_pose_modification-1024x576.jpg"
         },
         {
           "name": "Thread the Needle",
           "sets": "Hold 30 seconds each side",
           "description": "Upper back and shoulder stretch",
           "rest": "30 seconds",
-          "image": "https://images.pexels.com/photos/4056458/pexels-photo-4056458.jpeg?auto=compress&cs=tinysrgb&w=800"
+          "image": "https://images.ctfassets.net/hjcv6wdwxsdz/rEbtrbEaunbLKYyHBtQxl/a58d1f42bc2c2c930168431450f87ab6/thread-the-needle-claire-hold-other.png?w=1200"
         },
         {
           "name": "Quad Stretch",

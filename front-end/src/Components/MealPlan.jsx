@@ -382,7 +382,7 @@ const ComponentThree = ({ formData, onBack, loggedInUser }) => {
                             {mealPlan.mealPlan && mealPlan.mealPlan.map((day) => (
                                 <div key={day.day} className="border rounded-lg overflow-hidden">
                                     <div className="bg-blue-100 px-4 py-2 font-medium">
-                                        Day {day.day} - {formatNumber(day.totalNutrition.calories)} kcal
+                                        Day {day.day}
                                     </div>
                                     <div className="p-4">
                                         {day.meals && day.meals.map((mealObj, index) => {
